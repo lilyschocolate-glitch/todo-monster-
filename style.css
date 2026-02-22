@@ -28,6 +28,36 @@
   --radius-xs: 8px;
 }
 
+/* ===== 背景テーマのバリエーション ===== */
+/* 後からJavaScript等で body のクラスを切り替えることで適用可能 */
+body.theme-grass {
+  --bg-color: #f1f8e9;
+}
+
+/* 柔らかい草色（デフォルト） */
+body.theme-sky {
+  --bg-color: #e0f2fe;
+}
+
+/* 晴れた空色 */
+body.theme-sunset {
+  --bg-color: #ffedd5;
+}
+
+/* 夕暮れオレンジ */
+body.theme-sakura {
+  --bg-color: #fdf2f8;
+}
+
+/* 淡い桜色 */
+body.theme-night {
+  --bg-color: #1e293b;
+  --text-main: #f8fafc;
+  --surface-color: #334155;
+}
+
+/* 夜空とダークモード */
+
 * {
   box-sizing: border-box;
   margin: 0;

@@ -56,16 +56,16 @@ export function initUI() {
     // 殿堂入りキャラとアンロック済みレアキャラもはこにわに登場！
     const allBoxMembers = [...data.friends, ...data.hallOfFame, ...(data.unlockedRareMonsters || [])];
     playground.setCharacters(data.character, allBoxMembers);
-    playground.setConfig(data.customization); // 追加
+    playground.setConfig(data.customization);
 
-    // タイトルロゴのモンスター描画（左: ドラゴン系 Lv5, 右: 水属性 Lv3）
+    // タイトルロゴのモンスター描画（左: ドラゴン系 Lv5, 右: 水色っぽい Lv4）
     const leftCanvas = document.getElementById('title-monster-left');
     const rightCanvas = document.getElementById('title-monster-right');
     if (leftCanvas && rightCanvas) {
         const leftCtx = leftCanvas.getContext('2d');
         const rightCtx = rightCanvas.getContext('2d');
-        const leftSpec = getMonsterSpec('dummy', 5, 'dragon');
-        const rightSpec = getMonsterSpec('dummy', 3, 'water');
+        const leftSpec = getMonsterSpec('dummy', 5, 'chaotic'); // ドラゴン
+        const rightSpec = getMonsterSpec('dummy', 4, 'intellectual'); // 知性（青系）
         drawMonster(leftCtx, leftSpec, 0);
         drawMonster(rightCtx, rightSpec, 0);
     }
