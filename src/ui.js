@@ -58,14 +58,14 @@ export function initUI() {
     playground.setCharacters(data.character, allBoxMembers);
     playground.setConfig(data.customization);
 
-    // タイトルロゴのモンスター描画（左: ドラゴン系 Lv5, 右: 水色っぽい Lv4）
+    // タイトルロゴのモンスター描画（左: やさしいハナ, 右: はしゃぐイヌコ）
     const leftCanvas = document.getElementById('title-monster-left');
     const rightCanvas = document.getElementById('title-monster-right');
     if (leftCanvas && rightCanvas) {
         const leftCtx = leftCanvas.getContext('2d');
         const rightCtx = rightCanvas.getContext('2d');
-        const leftSpec = getMonsterSpec('dummy', 5, 'chaotic'); // ドラゴン
-        const rightSpec = getMonsterSpec('dummy', 4, 'intellectual'); // 知性（青系）
+        const leftSpec = getMonsterSpec('kid_kind', 3, 'social');    // やさしいハナ
+        const rightSpec = getMonsterSpec('kid_active', 3, 'creative'); // はしゃぐイヌコ
         drawMonster(leftCtx, leftSpec, 0);
         drawMonster(rightCtx, rightSpec, 0);
     }
