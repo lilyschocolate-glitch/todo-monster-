@@ -1514,13 +1514,13 @@ header {
   }
 
   header {
-    flex-direction: column;
     padding-top: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .controls {
     position: static;
-    margin-top: 8px;
   }
 
   .dq-logo-container {

@@ -64,10 +64,9 @@ export function initUI() {
     if (leftCanvas && rightCanvas) {
         const leftCtx = leftCanvas.getContext('2d');
         const rightCtx = rightCanvas.getContext('2d');
-        const leftSpec = getMonsterSpec('kid_kind', 3, 'social');    // やさしいハナ
-        const rightSpec = getMonsterSpec('kid_active', 3, 'creative'); // はしゃぐイヌコ
-        drawMonster(leftCtx, leftSpec, 0);
-        drawMonster(rightCtx, rightSpec, 0);
+        // MONSTERS配列からIDで直接検索して描画（getMonsterSpecを経由しない）
+        drawMonster(leftCtx, { name: 'kid_kind' }, 0);    // やさしいハナ
+        drawMonster(rightCtx, { name: 'kid_active' }, 0);  // はしゃぐイヌコ
     }
 
     // 初回起動時: 名前が未設定または空ならモーダル表示（少し遅らせて確実に）
