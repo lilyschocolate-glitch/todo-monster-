@@ -1,0 +1,17 @@
+{
+    "name": "やることモンスター",
+    "short_name": "やるモン",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#f8f9fa",
+    "theme_color": "#ffb347",
+    "description": "やることを達成するたびにモンスターが進化する育成Webアプリ",
+    "icons": [
+        {
+            "src": "./icon.svg",
+            "sizes": "192x192 512x512",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}
