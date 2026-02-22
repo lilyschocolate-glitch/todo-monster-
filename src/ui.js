@@ -58,6 +58,18 @@ export function initUI() {
     playground.setCharacters(data.character, allBoxMembers);
     playground.setConfig(data.customization); // 追加
 
+    // タイトルロゴのモンスター描画（左: ドラゴン系 Lv5, 右: 水属性 Lv3）
+    const leftCanvas = document.getElementById('title-monster-left');
+    const rightCanvas = document.getElementById('title-monster-right');
+    if (leftCanvas && rightCanvas) {
+        const leftCtx = leftCanvas.getContext('2d');
+        const rightCtx = rightCanvas.getContext('2d');
+        const leftSpec = getMonsterSpec('dummy', 5, 'dragon');
+        const rightSpec = getMonsterSpec('dummy', 3, 'water');
+        drawMonster(leftCtx, leftSpec, 0);
+        drawMonster(rightCtx, rightSpec, 0);
+    }
+
     // 初回起動時: 名前が未設定または空ならモーダル表示（少し遅らせて確実に）
     if (!data.ownerName || data.ownerName.trim() === '') {
         setTimeout(() => openModal('name-modal'), 1000);
