@@ -104,7 +104,8 @@ header {
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 0 46px;
+  padding: 0 32px;
+  /* モンスターをロゴに近づける */
   transform: perspective(400px) rotateX(4deg) rotateY(-2deg);
 }
 
@@ -119,16 +120,18 @@ header {
 
 .dq-title-top {
   font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 2.8rem;
+  font-size: 4.2rem;
+  /* 1.5倍に超拡大 */
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 1.5px #000;
-  filter: drop-shadow(3px 3px 0px #000);
+  filter: drop-shadow(4px 4px 0px #000);
   transform: scaleY(1.1);
   letter-spacing: 0.02em;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  /* 間隔をさらに広げる */
 }
 
 .dq-title-sub {
@@ -203,11 +206,14 @@ header {
   background: var(--surface-color);
   border: 1.5px solid var(--border-color);
   color: var(--text-main);
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 56px;
+  /* さらに大型化 */
+  height: 56px;
+  border-radius: 50%;
+  /* 丸型に戻す */
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  /* フォントも大きく */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1530,35 +1536,40 @@ header {
 
   header {
     padding-top: 8px;
-    gap: 6px;
+    gap: 8px;
   }
 
   .dq-title-top {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
+    /* モバイルも迫力を出す */
+    filter: drop-shadow(3px 3px 0px #000);
   }
 
   .dq-logo-container {
-    padding: 0 30px;
+    padding: 0 24px;
+    /* モンスターをさらに寄せる */
     transform: perspective(400px) rotateX(6deg) rotateY(0deg) scale(0.9);
   }
 
   .logo-monster {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
 
   .logo-monster-left {
-    margin-top: -12px;
+    margin-top: -14px;
   }
 
   .logo-monster-right {
-    margin-top: -12px;
+    margin-top: -14px;
   }
 
   .controls button {
-    width: 36px;
-    height: 36px;
-    font-size: 0.85rem;
+    width: 48px;
+    /* モバイルも大型化 */
+    height: 48px;
+    border-radius: 50%;
+    font-size: 1.1rem;
   }
 
   .char-section {
