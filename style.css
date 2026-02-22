@@ -86,10 +86,9 @@ body {
 /* ===== ヘッダー ===== */
 header {
   display: flex;
-  flex-direction: column;
-  /* 縦並びに変更 */
-  align-items: flex-start;
-  /* 左揃え */
+  justify-content: space-between;
+  /* 左右配置に戻す */
+  align-items: center;
   padding: 12px 0 24px 0;
   width: 100%;
   gap: 20px;
@@ -107,8 +106,8 @@ header {
   display: inline-flex;
   align-items: flex-start;
   padding: 0;
-  /* 3D回転を除去して垂直に直立させる */
-  transform: none;
+  /* 斜め感を復活 */
+  transform: perspective(400px) rotateX(4deg) rotateY(-2deg);
 }
 
 .dq-logo-text {
@@ -124,13 +123,15 @@ header {
 .dq-title-row-top {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  /* 少し詰める */
   margin-bottom: 2px;
 }
 
 .dq-title-monsters {
   display: flex;
-  gap: 10px;
+  gap: 4px;
+  /* モンスター同士をさらに近づける */
   align-items: center;
 }
 
@@ -163,8 +164,8 @@ header {
   letter-spacing: 0.15em;
   z-index: 3;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  margin-top: 4px;
-  /* 英字ロゴとの距離を広げる */
+  margin-top: 0px;
+  /* 余白を戻して密接させる */
 }
 
 .logo-monster {
@@ -1532,34 +1533,36 @@ header {
   }
 
   header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     padding-top: 8px;
-    gap: 12px;
+    gap: 8px;
   }
 
   .dq-title-word {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     filter: drop-shadow(3px 3px 0px #000);
   }
 
   .dq-logo-container {
     padding: 0;
-    transform: none;
-    /* 斜め感除去 */
+    transform: perspective(400px) rotateX(4deg) rotateY(-2deg) scale(0.85);
+    transform-origin: left center;
   }
 
   .dq-title-row-top {
-    gap: 12px;
+    gap: 8px;
   }
 
   .logo-monster {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
 
   .controls button {
-    width: 44px;
-    /* 少し縮めて1行に収まりやすくする */
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     font-size: 1rem;
   }
