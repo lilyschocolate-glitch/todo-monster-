@@ -86,8 +86,10 @@ body {
 /* ===== ヘッダー ===== */
 header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  /* 縦並びに変更 */
+  align-items: flex-start;
+  /* 左揃え */
   padding: 12px 0 24px 0;
   width: 100%;
   gap: 20px;
@@ -105,7 +107,8 @@ header {
   display: inline-flex;
   align-items: flex-start;
   padding: 0;
-  transform: perspective(400px) rotateX(4deg) rotateY(-2deg);
+  /* 3D回転を除去して垂直に直立させる */
+  transform: none;
 }
 
 .dq-logo-text {
@@ -118,23 +121,22 @@ header {
   position: relative;
 }
 
-.dq-title-row {
+.dq-title-row-top {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 4px;
+  gap: 16px;
+  margin-bottom: 2px;
 }
 
 .dq-title-monsters {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
 }
 
-.dq-title-top {
+.dq-title-word {
   font-family: 'Impact', 'Arial Black', sans-serif;
   font-size: 4.2rem;
-  /* 1.5倍に超拡大 */
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -143,20 +145,26 @@ header {
   filter: drop-shadow(4px 4px 0px #000);
   transform: scaleY(1.1);
   letter-spacing: 0.02em;
-  line-height: 0.9;
+  line-height: 0.85;
+}
+
+.dq-title-monster-word {
+  margin-bottom: 12px;
 }
 
 .dq-title-sub {
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #fff;
   background: #000;
-  padding: 2px 12px;
+  padding: 3px 14px;
   border-radius: 4px;
   font-weight: 700;
   letter-spacing: 0.15em;
   z-index: 3;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-top: 4px;
+  /* 英字ロゴとの距離を広げる */
 }
 
 .logo-monster {
@@ -1525,40 +1533,35 @@ header {
 
   header {
     padding-top: 8px;
-    gap: 8px;
+    gap: 12px;
   }
 
-  .dq-title-top {
-    font-size: 2.2rem;
-    /* モバイルも迫力を出す */
+  .dq-title-word {
+    font-size: 2.4rem;
     filter: drop-shadow(3px 3px 0px #000);
   }
 
   .dq-logo-container {
-    padding: 0 24px;
-    /* モンスターをさらに寄せる */
-    transform: perspective(400px) rotateX(6deg) rotateY(0deg) scale(0.9);
+    padding: 0;
+    transform: none;
+    /* 斜め感除去 */
+  }
+
+  .dq-title-row-top {
+    gap: 12px;
   }
 
   .logo-monster {
-    width: 28px;
-    height: 28px;
-  }
-
-  .logo-monster-left {
-    margin-top: -14px;
-  }
-
-  .logo-monster-right {
-    margin-top: -14px;
+    width: 32px;
+    height: 32px;
   }
 
   .controls button {
-    width: 48px;
-    /* モバイルも大型化 */
-    height: 48px;
+    width: 44px;
+    /* 少し縮めて1行に収まりやすくする */
+    height: 44px;
     border-radius: 50%;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .char-section {
