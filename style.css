@@ -62,12 +62,45 @@ header {
 }
 
 .app-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: 'DotGothic16', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.45rem;
   font-weight: 700;
-  color: var(--primary-color);
   letter-spacing: 0.05em;
   white-space: nowrap;
+  user-select: none;
+}
+
+.title-text {
+  background: linear-gradient(180deg, #ffffff 0%, #a5b4fc 40%, #6366f1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0px 2px 3px rgba(79, 70, 229, 0.4)) drop-shadow(0px 0px 1px var(--primary-dark));
+}
+
+.title-icon {
+  font-size: 1.6rem;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.15));
+  animation: bounce-egg 3s ease-in-out infinite;
+}
+
+@keyframes bounce-egg {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-3px) rotate(-5deg);
+  }
+
+  75% {
+    transform: translateY(-3px) rotate(5deg);
+  }
 }
 
 .controls {
