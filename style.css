@@ -121,24 +121,24 @@ header {
 
 .dq-title-top {
   font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1.4rem;
+  font-size: 2.6rem;
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px #000;
+  -webkit-text-stroke: 1.5px #000;
   filter: drop-shadow(2px 2px 0px #000);
   transform: scaleY(1.2);
   letter-spacing: 0.05em;
-  margin-bottom: -4px;
+  margin-bottom: -6px;
 }
 
 .dq-title-sub {
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   color: #fff;
   background: #000;
-  padding: 0 8px;
+  padding: 1px 10px;
   border-radius: 4px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -147,8 +147,8 @@ header {
 
 .logo-monster {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   z-index: 4;
   filter: drop-shadow(1px 1px 0px #000);
   animation: bounce-monster 3s ease-in-out infinite;
@@ -156,15 +156,15 @@ header {
 }
 
 .logo-monster-left {
-  left: -24px;
-  bottom: 0px;
+  left: -40px;
+  bottom: 2px;
   transform: rotate(-10deg);
   animation-delay: 0s;
 }
 
 .logo-monster-right {
-  right: -24px;
-  bottom: 0px;
+  right: -40px;
+  bottom: 2px;
   transform: rotate(10deg);
   animation-delay: 1.5s;
 }
@@ -969,9 +969,13 @@ header {
 .friend-section {
   background: var(--surface-color);
   border-radius: var(--radius-md);
-  padding: 16px 18px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.friend-body {
+  padding: 12px 18px 16px;
 }
 
 .friend-header {
@@ -989,7 +993,7 @@ header {
 }
 
 .friend-action-btn {
-  background: var(--bg-color);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   padding: 4px 10px;
   border-radius: var(--radius-xs);
@@ -1024,7 +1028,7 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
-  background: var(--bg-color);
+  background: #ffffff;
   border-radius: var(--radius-xs);
   font-size: 0.85rem;
 }
