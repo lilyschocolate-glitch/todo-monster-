@@ -82,8 +82,8 @@ body.theme-night {
 body {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   color: var(--text-main);
-  background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 50%, var(--bg-color-3) 100%);
-  background-attachment: fixed;
+  background: var(--bg-color-1);
+  /* 単色 */
   line-height: 1.6;
   display: flex;
   justify-content: center;
@@ -104,18 +104,20 @@ body {
 /* ===== ヘッダー ===== */
 header {
   display: flex;
-  justify-content: space-between;
-  /* 左右配置に戻す */
+  flex-direction: column;
+  /* 中央寄せのために縦並びに */
   align-items: center;
   padding: 12px 0 24px 0;
   width: 100%;
-  gap: 20px;
+  gap: 16px;
+  /* ロゴとボタンの間の余白 */
 }
 
 .app-title {
-  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
+  /* タイトルも中央 */
   user-select: none;
 }
 
@@ -131,8 +133,8 @@ header {
 .dq-logo-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  /* 左揃えに変更 */
+  align-items: center;
+  /* ロゴパーツも中央寄せ */
   line-height: 1;
   z-index: 2;
   position: relative;
@@ -216,9 +218,11 @@ header {
 
 .controls {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  /* 1列にギュッとまとめる or 2列でコンパクトに */
+  gap: 8px;
   flex-shrink: 0;
+  justify-content: center;
 }
 
 .controls button {
