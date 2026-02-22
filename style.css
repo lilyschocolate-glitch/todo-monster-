@@ -1430,10 +1430,24 @@ header {
 @media (max-width: 480px) {
   body {
     padding: 8px;
+    overflow-x: hidden;
   }
 
   #app {
     gap: 12px;
+  }
+
+  .app-title {
+    gap: 4px;
+  }
+
+  .title-text {
+    font-size: 1.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  .title-icon {
+    font-size: 1.5rem;
   }
 
   .char-section {
