@@ -895,6 +895,10 @@ function importFriend() {
         closeAllModals();
         input.value = '';
         renderFriendList();
+
+        // 箱庭（プレイグラウンド）への即時反映を追加
+        const allBoxMembers = [...data.friends, ...data.hallOfFame, ...(data.unlockedRareMonsters || [])];
+        playground.setCharacters(data.character, allBoxMembers);
     } catch (e) {
         console.error(e);
         alert('コードが読み取れなかった…');
