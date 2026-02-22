@@ -104,20 +104,19 @@ body {
 /* ===== ヘッダー ===== */
 header {
   display: flex;
-  flex-direction: column;
-  /* 中央寄せのために縦並びに */
+  justify-content: space-between;
+  /* 左右配置を復元 */
   align-items: center;
   padding: 12px 0 24px 0;
   width: 100%;
-  gap: 16px;
-  /* ロゴとボタンの間の余白 */
+  gap: 15px;
 }
 
 .app-title {
   display: flex;
   align-items: center;
-  justify-content: center;
-  /* タイトルも中央 */
+  justify-content: flex-start;
+  /* 左寄せに戻す */
   user-select: none;
 }
 
@@ -133,18 +132,17 @@ header {
 .dq-logo-text {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* ロゴパーツも中央寄せ */
+  align-items: flex-start;
+  /* 左寄せに戻す */
   line-height: 1;
   z-index: 2;
   position: relative;
 }
 
-.dq-title-row-top {
+.dq-title-main-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  /* 少し詰める */
   margin-bottom: 2px;
 }
 
@@ -157,22 +155,17 @@ header {
 
 .dq-title-word {
   font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 3.5rem;
-  /* 4.2rem -> 3.5rem に引き締め */
+  font-size: 2.2rem;
+  /* 1段にするためサイズを適正化 */
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1.5px #000;
-  filter: drop-shadow(4px 4px 0px #000);
+  -webkit-text-stroke: 1px #000;
+  filter: drop-shadow(3px 3px 0px #000);
   transform: scaleY(1.1);
   letter-spacing: 0.02em;
-  line-height: 0.8;
-  /* さらに詰める */
-}
-
-.dq-title-monster-word {
-  margin-bottom: 12px;
+  line-height: 1;
 }
 
 .dq-title-sub {
@@ -218,11 +211,10 @@ header {
 
 .controls {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  /* 1列にギュッとまとめる or 2列でコンパクトに */
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3x2配置に戻す */
+  gap: 10px;
   flex-shrink: 0;
-  justify-content: center;
 }
 
 .controls button {
