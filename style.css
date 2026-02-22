@@ -64,26 +64,32 @@ header {
 .app-title {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family: 'DotGothic16', sans-serif;
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
   white-space: nowrap;
   user-select: none;
 }
 
 .title-text {
-  background: linear-gradient(180deg, #ffffff 0%, #a5b4fc 40%, #6366f1 100%);
+  /* ドラクエ風：上部は白、下部は鮮やかなゴールド */
+  background: linear-gradient(180deg, #ffffff 0%, #fef08a 40%, #eab308 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0px 2px 3px rgba(79, 70, 229, 0.4)) drop-shadow(0px 0px 1px var(--primary-dark));
+
+  /* 視認性を上げるための黒（濃紺）の縁取りと、ドット絵RPG特有の斜め下ベタ塗り影 */
+  -webkit-text-stroke: 1.5px #111827;
+  filter: drop-shadow(3px 3px 0px #111827) drop-shadow(0px 0px 4px rgba(234, 179, 8, 0.5));
+
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
 .title-icon {
-  font-size: 1.6rem;
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.15));
+  font-size: 1.8rem;
+  /* アイコンにも同質のベタ塗り影をつけてタイトルとの統一感を出す */
+  filter: drop-shadow(3px 3px 0px #111827);
   animation: bounce-egg 3s ease-in-out infinite;
 }
 
