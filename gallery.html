@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モンスターギャラリー - やることモンスター</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: block;
+            /* style.css の flex を上書き */
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff8f8;
+        }
+
+        .gallery-title {
+            font-family: 'DotGothic16', sans-serif;
+            text-align: center;
+            font-size: 2.5rem;
+            color: #6366f1;
+            margin-bottom: 40px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 24px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+            border: 1px solid #eee;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .monster-canvas {
+            image-rendering: pixelated;
+            width: 128px;
+            height: 128px;
+            margin-bottom: 15px;
+        }
+
+        .monster-name {
+            font-family: 'DotGothic16', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+
+        .monster-level {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
+        .monster-type {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #e0e7ff;
+            color: #6366f1;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            color: #6366f1;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="back-link">← アプリに戻る</a>
+    <h1 class="gallery-title">Monster Gallery</h1>
+    <div id="gallery" class="gallery-grid"></div>
+    <script type="module" src="src/gallery-static.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1441 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
+
+:root {
+  /* モダンパレット */
+  --bg-color: #f8fafc;
+  --surface-color: #ffffff;
+  --primary-color: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #e0e7ff;
+  --accent-color: #f472b6;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --text-main: #334155;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+
+  /* シャドウ */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* 角丸 */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+#app {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 60px;
+}
+
+/* ===== ヘッダー ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.app-title {
+  font-family: 'DotGothic16', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.controls {
+  display: flex;
+  gap: 4px;
+}
+
+.controls button {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.controls button:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.controls button:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ===== キャラクターセクション ===== */
+.char-section {
+  background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #fef3c7 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px 20px;
+  /* 上部パディング増加 */
+  text-align: center;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 32px;
+}
+
+/* 背景パーティクル装飾 */
+.char-section::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#char-display {
+  position: relative;
+  height: 160px;
+  /* 高さを増やして余裕を持たせる */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#char-canvas {
+  image-rendering: pixelated;
+  width: 128px;
+  height: 128px;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.12));
+  animation: float 3s ease-in-out infinite;
+  /* 縦線バグ防止: サブピクセルレンダリングを回避 */
+  transform-origin: center;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.char-info {
+  margin-top: 4px;
+}
+
+.char-dex {
+  font-family: 'DotGothic16', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.char-info h2 {
+  font-family: 'DotGothic16', sans-serif;
+  font-size: 1.4rem;
+  margin: 2px 0;
+  color: var(--text-main);
+}
+
+.char-level {
+  font-family: 'DotGothic16', monospace;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.char-stage {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.char-branch {
+  font-size: 0.75rem;
+  color: var(--accent-color);
+  margin-top: 2px;
+}
+
+.exp-bar-container {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  height: 10px;
+  width: 100%;
+  margin: 12px 0 6px;
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(4px);
+}
+
+.exp-bar-fill {
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 0%;
+  position: relative;
+}
+
+/* 経験値バーの光沢 */
+.exp-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: 999px;
+}
+
+.exp-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'DotGothic16', sans-serif;
+}
+
+.char-owner {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-family: 'DotGothic16', sans-serif;
+}
+
+.graduate-btn {
+  margin-top: 12px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #78350f;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.graduate-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 2px 16px rgba(245, 158, 11, 0.5);
+  }
+}
+
+.mock-status {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+/* ===== タスクフォーム ===== */
+.todo-form {
+  margin-top: -16px;
+  padding: 0 4px;
+  position: relative;
+  z-index: 10;
+}
+
+.todo-list-container {
+  margin-top: 10px;
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.date-tab {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: none;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-weight: 700;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+.date-tab:hover {
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 1);
+}
+
+.date-tab.active {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  transform: scale(1.05);
+}
+
+.date-tab:active {
+  transform: scale(0.97);
+}
+
+.input-container {
+  display: flex;
+  gap: 8px;
+}
+
+#todo-input {
+  flex: 1;
+  background: var(--surface-color);
+  border: 2px solid transparent;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  outline: none;
+  box-shadow: var(--shadow-md);
+  transition: all 0.25s;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+#todo-input:focus {
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.todo-submit-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 48px;
+  border-radius: var(--radius-md);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.todo-submit-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.todo-submit-btn:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: var(--shadow-sm);
+}
+
+
+
+.status-summary {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  font-family: 'DotGothic16', sans-serif;
+  font-weight: 700;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 24px;
+  font-size: 0.9rem;
+}
+
+.todo-item {
+  background: var(--surface-color);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
+}
+
+.todo-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.todo-item.completed {
+  opacity: 0.5;
+  background: #f8fafc;
+  border-left: 3px solid var(--border-color);
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.todo-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-category {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.todo-text {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recurring-mark {
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.todo-complete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.todo-complete-btn:hover {
+  border-color: var(--success-color);
+  color: var(--success-color);
+  transform: scale(1.15);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.todo-complete-btn:active {
+  transform: scale(0.9);
+}
+
+.todo-delete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-item:hover .todo-delete-btn {
+  opacity: 0.6;
+}
+
+.todo-delete-btn:hover {
+  opacity: 1 !important;
+  color: var(--danger-color);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.todo-separator {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+  border-radius: var(--radius-sm);
+  background: rgba(99, 102, 241, 0.04);
+  margin-top: 4px;
+}
+
+.todo-separator .sep-toggle {
+  display: inline-block;
+  font-size: 0.65rem;
+  margin-right: 4px;
+  transition: transform 0.2s;
+}
+
+.todo-separator:hover {
+  color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.completed-list {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.completed-list.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+}
+
+/* ===== はこにわ (Playground) ===== */
+.playground-section {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  background: var(--surface-color);
+}
+
+.playground-header {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  background: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.playground-desc {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 6px 0 2px;
+  background: var(--surface-color);
+}
+
+.playground-container {
+  position: relative;
+  /* 空と芝生のグラデーション */
+  background:
+    linear-gradient(180deg,
+      #87ceeb 0%,
+      #b0e0e6 30%,
+      #98fb98 30%,
+      #7ccd7c 70%,
+      #6bba6b 100%);
+  height: 280px;
+}
+
+/* 雲アニメーション */
+.playground-container::before,
+.playground-container::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.playground-container::before {
+  width: 60px;
+  height: 20px;
+  top: 15%;
+  left: -60px;
+  animation: cloud-drift 25s linear infinite;
+}
+
+.playground-container::after {
+  width: 40px;
+  height: 14px;
+  top: 8%;
+  left: -40px;
+  animation: cloud-drift 18s linear infinite 8s;
+}
+
+@keyframes cloud-drift {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 100px));
+  }
+}
+
+#playground-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+#chat-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.chat-bubble {
+  background: white;
+  border-radius: 12px 12px 12px 4px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  box-shadow: var(--shadow-md);
+  position: absolute;
+  max-width: 150px;
+  word-break: break-all;
+  opacity: 0;
+  transform: translateY(4px) scale(0.9);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bubble-name {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 2px;
+  font-family: 'DotGothic16', sans-serif;
+}
+
+.chat-bubble.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.chat-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 10px;
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+.chat-controls {
+  text-align: center;
+  padding: 8px;
+  background: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+}
+
+#chat-trigger-btn {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  border: none;
+  padding: 8px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 0.85rem;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+#chat-trigger-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+#chat-trigger-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+#chat-trigger-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== 性格パラメータ ===== */
+.personality-section {
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  /* border: 1px solid var(--border-color); playgroundに合わせるため削除 */
+}
+
+.p-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.p-summary {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.p-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px 16px 16px;
+}
+
+.trait-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.trait-label {
+  width: 150px;
+  /* 日本語ラベルが収まる幅 */
+  flex-shrink: 0;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.trait-meter {
+  flex: 1;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.trait-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trait-value {
+  width: 30px;
+  text-align: right;
+  font-family: 'DotGothic16', monospace;
+  font-weight: 700;
+  color: var(--text-main);
+
+  .calendar-day:hover {
+    background-color: var(--bg-color);
+  }
+
+  .calendar-day.today {
+    background-color: #fffbeb;
+    /* 薄い黄色 */
+    font-weight: bold;
+  }
+
+  .calendar-day.selected {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+    z-index: 1;
+  }
+
+  .calendar-day.empty {
+    background-color: #f9fafb;
+    cursor: default;
+  }
+
+  .task-dot {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  /* レベル別の背景色（ドットではなく面で塗るイメージ） */
+  .task-dot.level-1 {
+    background-color: var(--primary-color);
+    opacity: 0.1;
+  }
+
+  .task-dot.level-2 {
+    background-color: var(--primary-color);
+    opacity: 0.25;
+  }
+
+  .task-dot.level-3 {
+    background-color: var(--primary-color);
+    opacity: 0.4;
+  }
+
+  .task-dot.level-4 {
+    background-color: var(--primary-color);
+    opacity: 0.6;
+  }
+
+  .day-number {
+    font-weight: 500;
+    z-index: 2;
+    margin-left: 2px;
+  }
+
+  .calendar-details {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .calendar-details-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .details-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+  }
+
+  .details-item:last-child {
+    border-bottom: none;
+  }
+
+  .details-time {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-right: 12px;
+    font-family: monospace;
+  }
+
+  /* ===== フレンドセクション ===== */
+  .friend-section {
+    color: var(--text-muted);
+  }
+
+  .friend-remove-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .friend-remove-btn:hover {
+    color: var(--danger-color);
+    background: rgba(239, 68, 68, 0.08);
+  }
+
+  /* ===== パーティクルアニメーション ===== */
+  .particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    animation: particle-pop 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .particle-circle {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .particle-star {
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  @keyframes particle-pop {
+    0% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translate(var(--dx), var(--dy)) scale(0) rotate(var(--rot, 180deg));
+      opacity: 0;
+    }
+  }
+
+  .completing {
+    animation: task-complete 0.5s ease-in-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes task-complete {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    40% {
+      transform: scale(1.03);
+      opacity: 1;
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    100% {
+      transform: scale(0.95) translateX(40px);
+      opacity: 0;
+    }
+  }
+
+  /* ===== モーダル共通 ===== */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 900;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+  }
+
+  .overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%) scale(0.96);
+    background: var(--surface-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: 28px;
+    text-align: center;
+    max-width: 90%;
+    width: 380px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .modal.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .modal h2 {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+    color: var(--text-main);
+  }
+
+  .modal-body {
+    text-align: left;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .modal-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  .modal-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-xs);
+    font-size: 0.9rem;
+    outline: none;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    transition: border-color 0.2s;
+  }
+
+  .modal-input:focus {
+    border-color: var(--primary-color);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+
+  .close-modal-btn {
+    background: var(--bg-color);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 8px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+  }
+
+  .close-modal-btn:hover {
+    background: var(--border-color);
+    color: var(--text-main);
+  }
+
+  .primary-modal-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+  }
+
+  .primary-modal-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+  }
+
+  .version-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  /* 設定モーダルの内部 */
+  .settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .settings-btn {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: var(--radius-xs);
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .settings-btn:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .api-status {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .api-status.connected {
+    color: var(--success-color);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .api-status.disconnected {
+    color: var(--text-muted);
+    background: var(--bg-color);
+  }
+
+  .api-link {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px dashed var(--primary-color);
+    transition: opacity 0.2s;
+  }
+
+  .api-link:hover {
+    opacity: 0.7;
+  }
+
+  /* ===== 履歴モーダル ===== */
+  .history-group {
+    margin-bottom: 16px;
+  }
+
+  .history-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .history-date-str {
+    font-family: 'DotGothic16', monospace;
+    font-size: 0.7rem;
+  }
+
+  .history-badges {
+    margin-left: auto;
+    display: flex;
+    gap: 3px;
+  }
+
+  .history-badge {
+    font-size: 0.7rem;
+    background: var(--bg-color);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  .history-task {
+    padding: 8px 12px;
+    background: var(--bg-color);
+    border-radius: var(--radius-xs);
+    font-size: 0.85rem;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    border: 1px solid var(--border-color);
+  }
+
+  .history-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 20px;
+    font-size: 0.85rem;
+  }
+
+  /* ===== 進化エフェクト ===== */
+  .evolution-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.92);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    backdrop-filter: blur(12px);
+  }
+
+  .evolution-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #evolution-canvas {
+    width: 250px;
+    height: 250px;
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+    image-rendering: pixelated;
+  }
+
+  .evolution-name {
+    margin-top: 24px;
+    font-size: 2rem;
+    color: #fff;
+    font-family: 'DotGothic16', sans-serif;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .evolution-name.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== 図鑑 ===== */
+  .modal-wide {
+    max-width: 520px;
+  }
+
+  .dex-count {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    font-family: 'DotGothic16', sans-serif;
+  }
+
+  .dex-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+
+  .dex-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 4px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    background: var(--surface-color);
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .dex-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .dex-card.undiscovered {
+    opacity: 0.3;
+    filter: grayscale(1);
+  }
+
+  .dex-card.undiscovered .dex-card-name {
+    visibility: hidden;
+  }
+
+  .dex-card.rare-card {
+    border-color: #fbbf24;
+    background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.25);
+  }
+
+  .dex-card canvas {
+    width: 48px;
+    height: 48px;
+    image-rendering: pixelated;
+  }
+
+  .dex-card-num {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    font-family: 'DotGothic16', sans-serif;
+  }
+
+  .dex-card-name {
+    font-size: 0.6rem;
+    color: var(--text-main);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+    margin-top: 2px;
+    font-family: 'DotGothic16', sans-serif;
+  }
+
+  /* ===== レスポンシブ ===== */
+  @media (max-width: 480px) {
+    body {
+      padding: 8px;
+    }
+
+    #app {
+      gap: 12px;
+    }
+
+    .char-section {
+      padding: 20px 16px 16px;
+      border-radius: var(--radius-md);
+    }
+
+    .playground-container {
+      height: 220px;
+    }
+  }
+
+  /* Personality Mini Character */
+  .personality-summary {
+    display: flex !important;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 16px 12px 16px;
+  }
+
+  .personality-mini-char {
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0;
+  }
+
+  .personality-text {
+    flex: 1;
+  }
+
+  /* No.表記を非表示にする (ユーザー要望) */
+  #char-dex,
+  .status-dex {
+    display: none !important;
+  }
+
+  /* --- Round 4 追加スタイル --- */
+
+  /* Personalityミニキャラ（四角く表示、はこにわサイズ感） */
+  .personality-mini-char {
+    border-radius: 4px;
+    /* 角を少しだけ丸める程度 */
+    box-shadow: none;
+    image-rendering: pixelated;
+    width: 64px;
+    height: 64px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    /* 薄い枠線で存在感を出す */
+    background: #fff;
+  }
+
+  /* 日付タブ（一括りのカプセルデザイン） */
+  .date-tabs {
+    display: flex;
+    justify-content: center;
+    background: #e0e7ff;
+    /* 薄いインディゴで目立たせる */
+    padding: 4px;
+    border-radius: 9999px;
+    gap: 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .date-tab {
+    flex: 1;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-radius: 9999px;
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 0.9rem;
+  }
+
+  .date-tab:hover {
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .date-tab.active {
+    background: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-weight: 700;
+    transform: none;
+    /* ボタンの押し込みエフェクトを解除 */
+  }

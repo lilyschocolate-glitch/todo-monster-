@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>やることモンスター</title>
+  <meta name="description" content="やることを達成するたびにモンスターが進化する育成Webアプリ">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐣</text></svg>">
+</head>
+
+<body>
+  <div id="app">
+    <!-- ヘッダー -->
+    <header>
+      <div class="app-title">🐣 やることモンスター</div>
+      <div class="controls">
+        <button id="backpack-btn" title="バックパック">🎒</button>
+        <button id="mute-btn" title="音の切り替え">🔊</button>
+        <button id="dex-btn" title="図鑑">📖</button>
+        <button id="history-btn" title="完了タスク履歴">📋</button>
+        <button id="settings-btn" title="設定">⚙️</button>
+        <button id="reset-btn" title="リセット" style="color:#ef4444;">🗑️</button>
+      </div>
+    </header>
+
+    <!-- キャラクター表示 -->
+    <div class="char-section">
+      <div id="char-display">
+        <canvas id="char-canvas" width="128" height="128"></canvas>
+      </div>
+      <div class="char-info">
+        <button id="re-egg-btn" class="re-egg-btn" title="タマゴに戻ってやり直す">🥚</button>
+        <span id="char-dex" class="char-dex">No.001</span>
+        <h2 id="char-name">ナゾタマ</h2>
+        <span id="char-level" class="char-level">Lv.1</span>
+        <div id="char-stage" class="char-stage">タマゴ</div>
+        <div id="char-branch" class="char-branch" style="display:none;"></div>
+        <div id="char-owner" class="char-owner"></div>
+      </div>
+
+      <div class="exp-bar-container">
+        <div id="exp-bar-fill" class="exp-bar-fill"></div>
+      </div>
+      <div id="exp-text" class="exp-text">あと5タスクで進化</div>
+      <button id="graduate-btn" class="graduate-btn" style="display:none;">🎓 殿堂入りする</button>
+      <div id="mock-status" class="mock-status"></div>
+    </div>
+
+    <!-- タスク入力フォーム -->
+    <form class="todo-form" id="todo-form">
+      <div class="date-tabs">
+        <button type="button" class="date-tab" data-date="yesterday">きのう</button>
+        <button type="button" class="date-tab active" data-date="today">きょう</button>
+        <button type="button" class="date-tab" data-date="tomorrow">あした</button>
+      </div>
+      <div class="input-container">
+        <input type="text" id="todo-input" placeholder="やることは？" autocomplete="off">
+        <button type="submit" class="todo-submit-btn">＋</button>
+      </div>
+
+      <div class="todo-list-container">
+        <div class="status-summary" id="todo-count">0件のやること</div>
+        <div class="todo-list" id="todo-list">
+          <!-- JSで生成 -->
+        </div>
+      </div>
+    </form>
+
+    <!-- はこにわ (Playground) -->
+    <div class="playground-section" id="playground-section">
+      <div class="playground-header">
+        <span>🌿 はこにわ</span>
+      </div>
+      <p class="playground-desc">ともだちを追加しておしゃべりできるよ</p>
+      <div class="playground-container">
+        <canvas id="playground-canvas"></canvas>
+        <div id="chat-overlay"></div>
+      </div>
+      <div class="chat-controls">
+        <button id="chat-trigger-btn">💬 はなす</button>
+        <button id="shop-btn" class="shop-trigger-btn">💎 ショップ</button>
+      </div>
+    </div>
+
+    <!-- 性格パラメータ -->
+    <div class="personality-section" id="personality-section">
+      <div class="playground-header">
+        <span>🔮 せいかく</span>
+      </div>
+      <div id="personality-summary" class="personality-summary"></div>
+      <div id="personality-bars" class="p-bars">
+        <!-- JSで生成 -->
+      </div>
+    </div>
+
+    <!-- フレンド -->
+    <div class="friend-section">
+      <div class="friend-header">
+        <span>👥 ともだち</span>
+        <div class="friend-actions">
+          <button id="params-share-btn" class="friend-action-btn" title="Xでシェア">🚀 Xでシェア</button>
+          <button id="add-friend-btn" class="friend-action-btn" title="ともだち追加">📥 ともだち追加</button>
+          <button id="export-btn" class="friend-action-btn" title="マイコード表示">📤 マイコード</button>
+        </div>
+      </div>
+      <div id="friend-list" class="friend-list">
+        <div class="friend-empty">フレンドを追加するとここに表示されるよ</div>
+      </div>
+    </div>
+
+    <!-- NPC用（非表示、アニメーションループ用） -->
+    <canvas id="npc-canvas" width="64" height="64" style="display:none;"></canvas>
+  </div>
+
+  <!-- オーバーレイ -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- 名前入力モーダル（初回起動時） -->
+  <div id="name-modal" class="modal">
+    <h2>🐣 はじめまして！</h2>
+    <p class="modal-desc">あなたの名前を教えてね</p>
+    <input type="text" id="owner-name-input" class="modal-input" placeholder="なまえ">
+    <div class="modal-actions">
+      <button id="name-save-btn" class="primary-modal-btn">決定</button>
+    </div>
+  </div>
+
+  <!-- 履歴モーダル -->
+  <div id="history-modal" class="modal">
+    <h2>📋 完了したタスク</h2>
+    <div id="history-body" class="modal-body"></div>
+    <button id="history-close-btn" class="close-modal-btn">とじる</button>
+  </div>
+
+  <!-- 設定モーダル -->
+  <div id="settings-modal" class="modal">
+    <h2>⚙️ 設定</h2>
+    <p class="version-text">バージョン: 3.0.0</p>
+    <div class="settings-section">
+      <div id="api-status" class="api-status disconnected">⚪ モック会話モード</div>
+      <button id="api-key-btn" class="settings-btn">🔑 APIキーを設定</button>
+    </div>
+    <button class="close-modal-btn"
+      onclick="document.getElementById('settings-modal').classList.remove('show')">とじる</button>
+  </div>
+
+  <!-- APIキー設定モーダル -->
+  <div id="api-modal" class="modal">
+    <h2>🔑 Gemini APIキー</h2>
+    <div class="settings-section">
+      <p class="modal-desc" style="margin-bottom:8px">
+        APIキーを設定すると、モンスターが独自の性格に合わせておしゃべりするようになるよ！
+      </p>
+      <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link">
+        🔗 Google AI Studioでキーを取得 (無料)
+      </a>
+    </div>
+    <input type="text" id="api-key-input" class="modal-input" placeholder="AIza...">
+    <div class="modal-actions">
+      <button id="api-cancel-btn" class="close-modal-btn">キャンセル</button>
+      <button id="api-save-btn" class="primary-modal-btn">保存</button>
+    </div>
+  </div>
+
+  <!-- モーダル (ともだち追加) -->
+  <div id="friend-modal" class="modal">
+    <div class="modal-content">
+      <h3>ともだちを追加</h3>
+      <p>教えてもらったコードを入力してね</p>
+      <textarea id="friend-code-input" placeholder="ここに貼り付け"></textarea>
+      <div class="modal-actions">
+        <button id="friend-cancel-btn">やめる</button>
+        <button id="friend-import-btn" class="primary-btn">追加する！</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル (シェア) -->
+  <div id="share-modal" class="modal">
+    <div class="modal-content share-content">
+      <h3>Xでシェア</h3>
+      <div class="share-preview">
+        <img id="share-image-preview" alt="シェア画像">
+        <div class="share-img-actions">
+          <button id="copy-share-img-btn" class="secondary-btn">画像をコピー</button>
+        </div>
+        <p class="share-instruction">👆コピーしてXに貼り付け(Ctrl+V)してね</p>
+      </div>
+      <div class="share-text-area">
+        <p>投稿本文（コード含む）</p>
+        <textarea id="share-text-input" readonly></textarea>
+        <button id="copy-share-text-btn">本文をコピー</button>
+      </div>
+      <div class="modal-actions">
+        <button id="share-close-btn">とじる</button>
+        <a id="share-twitter-link" href="#" target="_blank" class="primary-btn twitter-btn">Xで投稿する</a>
+      </div>
+    </div>
+  </div>
+  <!-- 殿堂入りモーダル -->
+  <div id="hall-of-fame-modal" class="modal">
+    <h2>🏆 殿堂入り</h2>
+    <div id="hall-of-fame-body" class="modal-body"></div>
+    <button id="hall-close-btn" class="close-modal-btn">とじる</button>
+  </div>
+
+  <!-- 図鑑モーダル -->
+  <div id="dex-modal" class="modal modal-wide">
+    <h2>📖 モンスター図鑑</h2>
+    <div id="dex-count" class="dex-count"></div>
+    <div id="dex-grid" class="dex-grid"></div>
+    <button id="dex-close-btn" class="close-modal-btn">とじる</button>
+  </div>
+
+  <!-- バックパックモーダル -->
+  <div id="backpack-modal" class="modal">
+    <h2>🎒 バックパック</h2>
+    <div class="item-tabs">
+      <button class="item-tab active" data-type="material">伝説素材</button>
+      <button class="item-tab" data-type="background">背景</button>
+      <button class="item-tab" data-type="furniture">家具</button>
+    </div>
+    <div class="item-grid-container">
+      <div id="item-grid" class="item-grid"></div>
+      <button id="clear-furniture-btn" class="clear-btn" style="display:none;">🧺 家具をすべて片付ける</button>
+    </div>
+    <button class="close-modal-btn"
+      onclick="document.getElementById('backpack-modal').classList.remove('show')">とじる</button>
+  </div>
+
+  <!-- ショップ・広告モーダル -->
+  <div id="shop-modal" class="modal">
+    <h2>💎 ショップ & 広告</h2>
+    <div class="shop-content">
+      <div class="ad-section">
+        <h3>📹 動画を見てGET</h3>
+        <p class="shop-desc">30秒の動画を視聴すると、ランダムで報酬がもらえるよ！</p>
+        <div class="drop-rates">
+          <div class="drop-rate-item"><span>🪑 家具</span><span>60%</span></div>
+          <div class="drop-rate-item"><span>🖼️ 背景</span><span>30%</span></div>
+          <div class="drop-rate-item"><span>🧪 伝説素材</span><span>10%</span></div>
+        </div>
+        <button id="ad-watch-btn" class="ad-btn">🎬 動画を視聴する</button>
+      </div>
+      <div class="purchase-section">
+        <h3>💰 直接購入</h3>
+        <div class="shop-grid">
+          <!-- Starter -->
+          <div class="shop-item starter">
+            <div class="shop-item-info">
+              <span class="shop-item-name">🎁 お試しパック</span>
+              <p class="shop-item-detail">伝説素材1+背景1+家具1（ランダム）</p>
+            </div>
+            <button class="buy-btn" data-plan="starter">¥320</button>
+          </div>
+          <!-- 竹 (新 Standard) -->
+          <div class="shop-item standard">
+            <div class="shop-item-tag">人気！</div>
+            <div class="shop-item-info">
+              <span class="shop-item-name">🏆 まんぞくパック</span>
+              <p class="shop-item-detail">伝説素材5+背景5+家具5（ランダム）</p>
+            </div>
+            <button class="buy-btn" data-plan="standard">¥980</button>
+          </div>
+          <!-- 松 (新 Premium) -->
+          <div class="shop-item premium">
+            <div class="shop-item-info">
+              <span class="shop-item-name">👑 とくべつパック</span>
+              <p class="shop-item-detail">動画視聴なしで即報酬獲得！</p>
+            </div>
+            <button class="buy-btn" data-plan="premium">¥2,980</button>
+          </div>
+          <!-- 寿 (新 Special) -->
+          <div class="shop-item special">
+            <div class="shop-item-tag supporter-tag">開発者応援</div>
+            <div class="shop-item-info">
+              <span class="shop-item-name">🎊 全力応援パック</span>
+              <p class="shop-item-detail">全アイテム解放！ + 図鑑コンプリートに役立つ”なかのひと秘密ログ”</p>
+            </div>
+            <button class="buy-btn" data-plan="special">¥12,800</button>
+          </div>
+
+          <!-- 広告セクション (Google AdSenseユニット) -->
+          <div id="ad-container" class="ad-container" style="margin-top:20px; text-align:center; min-height:100px;">
+            <!-- [AdSenseのコードをここに配置] -->
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+              data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>
+              // (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <div class="ad-mock-placeholder"
+              style="width:100%; height:100px; background:#f3f4f6; color:#9ca3af; display:flex; align-items:center; justify-content:center; border-radius:12px; font-size:12px;">
+              広告表示エリア (AdSense準備中)
+            </div>
+          </div>
+
+          <!-- サポーター専用セクション -->
+          <div id="supporter-only-section"
+            style="margin-top:20px; padding:15px; background:rgba(251,191,36,0.1); border:1px dashed #fbbf24; border-radius:12px; text-align:center; grid-column: 1 / -1;">
+            <p style="font-size:12px; color:#fbbf24; margin-bottom:8px;">✨ 全力応援サポーター特典 ✨</p>
+            <button id="view-secret-log-btn" class="glass-btn" style="padding:8px 20px; font-size:14px;">📜
+              なかのひとログを読み返す</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="close-modal-btn"
+      onclick="document.getElementById('shop-modal').classList.remove('show')">とじる</button>
+  </div>
+
+  <!-- 広告視聴中オーバーレイ -->
+  <div id="ad-overlay" class="ad-overlay">
+    <div class="ad-spinner"></div>
+    <div id="ad-timer" class="ad-timer">30</div>
+    <p>広告を視聴中...</p>
+  </div>
+
+  <!-- 進化演出オーバーレイ -->
+  <div id="evolution-overlay" class="evolution-overlay">
+    <canvas id="evolution-canvas" width="256" height="256"></canvas>
+    <div id="evolution-name" class="evolution-name"></div>
+  </div>
+
+  <!-- Google AdSense (ユーザー様で data-ad-client を書き換えてください) -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>やりたいことモンスター</title>
+  <meta name="description" content="やりたいことを書くとキャラが育つ！レトロドット絵育成ToDoアプリ" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap"
+    rel="stylesheet" />
+  <script type="module" crossorigin src="/assets/index-DxCX37Za.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BP5smY7x.css">
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- ヘッダー -->
+    <header class="app-header">
+      <h1 class="app-title">🐣 やりたいことモンスター</h1>
+      <div class="header-actions">
+        <button id="mute-btn" class="icon-btn" title="音のON/OFF">🔊</button>
+        <button id="history-btn" class="icon-btn" title="ふりかえり">📊</button>
+        <button id="api-key-btn" class="icon-btn" title="APIキー設定">⚙️</button>
+        <button id="reset-btn" class="icon-btn danger" title="リセット">🗑️</button>
+      </div>
+    </header>
+
+    <!-- キャラ表示 -->
+    <section class="char-section">
+      <div class="char-display">
+        <canvas id="char-canvas" width="160" height="160"></canvas>
+        <canvas id="npc-canvas" width="64" height="64"></canvas>
+      </div>
+      <div class="char-info">
+        <div class="char-name-row">
+          <span id="char-name" class="char-name">タマゴ</span>
+          <span id="char-level" class="char-level">Lv.1</span>
+        </div>
+        <div id="char-stage" class="char-stage">タマゴ</div>
+        <div id="char-dex" class="char-dex">No.001</div>
+        <div id="char-branch" class="char-branch" style="display:none"></div>
+        <div class="exp-bar">
+          <div id="exp-bar-fill" class="exp-bar-fill" style="width:0%"></div>
+        </div>
+        <div id="exp-text" class="exp-text">あと3タスクで進化</div>
+      </div>
+      <div id="api-status" class="api-status disconnected">⚪ モック会話モード</div>
+    </section>
+
+    <!-- 性格パラメータ -->
+    <section class="personality-section">
+      <h2 class="section-title">せいかく</h2>
+      <div id="personality-summary" class="personality-summary">まだわからない</div>
+      <div id="personality-bars" class="personality-bars"></div>
+    </section>
+
+    <!-- タスク入力 -->
+    <section class="todo-section">
+      <div class="date-tabs">
+        <button class="date-tab" data-date="yesterday">きのう</button>
+        <button class="date-tab active" data-date="today">きょう</button>
+        <button class="date-tab" data-date="tomorrow">あした</button>
+      </div>
+      <form id="todo-form" class="todo-form">
+        <input id="todo-input" type="text" placeholder="やりたいことを書いてね" autocomplete="off" />
+        <button type="submit" class="todo-submit-btn">＋</button>
+      </form>
+      <div id="todo-count" class="todo-count">0件のやりたいこと</div>
+      <div id="todo-list" class="todo-list"></div>
+    </section>
+
+    <!-- お話 -->
+    <section class="chat-section">
+      <h2 class="section-title">🗨️ おはなし</h2>
+      <div id="chat-log" class="chat-log"></div>
+      <button id="chat-toggle-btn" class="chat-toggle-btn" style="display:none">▼ もっと見る</button>
+      <button id="chat-trigger-btn" class="chat-trigger-btn">💬 おしゃべりさせる</button>
+    </section>
+
+    <!-- フレンド -->
+    <section class="friend-section">
+      <h2 class="section-title">👥 フレンド</h2>
+      <div class="friend-actions">
+        <button id="export-btn" class="friend-btn">📤 自分のコードをコピー</button>
+        <button id="import-btn" class="friend-btn">📥 フレンドを追加</button>
+      </div>
+      <div id="friend-list" class="friend-list"></div>
+    </section>
+
+  </div>
+
+  <!-- 進化エフェクト -->
+  <div id="evolution-overlay" class="evolution-overlay">
+    <canvas id="evolution-canvas" width="400" height="400"></canvas>
+    <div id="evolution-name" class="evolution-name"></div>
+  </div>
+
+  <!-- APIキーモーダル -->
+  <div id="api-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Gemini APIキーを設定</h3>
+      <p class="modal-desc">Google AI StudioのAPIキーを入力すると、モンスター同士がAIで自然に会話するようになるよ</p>
+      <input id="api-key-input" type="password" placeholder="AIza..." class="modal-input" />
+      <div class="modal-btns">
+        <button id="api-cancel-btn" class="modal-btn cancel">キャンセル</button>
+        <button id="api-save-btn" class="modal-btn save">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- フレンド追加モーダル -->
+  <div id="friend-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h3>フレンドコードを入力</h3>
+      <p class="modal-desc">友達からもらったコードを貼り付けてね</p>
+      <textarea id="friend-code-input" placeholder="コードをペースト..." class="modal-input modal-textarea"></textarea>
+      <div class="modal-btns">
+        <button id="friend-cancel-btn" class="modal-btn cancel">キャンセル</button>
+        <button id="friend-save-btn" class="modal-btn save">追加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ふりかえりモーダル -->
+  <div id="history-modal" class="modal-overlay">
+    <div class="modal-card modal-card-large">
+      <div class="modal-header">
+        <h3>📊 ふりかえり</h3>
+        <button id="history-close-btn" class="modal-close-btn">✕</button>
+      </div>
+      <div id="history-body" class="history-body"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
