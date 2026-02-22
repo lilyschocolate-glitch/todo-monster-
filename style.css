@@ -32,8 +32,18 @@ body.theme-grass {
 }
 
 /* 柔らかい草色（デフォルト） */
+/* 晴れた空色（デフォルト） */
 body.theme-sky {
-  --bg-color: #e0f2fe;
+  --bg-color-1: #e0f2fe;
+  /* Sky */
+  --bg-color-2: #fae8ff;
+  /* Soft Purple */
+  --bg-color-3: #fef3c7;
+  /* Warm Amber */
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --surface-color: rgba(255, 255, 255, 0.9);
+  --border-color: #e2e8f0;
 }
 
 /* 晴れた空色 */
@@ -1547,34 +1557,40 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-top: 8px;
-    gap: 8px;
+    gap: 4px;
+    /* 余白を最小限に */
   }
 
   .dq-title-word {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
+    /* わずかに縮小して1行に収まりやすく */
     filter: drop-shadow(3px 3px 0px #000);
   }
 
   .dq-logo-container {
     padding: 0;
-    transform: perspective(400px) rotateX(4deg) rotateY(-2deg) scale(0.85);
+    transform: perspective(400px) rotateX(4deg) rotateY(-2deg) scale(0.9);
     transform-origin: left center;
   }
 
   .dq-title-row-top {
-    gap: 8px;
+    gap: 6px;
   }
 
   .logo-monster {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .controls {
+    gap: 6px;
   }
 
   .controls button {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .char-section {
