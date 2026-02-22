@@ -65,6 +65,38 @@ export function initUI() {
 
     // 自動会話ループ開始 (main.js呼出は削除済)
     playground.startAutoChatLoop(handleAutoChat);
+
+    // 決済完了のチェック
+    checkPaymentStatus();
+}
+
+/** 決済完了をURLパラメータからチェック */
+function checkPaymentStatus() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    const plan = urlParams.get('plan');
+
+    if (status === 'success' && plan) {
+        // 既に反映済みかチェック（リロード対策）
+        const lastProcessedPlan = sessionStorage.getItem('last_processed_plan');
+        const lastProcessedTime = sessionStorage.getItem('last_processed_time');
+
+        // 5秒以内の同じプランの処理はスキップ（簡易的な二重処理防止）
+        if (lastProcessedPlan === plan && (Date.now() - parseInt(lastProcessedTime)) < 5000) {
+            return;
+        }
+
+        // アイテム付与実行
+        completePurchaseSimulation(plan);
+
+        // 処理済みとして記録
+        sessionStorage.setItem('last_processed_plan', plan);
+        sessionStorage.setItem('last_processed_time', Date.now().toString());
+
+        // URLをきれいに掃除（パラメータを消す）
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    }
 }
 
 async function handleAutoChat() {
@@ -456,14 +488,17 @@ const STRIPE_URLS = {
     special: 'https://buy.stripe.com/test_special'
 };
 
-/** 購入処理（シミュレーション） */
+/** 購入処理 */
 async function handlePurchase(planId) {
-    if (confirm('購入ページ（Stripe）へ移動しますか？\n※これは開発中のデモです。')) {
-        // 本番公開時は以下のコードを有効にし、Stripe URLへリダイレクトします
-        // window.location.href = STRIPE_URLS[planId];
-
-        // 現時点ではシミュレーションとして即時反映
-        completePurchaseSimulation(planId);
+    if (confirm('購入ページ（Stripe）へ移動しますか？')) {
+        // Stripe URLへリダイレクト
+        const url = STRIPE_URLS[planId];
+        if (url && !url.includes('test_')) {
+            window.location.href = url;
+        } else {
+            // テストURLまたは未設定の場合はシミュレーション（開発用）
+            completePurchaseSimulation(planId);
+        }
     }
 }
 
