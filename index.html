@@ -27,14 +27,16 @@
     <!-- ヘッダー -->
     <header>
       <div class="app-title dq-logo-container">
-        <!-- 左サイド：やさしいハナ -->
-        <canvas class="logo-monster logo-monster-left" id="title-monster-left" width="64" height="64"></canvas>
         <div class="dq-logo-text">
-          <div class="dq-title-top">TODO MONSTER</div>
+          <div class="dq-title-row">
+            <span class="dq-title-top">TODO MONSTER</span>
+            <div class="dq-title-monsters">
+              <canvas class="logo-monster" id="title-monster-left" width="64" height="64"></canvas>
+              <canvas class="logo-monster" id="title-monster-right" width="64" height="64"></canvas>
+            </div>
+          </div>
           <div class="dq-title-sub">やることモンスター</div>
         </div>
-        <!-- 右サイド：はしゃぐイヌコ -->
-        <canvas class="logo-monster logo-monster-right" id="title-monster-right" width="64" height="64"></canvas>
       </div>
       <div class="controls">
         <button id="backpack-btn" title="バックパック">🎒</button>
