@@ -142,20 +142,16 @@ header {
 .dq-title-main-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  /* モンスターと文字の距離 */
   margin-bottom: 2px;
 }
 
-.dq-title-monsters {
-  display: flex;
-  gap: 4px;
-  /* モンスター同士をさらに近づける */
-  align-items: center;
-}
+/* モンスターをロゴの両端に配置するため、古いコンテナ用スタイルを削除 */
 
 .dq-title-word {
   font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 2.2rem;
+  font-size: 2.1rem;
   /* 1段にするためサイズを適正化 */
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
@@ -164,8 +160,10 @@ header {
   -webkit-text-stroke: 1px #000;
   filter: drop-shadow(3px 3px 0px #000);
   transform: scaleY(1.1);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   line-height: 1;
+  white-space: nowrap;
+  /* 改行禁止 */
 }
 
 .dq-title-sub {
@@ -896,7 +894,8 @@ header {
 }
 
 #chat-trigger-btn {
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(135deg, var(--primary-color), #f472b6);
+  /* 以前のアクセント色(ピンク系)に戻す */
   color: white;
   border: none;
   padding: 8px 28px;
@@ -1553,14 +1552,13 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-top: 8px;
-    gap: 4px;
-    /* 余白を最小限に */
+    gap: 2px;
   }
 
   .dq-title-word {
-    font-size: 2.1rem;
-    /* わずかに縮小して1行に収まりやすく */
-    filter: drop-shadow(3px 3px 0px #000);
+    font-size: 1.4rem;
+    /* スマホで1行に収まる究極のサイズ */
+    filter: drop-shadow(2px 2px 0px #000);
   }
 
   .dq-logo-container {
