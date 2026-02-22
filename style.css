@@ -71,8 +71,9 @@ header {
 }
 
 .controls {
-  display: flex;
-  gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
 }
 
 .controls button {
