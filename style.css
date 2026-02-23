@@ -1524,7 +1524,7 @@ header {
   header {
     flex-direction: column;
     align-items: center;
-    padding-top: 12px;
+    padding: 12px 10px;
     gap: 16px;
   }
 
@@ -1548,11 +1548,21 @@ header {
     height: 24px;
   }
 
+  .controls {
+    grid-template-columns: repeat(6, 1fr);
+    /* 6つ横並び */
+    gap: 6px;
+    width: 100%;
+    justify-items: center;
+  }
+
   .controls button {
-    width: 36px;
-    height: 36px;
+    width: 100%;
+    max-width: 44px;
+    aspect-ratio: 1 / 1;
+    height: auto;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .char-section {
