@@ -1771,8 +1771,10 @@ header {
 
 .item-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  /* 4列から3列へ変更回る/ */
+  gap: 12px;
+  /* 少し隙間を広げて見やすくする回る/ */
   max-height: 300px;
   overflow-y: auto;
   margin-bottom: 20px;
