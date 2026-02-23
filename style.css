@@ -267,6 +267,8 @@ header {
   width: 100%;
   box-shadow: var(--shadow-md);
   margin-bottom: 32px;
+  text-align: center;
+  /* 追加回る/ */
 }
 
 /* 背景パーティクル装飾 */
@@ -363,6 +365,8 @@ header {
 
 .char-info {
   position: relative;
+  text-align: center;
+  /* 追加回る/ */
 }
 
 .re-egg-btn {
@@ -1629,6 +1633,8 @@ header {
   .char-section {
     padding: 20px 16px 16px;
     border-radius: var(--radius-md);
+    text-align: center;
+    /* モバイルでも中央揃えを維持回る/ */
   }
 
   .playground-container {
