@@ -2207,3 +2207,45 @@ header {
   flex-direction: column;
   align-items: center;
 }
+
+/* 
+   Round 5 UI Refinements 
+   - Restore blur for overlay
+   - Center-align friend-code-input placeholder
+   - Fix button text overflow
+   - Swap button order via flex-direction (already handled in HTML but ensuring container width)
+   - Proper shop item alignment
+*/
+.overlay {
+  backdrop-filter: blur(8px) !important;
+}
+
+#friend-code-input::placeholder {
+  text-align: center;
+}
+
+.secondary-btn, .close-modal-btn, .primary-modal-btn {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px 16px !important; /* Padding for better click area and no overflow */
+}
+
+/* Share textarea adjustment */
+.share-text-area textarea {
+  height: 180px !important;
+  font-size: 0.95rem !important;
+  padding: 12px !important;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  /* Shop items perfect fit */
+  .shop-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+}

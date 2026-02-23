@@ -1691,7 +1691,8 @@ function openModal(modalId) {
     }
 }
 
-function closeAllModals() {
+export function closeAllModals() {
+    window.closeAllModals = closeAllModals;
     document.getElementById('overlay').classList.remove('show');
     document.querySelectorAll('.modal.show').forEach(m => m.classList.remove('show'));
 }

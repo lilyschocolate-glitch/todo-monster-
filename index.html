@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>やることモンスター</title>
   <meta name="description" content="やることを達成するたびにモンスターが進化する育成Webアプリ">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
   <link rel="icon" href="icon-v4.svg?v=4" type="image/svg+xml">
   <link rel="manifest" href="manifest.json?v=4">
   <link rel="apple-touch-icon" href="icon-v4.png?v=4">
@@ -169,8 +169,7 @@
       <div id="api-status" class="api-status disconnected">⚪ モック会話モード</div>
       <button id="api-key-btn" class="settings-btn">🔑 APIキーを設定</button>
     </div>
-    <button class="close-modal-btn"
-      onclick="document.getElementById('settings-modal').classList.remove('show')">とじる</button>
+    <button class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- APIキー設定モーダル -->
@@ -197,9 +196,9 @@
       <h3>ともだちを追加</h3>
       <p>教えてもらったコードを入力してね</p>
       <textarea id="friend-code-input" placeholder="ここに貼り付け"></textarea>
-      <div class="modal-actions">
-        <button id="friend-cancel-btn" class="close-modal-btn">やめる</button>
-        <button id="friend-import-btn" class="primary-modal-btn">追加する！</button>
+      <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
+        <button id="friend-import-btn" class="primary-modal-btn" style="width: 100%;">追加する</button>
+        <button id="friend-cancel-btn" class="close-modal-btn" style="width: 100%;">やめる</button>
       </div>
     </div>
   </div>
@@ -220,9 +219,9 @@
         <textarea id="share-text-input" readonly></textarea>
         <button id="copy-share-text-btn" class="secondary-btn" style="margin-top: 8px;">本文をコピー</button>
       </div>
-      <div class="modal-actions">
-        <button id="share-close-btn" class="close-modal-btn">とじる</button>
-        <a id="share-twitter-link" href="#" target="_blank" class="primary-modal-btn twitter-btn">Xで投稿する</a>
+      <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
+        <a id="share-twitter-link" href="#" target="_blank" class="primary-modal-btn twitter-btn" style="width: 100%;">Xで投稿する</a>
+        <button id="share-close-btn" class="close-modal-btn" style="width: 100%;">とじる</button>
       </div>
     </div>
   </div>
