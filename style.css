@@ -1563,20 +1563,22 @@ header {
   .controls {
     grid-template-columns: repeat(6, 1fr);
     /* 6つ横並び */
-    gap: 3px;
-    /* さらに詰める */
-    width: 100%;
+    gap: 1px;
+    /* 極限まで詰める */
+    width: 95%;
+    /* 少し幅を絞って中央に寄せる */
     justify-items: center;
+    margin: 0 auto;
   }
 
   .controls button {
     width: 100%;
-    max-width: 40px;
-    /* 小さすぎないよう調整 */
+    max-width: 36px;
+    /* さらに小さくして密集感を出す */
     aspect-ratio: 1 / 1;
     height: auto;
     border-radius: 6px;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .char-section {
