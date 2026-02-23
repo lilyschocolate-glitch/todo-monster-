@@ -317,6 +317,8 @@ header {
 
 .char-info {
   margin-top: 4px;
+  text-align: center;
+  /* 追加回る/ */
 }
 
 .char-dex {
