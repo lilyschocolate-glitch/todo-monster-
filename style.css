@@ -1793,6 +1793,12 @@ header {
   position: relative;
   cursor: pointer;
   transition: all 0.2s;
+  min-width: 0;
+  /* コンテンツによる幅の拡張を防止回る/ */
+  width: 100%;
+  padding: 8px;
+  /* 内部に余白を確保回る/ */
+  box-sizing: border-box;
 }
 
 .item-cell:hover {
@@ -2042,6 +2048,14 @@ header {
   font-weight: 700;
   color: var(--text-main);
   text-align: center;
+  font-size: 0.65rem;
+  /* 名前が長いため、サイズを小さく調整回る/ */
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* はみ出しを「...」で省略回る/ */
+  margin-top: 4px;
 }
 
 .item-count {
