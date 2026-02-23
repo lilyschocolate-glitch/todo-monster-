@@ -135,7 +135,8 @@ header {
 
 .dq-title-word {
   font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 3.2rem;
+  font-size: 2.2rem;
+  /* 3.2remから縮小して1行に収める */
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -145,6 +146,8 @@ header {
   transform: scaleY(1.1);
   letter-spacing: 0.05em;
   line-height: 0.85;
+  white-space: nowrap;
+  /* 折り返し禁止 */
 }
 
 .dq-title-sub {
