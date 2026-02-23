@@ -77,7 +77,8 @@ body {
 
 #app {
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
+  /* 全体を少し広げてバランス調整回る/ */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -129,7 +130,8 @@ header {
   display: flex;
   align-items: center;
   /* 垂直中央揃え */
-  gap: 12px; /* PCのみ微調整回る/ */
+  gap: 12px;
+  /* PCのみ微調整回る/ */
   /* モンスターとテキストの距離を少し広げてイメージに合わせる */
   margin-bottom: 2px;
   /* 負のマージンをやめて、適度な近さに戻す */
@@ -147,7 +149,8 @@ header {
   filter: drop-shadow(4px 4px 0px #000);
   transform: scaleY(1.1);
   letter-spacing: 0.05em;
-  line-height: 1.1; /* 垂直方向の余裕を持たせる回る/ */
+  line-height: 1.1;
+  /* 垂直方向の余裕を持たせる回る/ */
   /* 行の高さを正常化 */
   white-space: nowrap;
   /* 1行を保証 */
@@ -177,7 +180,8 @@ header {
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
   animation: bounce-monster-simple 3s ease-in-out infinite;
-  margin-top: -8px; /* 垂直中央へ回る/ */
+  margin-top: -8px;
+  /* 垂直中央へ回る/ */
   /* マージンを削除して中央揃えを優先 */
 }
 
@@ -461,6 +465,8 @@ header {
   padding: 14px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
+  width: 100%;
+  /* 幅をフルに使う回る/ */
 }
 
 .tabs {
@@ -1549,7 +1555,8 @@ header {
   }
 
   .dq-title-word {
-    font-size: 2.0rem; /* モバイルはみ出し防止回る/ */
+    font-size: 2.0rem;
+    /* モバイルはみ出し防止回る/ */
     /* 1.8remから拡大 */
     filter: drop-shadow(2px 2px 0px #000);
     letter-spacing: 0.03em;
@@ -1562,7 +1569,8 @@ header {
   }
 
   .dq-title-row-main {
-    gap: 2px; /* モバイル幅確保回る/ */
+    gap: 2px;
+    /* モバイル幅確保回る/ */
     margin-bottom: -10px;
     /* スマホはギュッとしたままにする */
   }
@@ -1660,7 +1668,8 @@ header {
   gap: 0;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
   margin-bottom: 24px;
-  max-width: 400px;
+  width: 100%;
+  /* max-widthを解除して統一感を出す回る/ */
   margin-left: auto;
   margin-right: auto;
 }
