@@ -96,8 +96,8 @@ header {
   padding: 2px 0 20px 0;
   /* スマホと同様に上部を2pxに */
   width: 100%;
-  gap: 12px;
-  /* スマホと同様に12pxに */
+  gap: 20px;
+  /* 12pxから20pxへ拡大してボタンを少し下げる回る/ */
 }
 
 .app-title {
@@ -188,9 +188,8 @@ header {
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
   animation: bounce-monster-simple 3s ease-in-out infinite;
-  margin-top: -8px;
-  /* 垂直中央へ回る/ */
-  /* マージンを削除して中央揃えを優先 */
+  margin-top: 12px;
+  /* -8pxから12pxへ下げ、ロゴの中央付近に寄り添わせる回る/ */
 }
 
 #title-monster-right {
