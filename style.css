@@ -1562,11 +1562,9 @@ header {
 
   .controls {
     display: flex;
-    /* gridからflexに変更 */
     justify-content: center;
-    /* 中央寄せ */
-    gap: 3px;
-    /* 適度な密集感 */
+    gap: 8px;
+    /* 3pxから適度に広げて押しやすく調整 */
     width: 100%;
     margin: 0 auto;
   }
