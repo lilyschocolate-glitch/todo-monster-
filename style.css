@@ -88,12 +88,15 @@ body {
 /* ===== ヘッダー ===== */
 header {
   display: flex;
-  justify-content: space-between;
-  /* 左右配置に戻す */
+  flex-direction: column;
+  /* 2段構成に統一 */
   align-items: center;
-  padding: 12px 0 24px 0;
+  /* 中央寄せ */
+  padding: 8px 0 20px 0;
+  /* 上部余白を詰める */
   width: 100%;
-  gap: 20px;
+  gap: 16px;
+  /* 1段目と2段目の間隔 */
 }
 
 .app-title {
@@ -186,11 +189,14 @@ header {
 }
 
 .controls {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3px;
-  /* さらに詰める */
+  display: flex;
+  /* flexに変更 */
+  justify-content: center;
+  /* 中央寄せ */
+  gap: 12px;
+  /* 隙間を広げる */
   flex-shrink: 0;
+  width: 100%;
 }
 
 .controls button {
@@ -1563,8 +1569,8 @@ header {
   .controls {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    /* 3pxから適度に広げて押しやすく調整 */
+    gap: 12px;
+    /* PCと統一 */
     width: 100%;
     margin: 0 auto;
   }
