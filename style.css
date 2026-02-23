@@ -1639,8 +1639,24 @@ header {
     /* モバイルでも中央揃えを維持回る/ */
   }
 
+  .modal {
+    padding: 16px !important;
+    max-width: 95% !important;
+  }
+
   .playground-container {
     height: 220px;
+  }
+
+  .chat-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .chat-controls button {
+    margin: 0 !important;
   }
 
   /* ショップ画面のモバイル最適化 */
@@ -1650,15 +1666,29 @@ header {
   }
 
   .shop-item {
-    padding: 12px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    padding: 16px 12px !important;
+    gap: 12px;
+  }
+
+  .shop-item-info {
+    align-items: center !important;
   }
 
   .shop-item-name {
-    font-size: 0.9rem !important;
+    font-size: 0.95rem !important;
   }
 
   .shop-item-detail {
-    font-size: 0.7rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .drop-rates {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
   }
 
   #supporter-only-section {
