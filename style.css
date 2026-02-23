@@ -160,13 +160,13 @@ header {
 
 .logo-monster {
   width: 56px;
-  /* 48pxから拡大 */
   height: 56px;
-  /* 48pxから拡大 */
   z-index: 4;
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
   animation: bounce-monster-simple 3s ease-in-out infinite;
+  margin-top: 12px;
+  /* 位置を少し下げる */
 }
 
 #title-monster-right {
@@ -188,8 +188,8 @@ header {
 .controls {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  /* 10pxから短縮 */
+  gap: 3px;
+  /* さらに詰める */
   flex-shrink: 0;
 }
 
@@ -197,15 +197,12 @@ header {
   background: var(--surface-color);
   border: 1.5px solid var(--border-color);
   color: var(--text-main);
-  width: 36px;
-  /* 40pxから縮小 */
-  height: 36px;
-  /* 40pxから縮小 */
+  width: 42px;
+  /* 少し大きく戻す */
+  height: 42px;
   border-radius: 8px;
-  /* サイズに合わせて少し丸みを抑える */
   cursor: pointer;
-  font-size: 1rem;
-  /* 少し小さく */
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1554,23 +1551,27 @@ header {
   .logo-monster {
     width: 32px;
     height: 32px;
+    margin-top: 8px;
+    /* スマホでも位置を下げる */
   }
 
   .controls {
     grid-template-columns: repeat(6, 1fr);
     /* 6つ横並び */
-    gap: 4px;
+    gap: 3px;
+    /* さらに詰める */
     width: 100%;
     justify-items: center;
   }
 
   .controls button {
     width: 100%;
-    max-width: 32px;
+    max-width: 40px;
+    /* 小さすぎないよう調整 */
     aspect-ratio: 1 / 1;
     height: auto;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .char-section {
