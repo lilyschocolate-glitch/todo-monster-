@@ -92,11 +92,11 @@ header {
   /* 2段構成に統一 */
   align-items: center;
   /* 中央寄せ */
-  padding: 8px 0 20px 0;
-  /* 上部余白を詰める */
+  padding: 2px 0 20px 0;
+  /* スマホと同様に上部を2pxに */
   width: 100%;
-  gap: 16px;
-  /* 1段目と2段目の間隔 */
+  gap: 12px;
+  /* スマホと同様に12pxに */
 }
 
 .app-title {
@@ -129,7 +129,8 @@ header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: -10px;
+  /* スマホと同様に英語と日本語を密着させる */
 }
 
 .dq-title-word {
