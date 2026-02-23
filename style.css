@@ -1561,24 +1561,23 @@ header {
   }
 
   .controls {
-    grid-template-columns: repeat(6, 1fr);
-    /* 6つ横並び */
-    gap: 1px;
-    /* 極限まで詰める */
-    width: 95%;
-    /* 少し幅を絞って中央に寄せる */
-    justify-items: center;
+    display: flex;
+    /* gridからflexに変更 */
+    justify-content: center;
+    /* 中央寄せ */
+    gap: 3px;
+    /* 適度な密集感 */
+    width: 100%;
     margin: 0 auto;
   }
 
   .controls button {
-    width: 100%;
-    max-width: 36px;
-    /* さらに小さくして密集感を出す */
-    aspect-ratio: 1 / 1;
-    height: auto;
-    border-radius: 6px;
-    font-size: 1rem;
+    width: 40px;
+    /* サイズを固定し、広がりを防ぐ */
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
   }
 
   .char-section {
