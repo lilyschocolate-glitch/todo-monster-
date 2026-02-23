@@ -392,7 +392,7 @@ function renderItemGrid(type) {
                 playground.setConfig(data.customization);
                 saveData(data);
                 renderItemGrid(type);
-                alert(`${item.name}に着せ替えました！`);
+                alert(`はこにわを${item.name}に着せ替えました！`);
             } else if (type === 'furniture') {
                 if (placedCount < ownedCount) {
                     const newFurniture = {
