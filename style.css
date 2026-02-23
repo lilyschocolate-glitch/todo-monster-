@@ -165,8 +165,8 @@ header {
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
   animation: bounce-monster-simple 3s ease-in-out infinite;
-  margin-top: 12px;
-  /* 位置を少し下げる */
+  margin-top: 20px;
+  /* タイトルの中心に合わせる */
 }
 
 #title-monster-right {
@@ -1551,8 +1551,8 @@ header {
   .logo-monster {
     width: 32px;
     height: 32px;
-    margin-top: 8px;
-    /* スマホでも位置を下げる */
+    margin-top: 14px;
+    /* スマホでも位置を中心へ */
   }
 
   .controls {
