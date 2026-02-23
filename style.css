@@ -128,15 +128,17 @@ header {
 .dq-title-row-main {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-  /* -10pxから広げてゆとりを持たせる */
+  /* 垂直中央揃え */
+  gap: 16px;
+  /* モンスターとテキストの距離を少し広げてイメージに合わせる */
+  margin-bottom: 2px;
+  /* 負のマージンをやめて、適度な近さに戻す */
 }
 
 .dq-title-word {
   font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 2.2rem;
-  /* 3.2remから縮小して1行に収める */
+  font-size: 2.8rem;
+  /* 少し大きくしつつ1行を維持 */
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -145,7 +147,8 @@ header {
   filter: drop-shadow(4px 4px 0px #000);
   transform: scaleY(1.1);
   letter-spacing: 0.05em;
-  line-height: 0.85;
+  line-height: 1;
+  /* 行の高さを正常化 */
   white-space: nowrap;
   /* 1行を保証 */
   display: block;
@@ -168,9 +171,8 @@ header {
 }
 
 .logo-monster {
-  width: 44px;
-  /* 56pxから小型化 */
-  height: 44px;
+  width: 56px;
+  height: 56px;
   z-index: 4;
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
@@ -1561,15 +1563,19 @@ header {
 
   .dq-title-row-main {
     gap: 6px;
-    margin-bottom: -4px;
-    /* 極端な負のマージンを緩和 */
+    margin-bottom: -10px;
+    /* スマホはギュッとしたままにする */
+  }
+
+  .dq-title-word {
+    font-size: 2.2rem;
   }
 
   .logo-monster {
     width: 32px;
     height: 32px;
-    margin-top: 0;
-    /* スマホでも中央揃え */
+    margin-top: 32px;
+    /* スマホは日本語の位置まで下げたままにする */
   }
 
   .controls {
