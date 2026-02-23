@@ -77,8 +77,8 @@ body {
 
 #app {
   width: 100%;
-  max-width: 480px;
-  /* 全体を少し広げてバランス調整回る/ */
+  max-width: 100%;
+  /* 基本は100%回る/ */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -135,6 +135,13 @@ header {
   /* モンスターとテキストの距離を少し広げてイメージに合わせる */
   margin-bottom: 2px;
   /* 負のマージンをやめて、適度な近さに戻す */
+}
+
+/* PC向けの上限回る/ */
+@media (min-width: 520px) {
+  #app {
+    max-width: 100%;
+  }
 }
 
 .dq-title-word {
@@ -216,6 +223,7 @@ header {
   /* スマホでボタンが入り切らない場合に折り返す回る/ */
   max-width: 100%;
   /* はみ出し防止回る/ */
+  box-sizing: border-box;
 }
 
 .controls button {
@@ -1514,10 +1522,6 @@ header {
   filter: grayscale(1);
 }
 
-.dex-card.undiscovered .dex-card-name {
-  visibility: hidden;
-}
-
 .dex-card.rare-card {
   border-color: #fbbf24;
   background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
@@ -1559,8 +1563,8 @@ header {
     overflow-x: hidden;
     /* 強制的に横スクロールを禁止回る/ */
     width: 100%;
-    max-width: 100vw;
-    /* 画面幅を絶対に超えない回る/ */
+    max-width: 100%;
+    /* もとの100vwから修正回る/ */
   }
 
   header {
