@@ -1527,8 +1527,10 @@ header {
   header {
     flex-direction: column;
     align-items: center;
-    padding: 12px 10px;
-    gap: 16px;
+    padding: 2px 10px 12px 10px;
+    /* 上部を2pxに大幅削減 */
+    gap: 12px;
+    /* ボタンとの距離も少し詰める */
   }
 
   .dq-title-word {
@@ -1546,8 +1548,8 @@ header {
 
   .dq-title-row-main {
     gap: 6px;
-    margin-bottom: -2px;
-    /* 英語と日本語の距離を詰める */
+    margin-bottom: -10px;
+    /* 英語のすぐ下に日本語がくるよう大幅に詰める */
   }
 
   .logo-monster {
