@@ -81,8 +81,7 @@ body {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  /* 16pxから縮小してセクション間を詰める */
+  gap: 16px;
   padding-bottom: 60px;
 }
 
@@ -93,8 +92,8 @@ header {
   /* 2段構成に統一 */
   align-items: center;
   /* 中央寄せ */
-  padding: 2px 0 8px 0;
-  /* 下部余白を20pxから8pxに大幅削減 */
+  padding: 2px 0 20px 0;
+  /* スマホと同様に上部を2pxに */
   width: 100%;
   gap: 12px;
   /* スマホと同様に12pxに */
@@ -130,7 +129,7 @@ header {
   display: flex;
   align-items: center;
   /* 垂直中央揃え */
-  gap: 16px;
+  gap: 12px; /* PCのみ微調整回る/ */
   /* モンスターとテキストの距離を少し広げてイメージに合わせる */
   margin-bottom: 2px;
   /* 負のマージンをやめて、適度な近さに戻す */
@@ -148,7 +147,7 @@ header {
   filter: drop-shadow(4px 4px 0px #000);
   transform: scaleY(1.1);
   letter-spacing: 0.05em;
-  line-height: 1;
+  line-height: 1.1; /* 垂直方向の余裕を持たせる回る/ */
   /* 行の高さを正常化 */
   white-space: nowrap;
   /* 1行を保証 */
@@ -172,15 +171,13 @@ header {
 }
 
 .logo-monster {
-  width: 42px;
-  /* 56pxから小型化 */
-  height: 42px;
-  /* 56pxから小型化 */
+  width: 56px;
+  height: 56px;
   z-index: 4;
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
   animation: bounce-monster-simple 3s ease-in-out infinite;
-  margin-top: 0;
+  margin-top: -8px; /* 垂直中央へ回る/ */
   /* マージンを削除して中央揃えを優先 */
 }
 
@@ -245,8 +242,8 @@ header {
 .char-section {
   background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #fef3c7 100%);
   border-radius: var(--radius-lg);
-  padding: 24px 24px 20px;
-  /* 上部パディングを40pxから24pxに削減 */
+  padding: 40px 24px 20px;
+  /* 上部パディング増加 */
   text-align: center;
   position: relative;
   box-shadow: var(--shadow-md);
@@ -1540,19 +1537,19 @@ header {
 
   #app {
     gap: 12px;
-    /* スマホ版の元のゆとりを維持 */
   }
 
   header {
     flex-direction: column;
     align-items: center;
     padding: 2px 10px 12px 10px;
-    /* スマホ版の下部余白(12px)を維持 */
+    /* 上部を2pxに大幅削減 */
     gap: 12px;
+    /* ボタンとの距離も少し詰める */
   }
 
   .dq-title-word {
-    font-size: 2.2rem;
+    font-size: 2.0rem; /* モバイルはみ出し防止回る/ */
     /* 1.8remから拡大 */
     filter: drop-shadow(2px 2px 0px #000);
     letter-spacing: 0.03em;
@@ -1565,7 +1562,7 @@ header {
   }
 
   .dq-title-row-main {
-    gap: 6px;
+    gap: 2px; /* モバイル幅確保回る/ */
     margin-bottom: -10px;
     /* スマホはギュッとしたままにする */
   }

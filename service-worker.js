@@ -1,9 +1,9 @@
-const CACHE_NAME = 'todomonster-pwa-v1';
+const CACHE_NAME = 'todomonster-pwa-v4';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './style.css',
-    './icon.svg',
+    './icon-v4.svg',
     './src/ui.js',
     './src/store.js',
     './src/todo.js',

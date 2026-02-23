@@ -3,14 +3,20 @@
     "short_name": "やるモン",
     "start_url": "./index.html",
     "display": "standalone",
-    "background_color": "#0f172a",
-    "theme_color": "#0f172a",
+    "background_color": "#e0f2fe",
+    "theme_color": "#6366f1",
     "description": "やることを達成するたびにモンスターが進化する育成Webアプリ",
     "icons": [
         {
-            "src": "./icon.svg?v=2",
+            "src": "./icon-v4.svg",
             "sizes": "192x192 512x512",
             "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./icon-v4.png",
+            "sizes": "512x512",
+            "type": "image/png",
             "purpose": "any maskable"
         }
     ]

@@ -58,16 +58,7 @@ export function initUI() {
     playground.setCharacters(data.character, allBoxMembers);
     playground.setConfig(data.customization);
 
-    // タイトルロゴのモンスター描画（左: やさしいハナ, 右: はしゃぐイヌコ）
-    const leftCanvas = document.getElementById('title-monster-left');
-    const rightCanvas = document.getElementById('title-monster-right');
-    if (leftCanvas && rightCanvas) {
-        const leftCtx = leftCanvas.getContext('2d');
-        const rightCtx = rightCanvas.getContext('2d');
-        // MONSTERS配列からIDで直接検索して描画（getMonsterSpecを経由しない）
-        drawMonster(leftCtx, { name: 'kid_kind' }, 0);    // やさしいハナ
-        drawMonster(rightCtx, { name: 'kid_active' }, 0);  // はしゃぐイヌコ
-    }
+    // タイトルロゴのモンスター描画などは startAnimation() 内のループで制御回る/
 
     // 初回起動時: 名前が未設定または空ならモーダル表示（少し遅らせて確実に）
     if (!data.ownerName || data.ownerName.trim() === '') {
@@ -223,6 +214,14 @@ function startAnimation() {
             } else {
                 drawNpcMonster(npcCtx, animFrame);
             }
+        }
+
+        // タイトルロゴのモンスター描画
+        const leftCanvas = document.getElementById('title-monster-left');
+        const rightCanvas = document.getElementById('title-monster-right');
+        if (leftCanvas && rightCanvas) {
+            drawMonster(leftCanvas.getContext('2d'), { name: 'kid_kind' }, animFrame);
+            drawMonster(rightCanvas.getContext('2d'), { name: 'kid_active' }, animFrame);
         }
 
         animRAF = requestAnimationFrame(tick);
