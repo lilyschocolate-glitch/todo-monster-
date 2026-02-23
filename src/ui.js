@@ -380,7 +380,7 @@ function renderItemGrid(type) {
 
         cell.innerHTML = `
             <div class="item-icon">${item.icon}</div>
-            <div class="item-name" style="font-size:10px; margin-top:4px;">${item.name}</div>
+            <div class="item-name">${item.name}</div>
             <div class="item-count">${displayCount}</div>
         `;
 
