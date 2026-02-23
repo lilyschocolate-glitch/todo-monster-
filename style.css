@@ -1820,7 +1820,8 @@ header {
 
 .item-count {
   position: absolute;
-  bottom: 2px;
+  top: 4px;
+  /* bottom: 2pxからtop: 4pxへ移動回る/ */
   right: 4px;
   font-size: 0.65rem;
   font-weight: 700;
@@ -2005,6 +2006,8 @@ header {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   transition: all 0.2s;
   font-size: 0.85rem;
+  margin-bottom: 24px;
+  /* とじるボタンとの間隔を広げる回る/ */
 }
 
 .clear-btn:hover {
