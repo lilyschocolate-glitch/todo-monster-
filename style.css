@@ -140,7 +140,7 @@ header {
 /* PC向けの上限回る/ */
 @media (min-width: 520px) {
   #app {
-    max-width: 100%;
+    max-width: 480px;
   }
 }
 
