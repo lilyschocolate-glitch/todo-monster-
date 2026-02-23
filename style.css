@@ -159,8 +159,10 @@ header {
 }
 
 .logo-monster {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  /* 48pxから拡大 */
+  height: 56px;
+  /* 48pxから拡大 */
   z-index: 4;
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
@@ -186,7 +188,8 @@ header {
 .controls {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 6px;
+  /* 10pxから短縮 */
   flex-shrink: 0;
 }
 
@@ -194,11 +197,15 @@ header {
   background: var(--surface-color);
   border: 1.5px solid var(--border-color);
   color: var(--text-main);
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 36px;
+  /* 40pxから縮小 */
+  height: 36px;
+  /* 40pxから縮小 */
+  border-radius: 8px;
+  /* サイズに合わせて少し丸みを抑える */
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  /* 少し小さく */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1545,25 +1552,25 @@ header {
   }
 
   .logo-monster {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
   }
 
   .controls {
     grid-template-columns: repeat(6, 1fr);
     /* 6つ横並び */
-    gap: 6px;
+    gap: 4px;
     width: 100%;
     justify-items: center;
   }
 
   .controls button {
     width: 100%;
-    max-width: 44px;
+    max-width: 32px;
     aspect-ratio: 1 / 1;
     height: auto;
-    border-radius: 8px;
-    font-size: 1.1rem;
+    border-radius: 6px;
+    font-size: 1rem;
   }
 
   .char-section {
