@@ -1114,7 +1114,7 @@ function renderStatus() {
     else branchEl.style.display = 'none';
     const progress = getExpProgress(data.character);
     document.getElementById('exp-bar-fill').style.width = `${progress * 100}%`;
-    const remainingTasks = Math.ceil(getExpToNext(data.character) / 10);
+    const remainingTasks = Math.ceil(getExpToNext(data.character) / EXP_PER_TASK);
     document.getElementById('exp-text').textContent = data.character.level >= 10 ? 'MAX!' : `あと${remainingTasks}タスクで進化`;
 
     // 図鑑番号表示（非表示に変更）

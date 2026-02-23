@@ -64,7 +64,7 @@ export function getExpProgress(character) {
 export function addExp(char, personality, amount = EXP_PER_TASK) {
     // ... (既存ロジックだが、進化時の名前決定を簡素化)
     const updated = { ...char };
-    updated.exp += amount;
+    updated.exp = (Number(updated.exp) || 0) + amount;
 
     let evolved = false;
     let newStageName = null;

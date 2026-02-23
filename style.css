@@ -17,6 +17,8 @@
   --border-color: #e2e8f0;
   --success-color: #22c55e;
   --danger-color: #ef4444;
+  --accent-color: #a855f7;
+  /* 明るいパープルをアクセントに採用 */
   --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --radius-lg: 20px;
@@ -32,18 +34,8 @@ body.theme-grass {
 }
 
 /* 柔らかい草色（デフォルト） */
-/* 晴れた空色（デフォルト） */
 body.theme-sky {
-  --bg-color-1: #e0f2fe;
-  /* Sky */
-  --bg-color-2: #fae8ff;
-  /* Soft Purple */
-  --bg-color-3: #fef3c7;
-  /* Warm Amber */
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --surface-color: rgba(255, 255, 255, 0.9);
-  --border-color: #e2e8f0;
+  --bg-color: #e0f2fe;
 }
 
 /* 晴れた空色 */
@@ -58,17 +50,9 @@ body.theme-sakura {
 
 /* 淡い桜色 */
 body.theme-night {
-  --bg-color-1: #0f172a;
-  /* 深い紺 */
-  --bg-color-2: #1e1b4b;
-  /* 濃い紫 */
-  --bg-color-3: #020617;
-  /* ほぼ黒 */
+  --bg-color: #1e293b;
   --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --surface-color: rgba(30, 41, 59, 0.8);
-  --border-color: #334155;
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --surface-color: #334155;
 }
 
 /* 夜空とダークモード */
@@ -82,8 +66,8 @@ body.theme-night {
 body {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   color: var(--text-main);
-  background: var(--bg-color-1);
-  /* 単色 */
+  background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 50%, var(--bg-color-3) 100%);
+  background-attachment: fixed;
   line-height: 1.6;
   display: flex;
   justify-content: center;
@@ -105,16 +89,17 @@ body {
 header {
   display: flex;
   justify-content: space-between;
+  /* 左右配置に戻す */
   align-items: center;
   padding: 12px 0 24px 0;
   width: 100%;
+  gap: 20px;
 }
 
 .app-title {
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  /* 左寄せに戻す */
   user-select: none;
 }
 
@@ -131,39 +116,43 @@ header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* 左寄せに戻す */
+  /* 左揃えに変更 */
   line-height: 1;
   z-index: 2;
   position: relative;
 }
 
-.dq-title-main-row {
+.dq-title-row-top {
   display: flex;
   align-items: center;
-  gap: 8px;
-  /* モンスターと文字の距離 */
+  gap: 12px;
+  /* 少し詰める */
   margin-bottom: 2px;
-  justify-content: center;
-  /* 子要素（ロゴとモンスター）の塊を中央に */
 }
 
-/* モンスターをロゴの両端に配置するため、古いコンテナ用スタイルを削除 */
+.dq-title-monsters {
+  display: flex;
+  gap: 4px;
+  /* モンスター同士をさらに近づける */
+  align-items: center;
+}
 
 .dq-title-word {
   font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 2.1rem;
-  /* 1段にするためサイズを適正化 */
+  font-size: 4.2rem;
   background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px #000;
-  filter: drop-shadow(3px 3px 0px #000);
+  -webkit-text-stroke: 1.5px #000;
+  filter: drop-shadow(4px 4px 0px #000);
   transform: scaleY(1.1);
-  letter-spacing: 0.01em;
-  line-height: 1;
-  white-space: nowrap;
-  /* 改行禁止 */
+  letter-spacing: 0.02em;
+  line-height: 0.85;
+}
+
+.dq-title-monster-word {
+  margin-bottom: 12px;
 }
 
 .dq-title-sub {
@@ -171,21 +160,19 @@ header {
   font-size: 0.95rem;
   color: #fff;
   background: #000;
-  padding: 2px 14px;
+  padding: 3px 14px;
   border-radius: 4px;
   font-weight: 700;
   letter-spacing: 0.15em;
   z-index: 3;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  margin-top: -6px;
-  align-self: center;
-  /* 親 container に対して中央配置 */
+  margin-top: 0px;
+  /* 余白を戻して密接させる */
 }
 
 .logo-monster {
-  width: 36px;
-  /* 48px -> 36px に小型化 */
-  height: 36px;
+  width: 48px;
+  height: 48px;
   z-index: 4;
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
@@ -211,24 +198,22 @@ header {
 .controls {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* 3x2配置に戻す */
   gap: 10px;
   flex-shrink: 0;
-  margin-left: auto;
-  /* 右隅に吸着させる */
 }
 
 .controls button {
   background: var(--surface-color);
   border: 1.5px solid var(--border-color);
   color: var(--text-main);
-  width: 44px;
-  /* 56px -> 44px に小型化 */
-  height: 44px;
+  width: 56px;
+  /* さらに大型化 */
+  height: 56px;
   border-radius: 50%;
+  /* 丸型に戻す */
   cursor: pointer;
-  font-size: 1.2rem;
-  /* フォントも少し縮小 */
+  font-size: 1.4rem;
+  /* フォントも大きく */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,6 +369,7 @@ header {
 }
 
 .exp-bar-fill {
+  background: var(--primary-color);
   background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
   height: 100%;
   border-radius: 999px;
@@ -897,21 +883,22 @@ header {
 }
 
 #chat-trigger-btn {
-  background: white;
-  border: 1px solid var(--border-color);
-  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  border: none;
+  padding: 8px 28px;
   border-radius: 999px;
-  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--text-main);
   cursor: pointer;
-  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 0.85rem;
   font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 #chat-trigger-btn:hover {
-  background: var(--primary-light);
-  border-color: var(--primary-color);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 
 #chat-trigger-btn:active {
@@ -1553,39 +1540,34 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-top: 8px;
-    gap: 2px;
+    gap: 8px;
   }
 
   .dq-title-word {
-    font-size: 1.4rem;
-    /* スマホで1行に収まる究極のサイズ */
-    filter: drop-shadow(2px 2px 0px #000);
+    font-size: 2.2rem;
+    filter: drop-shadow(3px 3px 0px #000);
   }
 
   .dq-logo-container {
     padding: 0;
-    transform: perspective(400px) rotateX(4deg) rotateY(-2deg) scale(0.9);
+    transform: perspective(400px) rotateX(4deg) rotateY(-2deg) scale(0.85);
     transform-origin: left center;
   }
 
   .dq-title-row-top {
-    gap: 6px;
+    gap: 8px;
   }
 
   .logo-monster {
-    width: 26px;
-    height: 26px;
-  }
-
-  .controls {
-    gap: 6px;
+    width: 28px;
+    height: 28px;
   }
 
   .controls button {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .char-section {
