@@ -1546,13 +1546,16 @@ header {
 
   .dq-title-row-main {
     gap: 6px;
+    margin-bottom: -2px;
+    /* 英語と日本語の距離を詰める */
   }
 
   .logo-monster {
     width: 32px;
     height: 32px;
-    margin-top: 24px;
-    /* 14pxからさらに下げて日本語の位置へ */
+    margin-top: 32px;
+    /* さらに下げて日本語のラインに合わせる */
+    /* 24pxからさらに下げて日本語の位置へ */
   }
 
   .controls {
