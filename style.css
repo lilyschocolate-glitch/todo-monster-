@@ -129,8 +129,8 @@ header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: -10px;
-  /* スマホと同様に英語と日本語を密着させる */
+  margin-bottom: 4px;
+  /* -10pxから広げてゆとりを持たせる */
 }
 
 .dq-title-word {
@@ -168,8 +168,9 @@ header {
 }
 
 .logo-monster {
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  /* 56pxから小型化 */
+  height: 44px;
   z-index: 4;
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
