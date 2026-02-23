@@ -147,7 +147,9 @@ header {
   letter-spacing: 0.05em;
   line-height: 0.85;
   white-space: nowrap;
-  /* 折り返し禁止 */
+  /* 1行を保証 */
+  display: block;
+  /* 改行を防ぐためのブロック化 */
 }
 
 .dq-title-sub {
@@ -172,8 +174,8 @@ header {
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
   animation: bounce-monster-simple 3s ease-in-out infinite;
-  margin-top: 36px;
-  /* 20pxからさらに下げて日本語の位置へ */
+  margin-top: 0;
+  /* マージンを削除して中央揃えを優先 */
 }
 
 #title-monster-right {
@@ -1558,16 +1560,15 @@ header {
 
   .dq-title-row-main {
     gap: 6px;
-    margin-bottom: -10px;
-    /* 英語のすぐ下に日本語がくるよう大幅に詰める */
+    margin-bottom: -4px;
+    /* 極端な負のマージンを緩和 */
   }
 
   .logo-monster {
     width: 32px;
     height: 32px;
-    margin-top: 32px;
-    /* さらに下げて日本語のラインに合わせる */
-    /* 24pxからさらに下げて日本語の位置へ */
+    margin-top: 0;
+    /* スマホでも中央揃え */
   }
 
   .controls {
