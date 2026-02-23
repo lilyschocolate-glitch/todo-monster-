@@ -81,7 +81,8 @@ body {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  /* 16pxから縮小してセクション間を詰める */
   padding-bottom: 60px;
 }
 
@@ -92,8 +93,8 @@ header {
   /* 2段構成に統一 */
   align-items: center;
   /* 中央寄せ */
-  padding: 2px 0 20px 0;
-  /* スマホと同様に上部を2pxに */
+  padding: 2px 0 8px 0;
+  /* 下部余白を20pxから8pxに大幅削減 */
   width: 100%;
   gap: 12px;
   /* スマホと同様に12pxに */
@@ -171,8 +172,10 @@ header {
 }
 
 .logo-monster {
-  width: 56px;
-  height: 56px;
+  width: 42px;
+  /* 56pxから小型化 */
+  height: 42px;
+  /* 56pxから小型化 */
   z-index: 4;
   filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
   image-rendering: pixelated;
@@ -242,8 +245,8 @@ header {
 .char-section {
   background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #fef3c7 100%);
   border-radius: var(--radius-lg);
-  padding: 40px 24px 20px;
-  /* 上部パディング増加 */
+  padding: 24px 24px 20px;
+  /* 上部パディングを40pxから24pxに削減 */
   text-align: center;
   position: relative;
   box-shadow: var(--shadow-md);
@@ -1537,15 +1540,15 @@ header {
 
   #app {
     gap: 12px;
+    /* スマホ版の元のゆとりを維持 */
   }
 
   header {
     flex-direction: column;
     align-items: center;
     padding: 2px 10px 12px 10px;
-    /* 上部を2pxに大幅削減 */
+    /* スマホ版の下部余白(12px)を維持 */
     gap: 12px;
-    /* ボタンとの距離も少し詰める */
   }
 
   .dq-title-word {
