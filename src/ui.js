@@ -557,7 +557,11 @@ function grantRandomRewards(mCount, bCount, fCount) {
     ];
 
     categories.forEach(cat => {
-        let itemsOfCategory = Object.values(ITEMS).filter(i => i.type === cat.type);
+        let itemsOfCategory = Object.values(ITEMS).filter(i => {
+            // 初期背景 (bg_default) は報酬から除外
+            if (i.id === 'bg_default') return false;
+            return i.type === cat.type;
+        });
         // 重複なしで選ぶため、配列をシャッフルして必要な数だけ取る
         const shuffled = [...itemsOfCategory].sort(() => Math.random() - 0.5);
         const selected = shuffled.slice(0, cat.count);
