@@ -505,7 +505,7 @@ async function handlePurchase(planId) {
     if (confirm('購入ページ（Stripe）へ移動しますか？')) {
         // Stripe URLへリダイレクト
         const url = STRIPE_URLS[planId];
-        if (url && !url.includes('test_')) {
+        if (url && (url.startsWith('https://buy.stripe.com') || url.startsWith('https://test.buy.stripe.com'))) {
             window.location.href = url;
         } else {
             // テストURLまたは未設定の場合はシミュレーション（開発用）
