@@ -25,6 +25,7 @@ const CHAT_EXPANDED_COUNT = 30;
 
 /** メインの初期化 */
 export function initUI() {
+    console.log("Todo Monster UI v13.1 (Test Mode) initialized");
     data = loadData();
     window.todoMonsterData = data; // 追加
     data = processDailyReset(data);
@@ -1709,6 +1710,7 @@ function escapeHtml(text) {
 /** 決済リダイレクト成功の検知 */
 function checkPaymentSuccess() {
     const params = new URLSearchParams(window.location.search);
+    console.log("Checking payment status:", window.location.search);
     if (params.get('payment') === 'success') {
         const planId = params.get('plan');
         if (planId) {
