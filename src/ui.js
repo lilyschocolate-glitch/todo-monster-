@@ -495,11 +495,10 @@ function giveReward(isVip = false) {
 // --- Stripe Payment Links 設定 (ユーザー様で書き換えてください) ---
 const STRIPE_URLS = {
     starter: 'https://buy.stripe.com/test_14A8wR4ZT7y8gWf3IL77O00',
-    standard: 'https://buy.stripe.com/6oU5kFboh3hScFZcfh77O02',
-    premium: 'https://buy.stripe.com/eVqdRb4ZTdWwfSbcfh77O03',
-    special: 'https://buy.stripe.com/7sY3cx2RLg4E6hB6UX77O04'
+    standard: 'https://buy.stripe.com/test_14A3cxakd4lW0Xhfrt77O01',
+    premium: 'https://buy.stripe.com/test_6oU5kFboh3hScFZcfh77O02',
+    special: 'https://buy.stripe.com/test_eVqdRb4ZTdWwfSbcfh77O03'
 };
-
 /** 購入処理 */
 async function handlePurchase(planId) {
     if (confirm('購入ページ（Stripe）へ移動しますか？')) {
