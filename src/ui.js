@@ -71,8 +71,12 @@ export function initUI() {
     playground.startAutoChatLoop(handleAutoChat);
 
     // 決済完了のチェック
-    checkPaymentStatus();
+    // // checkPaymentStatus();
 }
+
+window.closeAllModals = closeAllModals;
+window.handlePurchase = handlePurchase;
+window.openModal = openModal;
 
 /** 決済完了をURLパラメータからチェック */
 function checkPaymentStatus() {
