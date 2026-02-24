@@ -1959,49 +1959,6 @@ header {
   margin-bottom: 12px;
 }
 
-.ad-section {
-  background: rgba(99, 102, 241, 0.05);
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 24px;
-  border: 1px dashed var(--primary-color);
-}
-
-.drop-rates {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 12px 0;
-  background: white;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-}
-
-.drop-rate-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.drop-rate-item span:last-child {
-  color: var(--primary-color);
-  font-size: 0.85rem;
-}
-
-.ad-btn {
-  background: #f59e0b;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-}
 
 .purchase-section h3 {
   margin-bottom: 16px;
@@ -2199,42 +2156,6 @@ header {
   font-weight: 700;
 }
 
-/* 広告オーバーレイ */
-.ad-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 2000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
-.ad-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.ad-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-
-.ad-timer {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
 
 /* Final Polishing Fixes */
 .share-preview,

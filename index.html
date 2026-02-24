@@ -268,18 +268,9 @@
   <!-- ショップ・広告モーダル -->
   <div id="shop-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2>💎 ショップ & 広告</h2>
+    <h2>💎 ショップ</h2>
     <div class="shop-content">
-      <div class="ad-section">
-        <h3>📹 動画を見てGET</h3>
-        <p class="shop-desc">30秒の動画を視聴すると、ランダムで報酬がもらえるよ！</p>
-        <div class="drop-rates">
-          <div class="drop-rate-item"><span>🪑 家具</span><span>60%</span></div>
-          <div class="drop-rate-item"><span>🖼️ 背景</span><span>30%</span></div>
-          <div class="drop-rate-item"><span>🧪 伝説素材</span><span>10%</span></div>
-        </div>
-        <button id="ad-watch-btn" class="ad-btn" disabled style="opacity:0.6; cursor:not-allowed;">準備中</button>
-      </div>
+      <!-- 広告セクションは完全に廃止 -->
       <div class="purchase-section">
         <h3>💰 直接購入</h3>
         <div class="shop-grid">
@@ -304,7 +295,7 @@
           <div class="shop-item premium">
             <div class="shop-item-info">
               <span class="shop-item-name">👑 とくべつパック</span>
-              <p class="shop-item-detail">動画視聴なしで即報酬獲得！</p>
+              <p class="shop-item-detail">【VIP特典】進化するたびにランダムアイテム獲得！</p>
             </div>
             <button class="buy-btn" data-plan="premium" onclick="handlePurchase('premium')">¥2,980</button>
           </div>
@@ -318,18 +309,7 @@
             <button class="buy-btn" data-plan="special" onclick="handlePurchase('special')">¥12,800</button>
           </div>
 
-          <!-- 広告セクションは準備中に統合済み -->
-
-          <!-- 広告セクション (Google AdSenseユニット) 許可が下りるまで非表示 -->
-          <div id="ad-container" class="ad-container"
-            style="margin-top:20px; text-align:center; min-height:100px; display:none;">
-            <p style="font-size: 10px; color: #9ca3af; margin-bottom: 4px;">スポンサーリンク</p>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3415951226156980"
-              data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
+          <!-- 広告・AdSenseセクションは廃止 -->
 
           <!-- サポーター専用セクション -->
           <div id="supporter-only-section"
@@ -344,12 +324,7 @@
     <button class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
-  <!-- 広告視聴中オーバーレイ -->
-  <div id="ad-overlay" class="ad-overlay">
-    <div class="ad-spinner"></div>
-    <div id="ad-timer" class="ad-timer">30</div>
-    <p>広告を視聴中...</p>
-  </div>
+  <!-- 広告視聴オーバーレイは廃止 -->
 
   <!-- 進化演出オーバーレイ -->
   <div id="evolution-overlay" class="evolution-overlay">
@@ -360,7 +335,7 @@
   <!-- Google AdSense (ユーザー様で data-ad-client を書き換えてください) -->
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 
-  <script type="module" src="./src/main.js?v=21"></script>
+  <script type="module" src="./src/main.js?v=22"></script>
 </body>
 
 </html>

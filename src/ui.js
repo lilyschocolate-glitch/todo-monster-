@@ -42,14 +42,6 @@ export function initUI() {
     checkPaymentSuccess();
     renderPersonality();
 
-    // VIP特典: 広告枠を非表示にする
-    if (data.isVip) {
-        const adContainer = document.getElementById('ad-container');
-        if (adContainer) adContainer.style.display = 'none';
-        const adWatchBtn = document.getElementById('ad-watch-btn');
-        if (adWatchBtn) adWatchBtn.style.display = 'none';
-    }
-
     // アニメーション開始
     startAnimation();
     updateMuteButton();
@@ -450,31 +442,6 @@ function renderItemGrid(type) {
     });
 }
 
-// 広告視聴（モック）
-async function watchAd() {
-    // VIPパス保持者は広告なしで報酬獲得
-    if (data.isVip) {
-        giveReward(true);
-        return;
-    }
-
-    const overlay = document.getElementById('ad-overlay');
-    const timer = document.getElementById('ad-timer');
-    overlay.classList.add('show');
-
-    let count = 3; // テスト用に3秒に短縮（本番は30）
-    timer.innerText = count;
-
-    const interval = setInterval(() => {
-        count--;
-        timer.innerText = count;
-        if (count <= 0) {
-            clearInterval(interval);
-            overlay.classList.remove('show');
-            giveReward();
-        }
-    }, 1000);
-}
 
 function giveReward(isVip = false) {
     // カテゴリ別の抽選 (家具:60%, 背景:30%, 素材:10%)
@@ -490,7 +457,7 @@ function giveReward(isVip = false) {
     saveData(data);
 
     const typeLabels = { material: '🧪伝説素材', background: '🖼️背景', furniture: '🪑家具' };
-    const msg = isVip ? `👑 VIP特典！広告なしで「${reward.name}」(${typeLabels[type]})を手に入れたよ！` : `おめでとう！報酬として「${reward.name}」(${typeLabels[type]})を手に入れたよ！ 🎁`;
+    const msg = isVip ? `👑 VIP特典！進化おめでとう！「${reward.name}」(${typeLabels[type]})を手に入れたよ！` : `おめでとう！報酬として「${reward.name}」(${typeLabels[type]})を手に入れたよ！ 🎁`;
     alert(msg);
     renderItemGrid(document.querySelector('.item-tab.active')?.dataset.type || 'material');
 }
@@ -742,7 +709,6 @@ function setupEventListeners() {
     // バックパック・ショップ
     document.getElementById('backpack-btn').addEventListener('click', openBackpackModal);
     document.getElementById('shop-btn').addEventListener('click', () => openModal('shop-modal'));
-    document.getElementById('ad-watch-btn').addEventListener('click', watchAd);
 
     // 購入ボタン（データ属性を使う）
     document.querySelectorAll('.buy-btn[data-plan]').forEach(btn => {
@@ -1077,6 +1043,11 @@ function completeTodo(id) {
             // 進化後のスペックを渡してキャラ描画付きエフェクト
             const newSpec = getMonsterSpec(data.character.name, data.character.level, data.character.branch);
             playEvolutionEffectUI(newSpec.displayName, newSpec);
+
+            // VIP特典: 進化時に報酬付与
+            if (data.isVip) {
+                setTimeout(() => giveReward(true), 1500);
+            }
         }
     }, 500);
 }
