@@ -25,7 +25,7 @@ const CHAT_EXPANDED_COUNT = 30;
 
 /** メインの初期化 */
 export function initUI() {
-    console.log("Todo Monster UI v18.0 (Production Mode) initialized");
+    console.log("Todo Monster UI v20.0 (Production Mode) initialized");
     data = loadData();
     window.todoMonsterData = data; // 追加
     data = processDailyReset(data);
