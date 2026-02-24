@@ -643,8 +643,7 @@ function showSecretLog() {
 }
 
 // シェア閉じるボタン
-const shareCloseBtn = document.getElementById('share-close-btn');
-if (shareCloseBtn) shareCloseBtn.addEventListener('click', () => closeAllModals());
+// (インライン onclick="closeAllModals()" で制御)
 
 // --- イベント設定 ---
 
@@ -690,7 +689,7 @@ function setupEventListeners() {
         closeAllModals();
         updateApiStatus();
     });
-    document.getElementById('api-cancel-btn').addEventListener('click', () => closeAllModals());
+    // キャンセルボタンはインライン onclick で制御
 
     document.getElementById('reset-btn').addEventListener('click', () => {
         if (confirm('【※警告※】\n全データを完全に消去しますか？\n購入したアイテム、図鑑、ショップの権利もすべて失われ、最初からのスタートになります。\nこの操作は取り消せません。')) {
@@ -768,7 +767,7 @@ function setupEventListeners() {
     const friendImportBtn = document.getElementById('friend-import-btn');
     if (friendImportBtn) friendImportBtn.addEventListener('click', importFriend);
 
-    document.getElementById('friend-cancel-btn').addEventListener('click', () => closeAllModals());
+    // キャンセルボタンはインライン onclick で制御
 
     document.getElementById('mute-btn').addEventListener('click', () => {
         const muted = toggleMute();
@@ -780,14 +779,14 @@ function setupEventListeners() {
         renderHistoryModal();
         openModal('history-modal');
     });
-    document.getElementById('history-close-btn').addEventListener('click', () => closeAllModals());
+    // 閉じるボタンはインライン onclick で制御
 
     // 図鑑
     document.getElementById('dex-btn').addEventListener('click', () => {
         renderDex();
         openModal('dex-modal');
     });
-    document.getElementById('dex-close-btn').addEventListener('click', () => closeAllModals());
+    // 閉じるボタンはインライン onclick で制御
 
     // 名前保存
     document.getElementById('name-save-btn').addEventListener('click', () => {
@@ -816,8 +815,7 @@ function setupEventListeners() {
     });
 
     // 殿堂入り一覧表示ボタン（設定モーダル内とかヘッダーから）
-    const hallCloseBtn = document.getElementById('hall-close-btn');
-    if (hallCloseBtn) hallCloseBtn.addEventListener('click', () => closeAllModals());
+    // 閉じるボタンはインライン onclick で制御
 
     updateApiStatus();
 }

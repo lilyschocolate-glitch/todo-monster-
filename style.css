@@ -1293,18 +1293,52 @@ header {
   background: var(--bg-color);
   color: var(--text-muted);
   border: 1px solid var(--border-color);
-  padding: 8px 20px;
+  padding: 12px 24px;
+  min-width: 100px;
   border-radius: 999px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   transition: all 0.2s;
   font-family: 'M PLUS Rounded 1c', sans-serif;
+  margin-top: 10px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .close-modal-btn:hover {
   background: var(--border-color);
   color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+/* 右上の×ボタン */
+.close-modal-x {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 100;
+  padding: 0;
+  box-shadow: var(--shadow-sm);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.close-modal-x:hover {
+  background: var(--border-color);
+  color: var(--text-main);
+  transform: rotate(90deg);
 }
 
 .primary-modal-btn {
@@ -1680,11 +1714,13 @@ header {
     align-items: center !important;
     text-align: center;
     padding: 16px !important;
-    width: auto !important; /* width: 100%をautoに戻してpadding内に収める回る/ */
+    width: auto !important;
+    /* width: 100%をautoに戻してpadding内に収める回る/ */
     max-width: 100% !important;
     box-sizing: border-box !important;
     gap: 8px;
-    margin: 0 4px; /* 左右にわずかな隙間を空けて枠と重ならないように回る/ */
+    margin: 0 4px;
+    /* 左右にわずかな隙間を空けて枠と重ならないように回る/ */
   }
 
   .shop-item-info {
@@ -2201,7 +2237,9 @@ header {
 }
 
 /* Final Polishing Fixes */
-.share-preview, .share-text-area, .modal-content > * {
+.share-preview,
+.share-text-area,
+.modal-content>* {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -2224,12 +2262,15 @@ header {
   text-align: center;
 }
 
-.secondary-btn, .close-modal-btn, .primary-modal-btn {
+.secondary-btn,
+.close-modal-btn,
+.primary-modal-btn {
   white-space: nowrap !important;
   word-break: keep-all !important;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 10px 16px !important; /* Padding for better click area and no overflow */
+  padding: 10px 16px !important;
+  /* Padding for better click area and no overflow */
 }
 
 /* Share textarea adjustment */
@@ -2241,6 +2282,7 @@ header {
 }
 
 @media (max-width: 480px) {
+
   /* Shop items perfect fit */
   .shop-item {
     width: 100% !important;

@@ -156,13 +156,15 @@
 
   <!-- 履歴モーダル -->
   <div id="history-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <h2>📋 完了したタスク</h2>
     <div id="history-body" class="modal-body"></div>
-    <button id="history-close-btn" class="close-modal-btn">とじる</button>
+    <button id="history-close-btn" class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- 設定モーダル -->
   <div id="settings-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <h2>⚙️ 設定</h2>
     <p class="version-text">バージョン: 3.0.0</p>
     <div class="settings-section">
@@ -174,6 +176,7 @@
 
   <!-- APIキー設定モーダル -->
   <div id="api-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <h2>🔑 Gemini APIキー</h2>
     <div class="settings-section">
       <p class="modal-desc" style="margin-bottom:8px">
@@ -185,26 +188,29 @@
     </div>
     <input type="text" id="api-key-input" class="modal-input" placeholder="AIza...">
     <div class="modal-actions">
-      <button id="api-cancel-btn" class="close-modal-btn">キャンセル</button>
+      <button id="api-cancel-btn" class="close-modal-btn" onclick="closeAllModals()">キャンセル</button>
       <button id="api-save-btn" class="primary-modal-btn">保存</button>
     </div>
   </div>
 
   <!-- モーダル (ともだち追加) -->
   <div id="friend-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <div class="modal-content">
       <h3>ともだちを追加</h3>
       <p>教えてもらったコードを入力してね</p>
       <textarea id="friend-code-input" placeholder="ここに貼り付け"></textarea>
       <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
         <button id="friend-import-btn" class="primary-modal-btn" style="width: 100%;">追加する</button>
-        <button id="friend-cancel-btn" class="close-modal-btn" style="width: 100%;">やめる</button>
+        <button id="friend-cancel-btn" class="close-modal-btn" style="width: 100%"
+          onclick="closeAllModals()">やめる</button>
       </div>
     </div>
   </div>
 
   <!-- モーダル (シェア) -->
   <div id="share-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <div class="modal-content share-content">
       <h3>Xでシェア</h3>
       <div class="share-preview">
@@ -222,27 +228,30 @@
       <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
         <a id="share-twitter-link" href="#" target="_blank" class="primary-modal-btn twitter-btn"
           style="width: 100%;">Xで投稿する</a>
-        <button id="share-close-btn" class="close-modal-btn" style="width: 100%;">とじる</button>
+        <button id="share-close-btn" class="close-modal-btn" style="width: 100%" onclick="closeAllModals()">とじる</button>
       </div>
     </div>
   </div>
   <!-- 殿堂入りモーダル -->
   <div id="hall-of-fame-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <h2>🏆 殿堂入り</h2>
     <div id="hall-of-fame-body" class="modal-body"></div>
-    <button id="hall-close-btn" class="close-modal-btn">とじる</button>
+    <button id="hall-close-btn" class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- 図鑑モーダル -->
   <div id="dex-modal" class="modal modal-wide">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <h2>📖 モンスター図鑑</h2>
     <div id="dex-count" class="dex-count"></div>
     <div id="dex-grid" class="dex-grid"></div>
-    <button id="dex-close-btn" class="close-modal-btn">とじる</button>
+    <button id="dex-close-btn" class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- バックパックモーダル -->
   <div id="backpack-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <h2>🎒 バックパック</h2>
     <div class="item-tabs">
       <button class="item-tab active" data-type="material">伝説素材</button>
@@ -258,6 +267,7 @@
 
   <!-- ショップ・広告モーダル -->
   <div id="shop-modal" class="modal">
+    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <h2>💎 ショップ & 広告</h2>
     <div class="shop-content">
       <div class="ad-section">
@@ -279,7 +289,7 @@
               <span class="shop-item-name">🎁 お試しパック</span>
               <p class="shop-item-detail">伝説素材1+背景1+家具1（ランダム）</p>
             </div>
-            <button class="buy-btn" data-plan="starter">¥320</button>
+            <button class="buy-btn" data-plan="starter" onclick="handlePurchase('starter')">¥320</button>
           </div>
           <!-- 竹 (新 Standard) -->
           <div class="shop-item standard">
@@ -288,7 +298,7 @@
               <span class="shop-item-name">🏆 まんぞくパック</span>
               <p class="shop-item-detail">伝説素材5+背景5+家具5（ランダム）</p>
             </div>
-            <button class="buy-btn" data-plan="standard">¥980</button>
+            <button class="buy-btn" data-plan="standard" onclick="handlePurchase('standard')">¥980</button>
           </div>
           <!-- 松 (新 Premium) -->
           <div class="shop-item premium">
@@ -296,7 +306,7 @@
               <span class="shop-item-name">👑 とくべつパック</span>
               <p class="shop-item-detail">動画視聴なしで即報酬獲得！</p>
             </div>
-            <button class="buy-btn" data-plan="premium">¥2,980</button>
+            <button class="buy-btn" data-plan="premium" onclick="handlePurchase('premium')">¥2,980</button>
           </div>
           <!-- 寿 (新 Special) -->
           <div class="shop-item special">
@@ -305,7 +315,7 @@
               <span class="shop-item-name">🎊 全力応援パック</span>
               <p class="shop-item-detail">全アイテム解放！ + 図鑑コンプリートに役立つ”なかのひと秘密ログ”</p>
             </div>
-            <button class="buy-btn" data-plan="special">¥12,800</button>
+            <button class="buy-btn" data-plan="special" onclick="handlePurchase('special')">¥12,800</button>
           </div>
 
           <!-- 広告セクション (Google AdSenseユニット) -->
@@ -347,7 +357,7 @@
   <!-- Google AdSense (ユーザー様で data-ad-client を書き換えてください) -->
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 
-  <script type="module" src="./src/main.js?v=16"></script>
+  <script type="module" src="./src/main.js?v=17"></script>
 </body>
 
 </html>
