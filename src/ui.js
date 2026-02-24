@@ -38,6 +38,7 @@ export function initUI() {
     renderTodoList();
     renderFriendList();
     renderStatus();
+    checkPaymentSuccess();
     renderPersonality();
 
     // VIP特典: 広告枠を非表示にする
@@ -1703,4 +1704,18 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+/** 決済リダイレクト成功の検知 */
+function checkPaymentSuccess() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('payment') === 'success') {
+        const planId = params.get('plan');
+        if (planId) {
+            completePurchaseSimulation(planId);
+            // パラメータを削除してクリーンアップ
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        }
+    }
 }
