@@ -278,7 +278,7 @@
           <div class="drop-rate-item"><span>🖼️ 背景</span><span>30%</span></div>
           <div class="drop-rate-item"><span>🧪 伝説素材</span><span>10%</span></div>
         </div>
-        <button id="ad-watch-btn" class="ad-btn">🎬 動画を視聴する</button>
+        <button id="ad-watch-btn" class="ad-btn" disabled style="opacity:0.6; cursor:not-allowed;">準備中</button>
       </div>
       <div class="purchase-section">
         <h3>💰 直接購入</h3>
@@ -318,17 +318,11 @@
             <button class="buy-btn" data-plan="special" onclick="handlePurchase('special')">¥12,800</button>
           </div>
 
-          <!-- 広告セクション (動画報酬) -->
-          <div id="ad-reward-section" class="shop-item ad-item" style="border: 1px solid #e2e8f0; background: #f8fafc; margin-bottom: 20px;">
-            <div class="shop-item-info">
-              <span class="shop-item-name">📺 広告を見てGET</span>
-              <p class="shop-item-detail">動画視聴でランダム報酬（素材・背景・家具）を獲得！</p>
-            </div>
-            <button id="ad-watch-btn" class="buy-btn" disabled style="opacity: 0.6; cursor: not-allowed;">準備中</button>
-          </div>
+          <!-- 広告セクションは準備中に統合済み -->
 
-          <!-- 広告セクション (Google AdSenseユニット) -->
-          <div id="ad-container" class="ad-container" style="margin-top:20px; text-align:center; min-height:100px;">
+          <!-- 広告セクション (Google AdSenseユニット) 許可が下りるまで非表示 -->
+          <div id="ad-container" class="ad-container"
+            style="margin-top:20px; text-align:center; min-height:100px; display:none;">
             <p style="font-size: 10px; color: #9ca3af; margin-bottom: 4px;">スポンサーリンク</p>
             <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3415951226156980"
               data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -366,7 +360,7 @@
   <!-- Google AdSense (ユーザー様で data-ad-client を書き換えてください) -->
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 
-  <script type="module" src="./src/main.js?v=20"></script>
+  <script type="module" src="./src/main.js?v=21"></script>
 </body>
 
 </html>
