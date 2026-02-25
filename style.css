@@ -78,7 +78,7 @@ body {
 #app {
   width: 100%;
   max-width: 100%;
-  /* 基本は100%回る/ */
+  /* 基本は100% */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -97,7 +97,7 @@ header {
   /* スマホと同様に上部を2pxに */
   width: 100%;
   gap: 20px;
-  /* 12pxから20pxへ拡大してボタンを少し下げる回る/ */
+  /* 12pxから20pxへ拡大してボタンを少し下げる */
 }
 
 .app-title {
@@ -131,13 +131,13 @@ header {
   align-items: center;
   /* 垂直中央揃え */
   gap: 12px;
-  /* PCのみ微調整回る/ */
+  /* PCのみ微調整 */
   /* モンスターとテキストの距離を少し広げてイメージに合わせる */
   margin-bottom: 2px;
   /* 負のマージンをやめて、適度な近さに戻す */
 }
 
-/* PC向けの上限回る/ */
+/* PC向けの上限 */
 @media (min-width: 520px) {
   #app {
     max-width: 480px;
@@ -158,10 +158,10 @@ header {
   letter-spacing: 0.05em;
   line-height: 1.1;
   white-space: normal;
-  /* 折り返しを許可回る/ */
+  /* 折り返しを許可 */
   word-break: break-word;
   max-width: 100vw;
-  /* 画面幅を超えない回る/ */
+  /* 画面幅を超えない */
   text-align: center;
   display: block;
 }
@@ -189,7 +189,7 @@ header {
   image-rendering: pixelated;
   animation: bounce-monster-simple 3s ease-in-out infinite;
   margin-top: 12px;
-  /* -8pxから12pxへ下げ、ロゴの中央付近に寄り添わせる回る/ */
+  /* -8pxから12pxへ下げ、ロゴの中央付近に寄り添わせる */
 }
 
 #title-monster-right {
@@ -216,12 +216,12 @@ header {
   gap: 12px;
   /* 隙間を広げる */
   flex-shrink: 1;
-  /* 縮小を許可回る/ */
+  /* 縮小を許可 */
   width: 100%;
   flex-wrap: wrap;
-  /* スマホでボタンが入り切らない場合に折り返す回る/ */
+  /* スマホでボタンが入り切らない場合に折り返す */
   max-width: 100%;
-  /* はみ出し防止回る/ */
+  /* はみ出し防止 */
   box-sizing: border-box;
 }
 
@@ -263,12 +263,12 @@ header {
   /* 上部パディング増加 */
   position: relative;
   overflow: hidden;
-  /* はみ出しボタンなどを封じ込める回る/ */
+  /* はみ出しボタンなどを封じ込める */
   width: 100%;
   box-shadow: var(--shadow-md);
   margin-bottom: 32px;
   text-align: center;
-  /* 追加回る/ */
+  /* 追加 */
 }
 
 /* 背景パーティクル装飾 */
@@ -318,7 +318,7 @@ header {
 .char-info {
   margin-top: 4px;
   text-align: center;
-  /* 追加回る/ */
+  /* 追加 */
 }
 
 .char-dex {
@@ -368,14 +368,14 @@ header {
 .char-info {
   position: relative;
   text-align: center;
-  /* 追加回る/ */
+  /* 追加 */
 }
 
 .re-egg-btn {
   position: absolute;
   top: -8px;
   right: -8px;
-  /* 右端基準にしてはみ出しを防ぐ回る/ */
+  /* 右端基準にしてはみ出しを防ぐ */
   background: white;
   border: 1px solid var(--border-color);
   border-radius: 50%;
@@ -488,7 +488,7 @@ header {
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   width: 100%;
-  /* 幅をフルに使う回る/ */
+  /* 幅をフルに使う */
 }
 
 .tabs {
@@ -613,7 +613,7 @@ header {
   border: 1px solid var(--border-color);
   border-left: 3px solid var(--primary-color);
   width: 100%;
-  /* 幅を固定せず流動的に回る/ */
+  /* 幅を固定せず流動的に */
   max-width: 100%;
 }
 
@@ -1210,7 +1210,7 @@ header {
   width: 100%;
   height: 100%;
   background: rgba(15, 23, 42, 0.4);
-  /* ぼかし（blur）を削除して閉じるときの不自然さを解消回る/ */
+  /* ぼかし（blur）を削除して閉じるときの不自然さを解消 */
   z-index: 900;
   opacity: 0;
   visibility: hidden;
@@ -1597,30 +1597,38 @@ header {
 @media (max-width: 480px) {
   body {
     padding: 16px;
-    /* 8pxから16pxへ戻して左右マージンを確保回る/ */
+    /* 8pxから16pxへ戻して左右マージンを確保 */
     overflow-x: hidden;
   }
 
   #app {
     gap: 12px;
     overflow-x: hidden;
-    /* 強制的に横スクロールを禁止回る/ */
+    /* 強制的に横スクロールを禁止 */
     width: 100%;
     max-width: 100%;
-    /* もとの100vwから修正回る/ */
+    /* もとの100vwから修正 */
+  }
+
+  .evolution-name {
+    font-size: 1.5rem !important;
+    white-space: nowrap !important;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   header {
     flex-direction: column;
     align-items: center;
     padding: 2px 0 12px 0;
-    /* 左右の個別の10pxパディングを削除してbodyに任せる回る/ */
+    /* 左右の個別の10pxパディングを削除してbodyに任せる */
     gap: 12px;
   }
 
   .dq-title-word {
     font-size: 2.0rem;
-    /* モバイルはみ出し防止回る/ */
+    /* モバイルはみ出し防止 */
     /* 1.8remから拡大 */
     filter: drop-shadow(2px 2px 0px #000);
     letter-spacing: 0.03em;
@@ -1634,14 +1642,14 @@ header {
 
   .dq-title-row-main {
     gap: 2px;
-    /* モバイル幅確保回る/ */
+    /* モバイル幅確保 */
     margin-bottom: -10px;
     /* スマホはギュッとしたままにする */
   }
 
   .dq-title-word {
     font-size: 8vw;
-    /* 画面幅に合わせて流動的に縮小回る/ */
+    /* 画面幅に合わせて流動的に縮小 */
     max-width: 100%;
   }
 
@@ -1674,7 +1682,7 @@ header {
     padding: 20px 16px 16px;
     border-radius: var(--radius-md);
     text-align: center;
-    /* モバイルでも中央揃えを維持回る/ */
+    /* モバイルでも中央揃えを維持 */
   }
 
   .modal {
@@ -1715,12 +1723,12 @@ header {
     text-align: center;
     padding: 16px !important;
     width: auto !important;
-    /* width: 100%をautoに戻してpadding内に収める回る/ */
+    /* width: 100%をautoに戻してpadding内に収める */
     max-width: 100% !important;
     box-sizing: border-box !important;
     gap: 8px;
     margin: 0 4px;
-    /* 左右にわずかな隙間を空けて枠と重ならないように回る/ */
+    /* 左右にわずかな隙間を空けて枠と重ならないように */
   }
 
   .shop-item-info {
@@ -1813,7 +1821,7 @@ header {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
   margin-bottom: 24px;
   width: 100%;
-  /* max-widthを解除して統一感を出す回る/ */
+  /* max-widthを解除して統一感を出す */
   margin-left: auto;
   margin-right: auto;
 }
@@ -1894,16 +1902,16 @@ header {
 .item-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  /* 強制的に等幅かつ縮小可能にする回る/ */
+  /* 強制的に等幅かつ縮小可能にする */
   gap: 8px;
-  /* 少し詰めて余裕を持たせる回る/ */
+  /* 少し詰めて余裕を持たせる */
   max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
-  /* 横スクロールを物理的に禁止回る/ */
+  /* 横スクロールを物理的に禁止 */
   margin-bottom: 20px;
   padding: 0;
-  /* パディングを削除して幅を稼ぐ回る/ */
+  /* パディングを削除して幅を稼ぐ */
 }
 
 .item-cell {
@@ -1919,10 +1927,10 @@ header {
   cursor: pointer;
   transition: all 0.2s;
   min-width: 0;
-  /* コンテンツによる幅の拡張を防止回る/ */
+  /* コンテンツによる幅の拡張を防止 */
   width: 100%;
   padding: 8px;
-  /* 内部に余白を確保回る/ */
+  /* 内部に余白を確保 */
   box-sizing: border-box;
 }
 
@@ -1943,7 +1951,7 @@ header {
 .item-count {
   position: absolute;
   top: 4px;
-  /* bottom: 2pxからtop: 4pxへ移動回る/ */
+  /* bottom: 2pxからtop: 4pxへ移動 */
   right: 4px;
   font-size: 0.65rem;
   font-weight: 700;
@@ -1972,9 +1980,13 @@ header {
 
 .shop-item {
   position: relative;
-  display: flex; flex-direction: column; flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  flex-direction: column;
   justify-content: center;
-  align-items: center; text-align: center; text-align: center;
+  align-items: center;
+  text-align: center;
+  text-align: center;
   padding: 16px;
   background: #ffffff;
   border-radius: var(--radius-md);
@@ -2008,7 +2020,8 @@ header {
 .shop-item-info {
   display: flex;
   flex-direction: column;
-  gap: 8px; margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .shop-item-name {
@@ -2090,7 +2103,7 @@ header {
   transition: all 0.2s;
   font-size: 0.85rem;
   margin-bottom: 24px;
-  /* とじるボタンとの間隔を広げる回る/ */
+  /* とじるボタンとの間隔を広げる */
 }
 
 .clear-btn:hover {
@@ -2138,12 +2151,12 @@ header {
   color: var(--text-main);
   text-align: center;
   font-size: 0.65rem;
-  /* 名前が長いため、サイズを小さく調整回る/ */
+  /* 名前が長いため、サイズを小さく調整 */
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* はみ出しを「...」で省略回る/ */
+  /* はみ出しを「...」で省略 */
   margin-top: 4px;
 }
 

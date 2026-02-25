@@ -52,7 +52,7 @@ export function initUI() {
     playground.setCharacters(data.character, allBoxMembers);
     playground.setConfig(data.customization);
 
-    // タイトルロゴのモンスター描画などは startAnimation() 内のループで制御回る/
+    // タイトルロゴのモンスター描画などは startAnimation() 内のループで制御
 
     // 初回起動時: 名前が未設定または空ならモーダル表示（少し遅らせて確実に）
     if (!data.ownerName || data.ownerName.trim() === '') {
