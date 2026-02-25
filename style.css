@@ -1610,13 +1610,6 @@ header {
     /* もとの100vwから修正 */
   }
 
-  .evolution-name {
-    font-size: 1.5rem !important;
-    white-space: nowrap !important;
-    max-width: 90vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 
   header {
     flex-direction: column;
@@ -2223,5 +2216,13 @@ header {
     max-width: 100% !important;
     margin: 0 !important;
     box-sizing: border-box !important;
+  }
+
+  .evolution-name {
+    font-size: 1.5rem !important;
+    white-space: nowrap !important;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
