@@ -447,8 +447,8 @@ function giveReward(isVip = false) {
     // カテゴリ別の抽選 (家具:60%, 背景:30%, 素材:10%)
     const rand = Math.random();
     let type = 'furniture';
-    if (rand < 0.1) type = 'material';
-    else if (rand < 0.4) type = 'background';
+    if (rand < 0.3) type = 'material';
+    else if (rand < 0.6) type = 'background';
 
     const itemsOfCategory = Object.values(ITEMS).filter(i => i.type === type);
     const reward = itemsOfCategory[Math.floor(Math.random() * itemsOfCategory.length)];
@@ -491,12 +491,12 @@ function completePurchaseSimulation(planId) {
             if (!data.items[id]) data.items[id] = 1;
         });
         data.isSupporter = true;
-        data.isVip = true; // SpecialプランはVIP特典も含む
+        // SpecialプランにはVIP特典を含まない設定に変更
         showSecretLog();
         alert('全力応援パックを購入しました！全アイテムを解放しました。図鑑コンプに役立つ”なかのひとログ”をいつでも読み返せるようになりました！');
     } else if (planId === 'premium') {
         data.isVip = true;
-        alert('とくべつパックを購入しました！今後は広告なしで報酬が貰えます！');
+        alert('とくべつパックを購入しました！今後、モンスターが進化するたびにランダム報酬を自動獲得できます！');
     } else if (planId === 'starter') {
         grantRandomRewards(1, 1, 1);
         alert('お試しパックを購入しました！\n伝説素材1+背景1+家具1（ランダム）を付与しました。');
