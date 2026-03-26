@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="icon-v4.svg" />
+    <link rel="manifest" href="/app/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="タスクを完了してモンスターを育てる、新感覚のToDoアプリ「やることモンスター」。日常の習慣を冒険に変えよう。" />
     <meta property="og:title" content="やることモンスター | タスクをこなしてモンスターを育てよう" />
@@ -13,11 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <script>
-      // 既存ユーザー（データあり）なら、自動でアプリ版へリダイレクト
-      const STORAGE_KEY = 'todo-monster-data';
-      if (localStorage.getItem(STORAGE_KEY)) {
-        window.location.href = '/app/';
-      }
+      // 既存ユーザー向けにボタンを書き換えるためのフラグ
+      window.isExistingUser = !!localStorage.getItem('todo-monster-data');
     </script>
   </head>
   <body>

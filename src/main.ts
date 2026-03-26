@@ -9,6 +9,15 @@ if (heroMonsterEl) {
     heroMonsterEl.innerHTML = renderMonster(heroMonster, 400);
 }
 
+// --- Dynamic Button Text for Existing Users ---
+if ((window as any).isExistingUser) {
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        if (btn.textContent?.includes('今すぐはじめる')) {
+            btn.textContent = '冒険を再開する';
+        }
+    });
+}
+
 // --- Monster Gallery ---
 const monsterListEl = document.getElementById('monster-list');
 if (monsterListEl) {
