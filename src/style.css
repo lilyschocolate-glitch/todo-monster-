@@ -1060,16 +1060,30 @@ footer {
     height: 300px;
   }
   .demo-wrapper {
+    display: flex;
     flex-direction: column;
     padding: 2rem;
     text-align: center;
+    gap: 2rem;
+  }
+  .demo-controls {
+    display: contents; /* Allows reordering children globally in demo-wrapper */
   }
   .path-selector {
+    order: 1;
     margin: 0 auto;
     flex-wrap: wrap;
     justify-content: center;
   }
+  .demo-visual-container {
+    order: 2;
+    margin: 0 auto;
+  }
+  .demo-info {
+    order: 3;
+  }
   .demo-actions {
+    order: 4;
     justify-content: center;
     flex-wrap: wrap;
   }
