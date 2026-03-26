@@ -9,6 +9,15 @@ if (heroMonsterEl) {
     heroMonsterEl.innerHTML = renderMonster(heroMonster, 400);
 }
 
+const typeLabels: Record<string, string> = {
+    physical: 'つよさ',
+    intellectual: 'かしこさ',
+    social: 'やさしさ',
+    special: 'とくべつ',
+    normal: 'ふつう',
+    chaotic: 'いたずら'
+};
+
 // --- Monster Gallery ---
 const monsterListEl = document.getElementById('monster-list');
 if (monsterListEl) {
@@ -18,7 +27,7 @@ if (monsterListEl) {
         card.innerHTML = `
             ${renderMonster(monster, 128)}
             <h3>${monster.name}</h3>
-            <span class="type">${monster.type}</span>
+            <span class="type">${typeLabels[monster.type] || monster.type}</span>
         `;
         monsterListEl.appendChild(card);
     });
