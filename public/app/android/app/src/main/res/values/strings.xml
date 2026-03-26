@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">todo-monster</string>
+    <string name="title_activity_main">todo-monster</string>
+    <string name="package_name">com.todomonster.app</string>
+    <string name="custom_url_scheme">com.todomonster.app</string>
+</resources>

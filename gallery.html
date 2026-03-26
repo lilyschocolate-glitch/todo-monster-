@@ -4,26 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>モンスターギャラリー - やることモンスター</title>
+    <title>モンスター図鑑 - やることモンスター</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
         body {
             display: block;
-            /* style.css の flex を上書き */
-            padding: 40px;
-            max-width: 1200px;
+            padding: 20px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: #fff8f8;
+            background: linear-gradient(135deg, #e0f2fe 0%, #fdf2f8 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
         }
 
         .gallery-title {
             font-family: 'DotGothic16', sans-serif;
-            text-align: center;
-            font-size: 2.5rem;
-            color: #6366f1;
-            margin-bottom: 40px;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
+        /* 検索・フィルターエリア */
+        .controls-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .search-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #64748b;
+            margin-right: 8px;
+        }
+
+        .filter-btn {
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            color: #64748b;
+        }
+
+        .filter-btn:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .filter-btn.active {
+            background: #6366f1;
+            color: white;
+            border-color: #6366f1;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        /* グリッドレイアウト */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -31,69 +121,158 @@
         }
 
         .gallery-item {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 24px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
-            border: 1px solid #eee;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
         }
 
         .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .monster-canvas {
             image-rendering: pixelated;
-            width: 128px;
-            height: 128px;
-            margin-bottom: 15px;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
         .monster-name {
             font-family: 'DotGothic16', sans-serif;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: #334155;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .monster-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
 
         .monster-level {
-            font-size: 0.8rem;
-            color: #94a3b8;
+            font-family: 'DotGothic16', sans-serif;
+            font-size: 0.85rem;
+            color: #6366f1;
             font-weight: bold;
         }
 
-        .monster-type {
+        .monster-type-badge {
             font-size: 0.7rem;
             padding: 2px 8px;
-            border-radius: 10px;
+            border-radius: 8px;
             background: #e0e7ff;
             color: #6366f1;
-            vertical-align: middle;
-            margin-left: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .back-nav {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            margin-bottom: 20px;
         }
 
         .back-link {
-            display: block;
-            text-align: center;
-            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
             text-decoration: none;
-            color: #94a3b8;
+            color: #64748b;
             font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .back-link:hover {
             color: #6366f1;
+            background: white;
+            transform: translateX(-4px);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px;
+            color: #94a3b8;
+            font-family: 'DotGothic16', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 16px;
+            }
+
+            .gallery-item {
+                padding: 16px;
+            }
+
+            .monster-canvas {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <a href="index.html" class="back-link">← アプリに戻る</a>
-    <h1 class="gallery-title">Monster Gallery</h1>
+    <nav class="back-nav">
+        <a href="index.html" class="back-link">
+            <span style="margin-right:8px;">←</span> アプリに戻る
+        </a>
+    </nav>
+
+    <header class="gallery-header">
+        <h1 class="gallery-title">Monster Gallery</h1>
+        <p style="color:#64748b; font-size: 0.9rem;">これまでに発見されたモンスターたち</p>
+    </header>
+
+    <div class="controls-container">
+        <div class="search-box">
+            <input type="text" id="monster-search" class="search-input" placeholder="名前で検索...">
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Level:</span>
+            <button class="filter-btn active" data-filter="level" data-value="all">All</button>
+            <button class="filter-btn" data-filter="level" data-value="0">Special</button>
+            <button class="filter-btn" data-filter="level" data-value="1">Lv.1</button>
+            <button class="filter-btn" data-filter="level" data-value="2">Lv.2</button>
+            <button class="filter-btn" data-filter="level" data-value="3">Lv.3</button>
+            <button class="filter-btn" data-filter="level" data-value="4">Lv.4</button>
+            <button class="filter-btn" data-filter="level" data-value="5">Lv.5</button>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Type:</span>
+            <button class="filter-btn active" data-filter="type" data-value="all">All Types</button>
+            <button class="filter-btn" data-filter="type" data-value="physical">Physical</button>
+            <button class="filter-btn" data-filter="type" data-value="intellectual">Intellectual</button>
+            <button class="filter-btn" data-filter="type" data-value="social">Social</button>
+            <button class="filter-btn" data-filter="type" data-value="creative">Creative</button>
+            <button class="filter-btn" data-filter="type" data-value="chaotic">Chaotic</button>
+        </div>
+    </div>
+
     <div id="gallery" class="gallery-grid"></div>
+
     <script type="module" src="src/gallery-static.js"></script>
 </body>
 

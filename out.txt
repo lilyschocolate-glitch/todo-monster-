@@ -1,0 +1,19 @@
+LOG ERROR: i18n init failed: [failed parsing ./locales/en-US.json to json] http://localhost:5001/src/main.js?t=1772876837973 15
+LOG: [vite] connecting...
+LOG: [vite] connected.
+LOG: [Playground] Constructor called for playground-canvas at 1772876959879
+LOG: [Playground] updateSize: 480x280, groundY: 98
+LOG: [Playground] updateSize: 480x280, groundY: 98
+LOG: Todo Monster UI v18.0 (Production Mode) initialized
+LOG: Checking payment status: 
+LOG: [Playground] updateSize: 480x280, groundY: 98
+LOG: [Playground] updateSize: 480x280, groundY: 98
+LOG: Development environment: Initializing Debug Menu...
+LOG: [Playground] Drawing 2 characters. First one: {id: player, data: Object, spec: Object, x: 182.7372434579298, y: 154.41633788449005}
+Debug Data: {
+  canvas: { w: 480, h: 280, display: '' },
+  chars: 2,
+  ui: 'not loaded',
+  hasPlayerNode: false
+}
+Browser check2 complete.

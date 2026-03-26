@@ -1,0 +1,12 @@
+LOG: debug [vite] connecting...
+LOG: debug [vite] connected.
+LOG: log [Playground] Constructor called for playground-canvas at 1772878696010
+LOG: log [Playground] updateSize: 480x280, groundY: 98
+LOG: log [Playground] updateSize: 480x280, groundY: 98
+LOG: log Todo Monster UI v18.0 (Production Mode) initialized
+LOG: log Checking payment status: 
+LOG: log [Playground] updateSize: 480x280, groundY: 98
+LOG: log [Playground] updateSize: 480x280, groundY: 98
+LOG: log Development environment: Initializing Debug Menu...
+LOG: log [Playground] Drawing 2 characters. First one: {id: friend-0, data: Object, spec: Object, x: 86.4585857904642, y: 184.8742556716598}
+Screenshot saved to current_error.png
