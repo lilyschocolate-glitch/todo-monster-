@@ -2408,85 +2408,87 @@ export const MONSTERS = [
 ];
 
 export function getMonsterSpec(currentName, level, branch) {
+    // 1. IDでの完全一致検索 (あいぼう等のレアキャラ用)
+    // ただし、通常モンスター（normal/physical等）はレベル進化ロジックを優先するため、ここでは弾かない
+    const exactMatch = MONSTERS.find(m => m.id === currentName);
+    if (exactMatch && (exactMatch.type === 'rare' || exactMatch.type === 'special')) {
+        const index = MONSTERS.indexOf(exactMatch);
+        return { name: exactMatch.id, displayName: exactMatch.name, desc: exactMatch.desc, dexNumber: index + 1 };
+    }
+
+    // 2. レア/スペシャルモンスターの名前検索 (後方互換 - 不要かもしれないが念のため残す)
+    const rare = MONSTERS.find(m => m.name === currentName && (m.type === 'rare' || m.type === 'special'));
+    if (rare) {
+        const index = MONSTERS.indexOf(rare);
+        return { name: rare.id, displayName: rare.name, desc: rare.desc, dexNumber: index + 1 };
+    }
+
+    if (level === 1) {
+        const m = MONSTERS.find(m => m.id === 'egg') || MONSTERS[0];
+        return { name: m.id, displayName: m.name, desc: m.desc, dexNumber: 1 };
+    }
+
+    // NPC用
+    if (currentName === 'グレモチ') return { name: 'baby_slime', desc: 'NPC', dexNumber: 999 };
+
     let targetId = 'egg';
 
-    // 1. IDでの直接マッチング (レアキャラや特定のID指定時)
-    const exactMatch = MONSTERS.find(m => m.id === currentName);
-    // IDが一致し、かつ特殊なID（spec_ や rare_）またはレベルが一致する場合に採用
-    if (exactMatch && (currentName.startsWith('spec_') || currentName.startsWith('rare_') || exactMatch.level === level) && exactMatch.id !== 'egg') {
-        targetId = exactMatch.id;
-    } else if (level === 1) {
-        targetId = 'egg';
-    } else if (currentName === 'グレモチ') {
-        targetId = 'baby_slime';
-    } else {
-        // レベルと進化分岐による判定
-        if (level === 2) {
-            targetId = ['physical', 'social', 'chaotic'].includes(branch) ? 'baby_slime' : 'baby_fuzz';
-        } else if (level === 3) {
-            if (branch === 'physical') targetId = 'kid_brave';
-            else if (branch === 'intellectual') targetId = 'kid_smart';
-            else if (branch === 'social') targetId = 'kid_kind';
-            else if (branch === 'creative') targetId = 'kid_active';
-            else targetId = 'kid_chaos';
-        } else if (level === 4) {
-            if (branch === 'physical') targetId = 'lv4_knight';
-            else if (branch === 'intellectual') targetId = 'lv4_prof';
-            else if (branch === 'social') targetId = 'lv4_queen';
-            else if (branch === 'creative') targetId = 'lv4_wolf';
-            else targetId = 'lv4_devil';
-        } else if (level === 5) {
-            if (branch === 'physical') targetId = 'lv5_paladin';
-            else if (branch === 'intellectual') targetId = 'lv5_sage';
-            else if (branch === 'social') targetId = 'lv5_angel';
-            else if (branch === 'creative') targetId = 'lv5_beast';
-            else targetId = 'lv5_shadow';
-        } else if (level === 6) {
-            if (branch === 'physical') targetId = 'lv6_titan';
-            else if (branch === 'intellectual') targetId = 'lv6_oracle';
-            else if (branch === 'social') targetId = 'lv6_fairy';
-            else if (branch === 'creative') targetId = 'lv6_phoenix';
-            else targetId = 'lv6_phantom';
-        } else if (level === 7) {
-            if (branch === 'physical') targetId = 'lv7_dragon';
-            else if (branch === 'intellectual') targetId = 'lv7_cosmos';
-            else if (branch === 'social') targetId = 'lv7_goddess';
-            else if (branch === 'creative') targetId = 'lv7_chimera';
-            else targetId = 'lv7_void';
-        } else if (level === 8) {
-            if (branch === 'physical') targetId = 'lv8_colossus';
-            else if (branch === 'intellectual') targetId = 'lv8_wizard';
-            else if (branch === 'social') targetId = 'lv8_siren';
-            else if (branch === 'creative') targetId = 'lv8_gryphon';
-            else targetId = 'lv8_glitch';
-        } else if (level === 9) {
-            if (branch === 'physical') targetId = 'lv9_emperor';
-            else if (branch === 'intellectual') targetId = 'lv9_origin';
-            else if (branch === 'social') targetId = 'lv9_seraph';
-            else if (branch === 'creative') targetId = 'lv9_leviathan';
-            else targetId = 'lv9_paradox';
-        } else if (level >= 10) {
-            if (branch === 'physical') targetId = 'lv10_god_fist';
-            else if (branch === 'intellectual') targetId = 'lv10_omniscient';
-            else if (branch === 'social') targetId = 'lv10_harmony';
-            else if (branch === 'creative') targetId = 'lv10_infinity';
-            else targetId = 'lv10_chaos_king';
-        }
+    if (level === 2) {
+        if (['physical', 'social', 'chaotic'].includes(branch)) targetId = 'baby_slime';
+        else targetId = 'baby_fuzz';
+    } else if (level === 3) {
+        if (branch === 'physical') targetId = 'kid_brave';
+        else if (branch === 'intellectual') targetId = 'kid_smart';
+        else if (branch === 'social') targetId = 'kid_kind';
+        else if (branch === 'creative') targetId = 'kid_active';
+        else targetId = 'kid_chaos';
+    } else if (level === 4) {
+        if (branch === 'physical') targetId = 'lv4_knight';
+        else if (branch === 'intellectual') targetId = 'lv4_prof';
+        else if (branch === 'social') targetId = 'lv4_queen';
+        else if (branch === 'creative') targetId = 'lv4_wolf';
+        else targetId = 'lv4_devil';
+    } else if (level === 5) {
+        if (branch === 'physical') targetId = 'lv5_paladin';
+        else if (branch === 'intellectual') targetId = 'lv5_sage';
+        else if (branch === 'social') targetId = 'lv5_angel';
+        else if (branch === 'creative') targetId = 'lv5_beast';
+        else targetId = 'lv5_shadow';
+    } else if (level === 6) {
+        if (branch === 'physical') targetId = 'lv6_titan';
+        else if (branch === 'intellectual') targetId = 'lv6_oracle';
+        else if (branch === 'social') targetId = 'lv6_fairy';
+        else if (branch === 'creative') targetId = 'lv6_phoenix';
+        else targetId = 'lv6_phantom';
+    } else if (level === 7) {
+        if (branch === 'physical') targetId = 'lv7_dragon';
+        else if (branch === 'intellectual') targetId = 'lv7_cosmos';
+        else if (branch === 'social') targetId = 'lv7_goddess';
+        else if (branch === 'creative') targetId = 'lv7_chimera';
+        else targetId = 'lv7_void';
+    } else if (level === 8) {
+        if (branch === 'physical') targetId = 'lv8_colossus';
+        else if (branch === 'intellectual') targetId = 'lv8_wizard';
+        else if (branch === 'social') targetId = 'lv8_siren';
+        else if (branch === 'creative') targetId = 'lv8_gryphon';
+        else targetId = 'lv8_glitch';
+    } else if (level === 9) {
+        if (branch === 'physical') targetId = 'lv9_emperor';
+        else if (branch === 'intellectual') targetId = 'lv9_origin';
+        else if (branch === 'social') targetId = 'lv9_seraph';
+        else if (branch === 'creative') targetId = 'lv9_leviathan';
+        else targetId = 'lv9_paradox';
+    } else if (level >= 10) {
+        if (branch === 'physical') targetId = 'lv10_god_fist';
+        else if (branch === 'intellectual') targetId = 'lv10_omniscient';
+        else if (branch === 'social') targetId = 'lv10_harmony';
+        else if (branch === 'creative') targetId = 'lv10_infinity';
+        else targetId = 'lv10_chaos_king';
     }
 
     const m = MONSTERS.find(x => x.id === targetId) || MONSTERS[0];
     const index = MONSTERS.indexOf(m);
-
-    // 翻訳の適用
-    const displayName = window.i18next ? window.i18next.t(`monster.name.${m.id}`, { defaultValue: m.name }) : m.name;
-    const desc = window.i18next ? window.i18next.t(`monster.desc.${m.id}`, { defaultValue: m.desc }) : m.desc;
-
-    return {
-        name: m.id,
-        displayName,
-        desc,
-        dexNumber: index + 1
-    };
+    return { name: m.id, displayName: m.name, desc: m.desc, dexNumber: index + 1 };
 }
 
 export function drawMonster(ctx, spec, frame = 0, skipClear = false) {
@@ -2544,29 +2546,5 @@ export function drawEvolutionEffect(ctx, progress) {
         ctx.fillRect(Math.cos(angle) * dist, Math.sin(angle) * dist, size, size);
     }
 
-    ctx.restore();
-}
-export function drawCharacterOnCtx(ctx, spec, level, frame, dir) {
-    if (!spec) return;
-    const monster = MONSTERS.find(m => m.id === spec.name) || MONSTERS[0];
-    const { data, palette } = monster;
-    const gridSize = 16;
-    const cellSize = 2; // SPRITE_PX
-
-    ctx.save();
-    // 向き（中心軸で反転）
-    if (dir === 1) {
-        ctx.translate(gridSize * cellSize, 0);
-        ctx.scale(-1, 1);
-    }
-
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
-            const val = (data[r] && data[r][c]) || 0;
-            if (val === 0) continue;
-            ctx.fillStyle = palette[val] || '#000';
-            ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
-        }
-    }
     ctx.restore();
 }

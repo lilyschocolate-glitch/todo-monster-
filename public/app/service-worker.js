@@ -15,9 +15,7 @@ const ASSETS_TO_CACHE = [
     './src/sounds.js',
     './src/daily-reset.js',
     './src/playground.js',
-    './src/items.js',
-    './locales/ja.js',
-    './locales/en.js'
+    './src/items.js'
 ];
 
 self.addEventListener('install', event => {
@@ -45,15 +43,6 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     event.respondWith(
         // ネットワークリクエストを優先し、失敗時にキャッシュを返す
-        fetch(event.request)
-            .then(response => {
-                if (response && response.status === 200) {
-                    return response;
-                }
-                return caches.match(event.request).then(cachedResponse => {
-                    return cachedResponse || response;
-                });
-            })
-            .catch(() => caches.match(event.request))
+        fetch(event.request).catch(() => caches.match(event.request))
     );
 });

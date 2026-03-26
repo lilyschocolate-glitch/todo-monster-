@@ -28,9 +28,9 @@ export function dateLabel(dateStr) {
     const yesterday = getYesterdayStr();
     const tomorrow = getTomorrowStr();
 
-    if (dateStr === today) return i18next.t('ui.today');
-    if (dateStr === yesterday) return i18next.t('ui.yesterday');
-    if (dateStr === tomorrow) return i18next.t('ui.tomorrow');
+    if (dateStr === today) return 'きょう';
+    if (dateStr === yesterday) return 'きのう';
+    if (dateStr === tomorrow) return 'あした';
 
     // それ以外は月/日
     const parts = dateStr.split('-');

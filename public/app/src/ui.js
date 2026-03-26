@@ -12,7 +12,6 @@ import { playComplete, playLevelUp, playPop, toggleMute, getMuted, setMuted } fr
 import { getTodayStr, getYesterdayStr, getTomorrowStr, dateLabel, processDailyReset } from './daily-reset.js';
 import { playground } from './playground.js';
 import { ITEMS, getBackgroundStyles } from './items.js';
-import { changeLanguage, getLanguage } from './i18n.js';
 
 let data = null;
 let chatExpanded = false;
@@ -48,7 +47,6 @@ export function initUI() {
     updateMuteButton();
 
     // 箱庭初期化
-    playground.init('playground-canvas', 'chat-overlay');
     // 殿堂入りキャラとアンロック済みレアキャラもはこにわに登場！
     const allBoxMembers = [...data.friends, ...data.hallOfFame, ...(data.unlockedRareMonsters || [])];
     playground.setCharacters(data.character, allBoxMembers);
@@ -58,7 +56,6 @@ export function initUI() {
 
     // 初回起動時: 名前が未設定または空ならモーダル表示（少し遅らせて確実に）
     if (!data.ownerName || data.ownerName.trim() === '') {
-        const welcomeMsg = i18next.t('message.welcome');
         setTimeout(() => openModal('name-modal'), 1000);
     }
 
@@ -124,12 +121,7 @@ async function handleAutoChat() {
 
         // 1. プレイヤー（自分）がフリを入れる
         const player = data.character;
-        const questions = [
-            i18next.t('chat.q_world', { defaultValue: 'この世界どうなってるんだろう？' }),
-            i18next.t('chat.q_how', { defaultValue: 'これ、どうやるの？' }),
-            i18next.t('chat.q_good', { defaultValue: '何かいいことない？' }),
-            i18next.t('chat.q_secret', { defaultValue: '秘密おしえて！' })
-        ];
+        const questions = ['この世界どうなってるんだろう？', 'これ、どうやるの？', '何かいいことない？', '秘密おしえて！'];
         const question = questions[Math.floor(Math.random() * questions.length)];
 
         playground.showBubble(player, question, true);
@@ -145,7 +137,7 @@ async function handleAutoChat() {
             data.chatLog.push({
                 speaker: 'partner_aibou',
                 message: guideMsg,
-                speakerName: i18next.t('monster.name.partner_aibou', { defaultValue: 'あいぼう' }),
+                speakerName: 'あいぼう',
                 timestamp: Date.now()
             });
             if (data.chatLog.length > 60) data.chatLog = data.chatLog.slice(-60);
@@ -283,7 +275,7 @@ async function openShareModal() {
     ctx.fillText(`Owner: ${data.ownerName || '名無し'}`, 240, 190);
     ctx.font = '16px sans-serif';
     ctx.fillStyle = '#9ca3af';
-    ctx.fillText('やってみたいことを育てよう \u{1F423}', 240, 260);
+    ctx.fillText('やってみたいことを育てよう 🐣', 240, 260);
 
     const dataUrl = canvas.toDataURL('image/png');
     document.getElementById('share-image-preview').src = dataUrl;
@@ -294,10 +286,10 @@ async function openShareModal() {
             const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
             const item = new ClipboardItem({ 'image/png': blob });
             await navigator.clipboard.write([item]);
-            alert(i18next.t('message.image_copied', { defaultValue: '画像をコピーしました！Xに直接貼り付け(Ctrl+V)できます' }));
+            alert('画像をコピーしました！Xに直接貼り付け(Ctrl+V)できます');
         } catch (err) {
             console.error(err);
-            alert(i18next.t('message.save_right_click', { defaultValue: '右クリックで保存してください' }));
+            alert('右クリックで保存してください');
         }
     };
 
@@ -315,7 +307,7 @@ async function openShareModal() {
     document.getElementById('share-twitter-link').href = intentUrl;
 
     document.getElementById('copy-share-text-btn').onclick = () => {
-        navigator.clipboard.writeText(textArea.value).then(() => alert(i18next.t('message.copy_success_x', { defaultValue: 'コピーしました！Xに貼り付けてね' })));
+        navigator.clipboard.writeText(textArea.value).then(() => alert('コピーしました！Xに貼り付けてね'));
     };
 
     openModal('share-modal');
@@ -337,7 +329,7 @@ function renderItemGrid(type) {
     if (clearBtn) {
         clearBtn.style.display = type === 'furniture' ? 'block' : 'none';
         clearBtn.onclick = () => {
-            if (confirm(i18next.t('ui.confirm_clear_furniture', { defaultValue: 'はこにわの家具をすべて片付けますか？' }))) {
+            if (confirm('はこにわの家具をすべて片付けますか？')) {
                 data.customization.furniture = [];
                 playground.setConfig(data.customization);
                 saveData(data);
@@ -361,7 +353,7 @@ function renderItemGrid(type) {
     }
 
     if (items.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 20px; color:#94a3b8;">${i18next.t('ui.no_items', { defaultValue: 'アイテムがありません' })}</div>`;
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 20px; color:#94a3b8;">アイテムがありません</div>';
         return;
     }
 
@@ -384,14 +376,13 @@ function renderItemGrid(type) {
 
         const displayCount = type === 'furniture' ? `${placedCount}/${ownedCount}` : ownedCount;
 
-        const itemName = i18next.t(`item.name.${item.id}`, { defaultValue: item.name });
         cell.innerHTML = `
             <div class="item-icon">${item.icon}</div>
-            <div class="item-name">${itemName}</div>
+            <div class="item-name">${item.name}</div>
             <div class="item-count">${displayCount}</div>
         `;
 
-        cell.title = `${itemName}: ${i18next.t(`item.desc.${item.id}`, { defaultValue: item.desc })}`;
+        cell.title = `${item.name}: ${item.desc}`;
 
         cell.onclick = () => {
             if (type === 'background' && ownedCount > 0) {
@@ -399,7 +390,7 @@ function renderItemGrid(type) {
                 playground.setConfig(data.customization);
                 saveData(data);
                 renderItemGrid(type);
-                alert(i18next.t('message.bg_changed', { name: itemName, defaultValue: `はこにわを${itemName}に着せ替えました！` }));
+                alert(`はこにわを${item.name}に着せ替えました！`);
             } else if (type === 'furniture') {
                 if (placedCount < ownedCount) {
                     const newFurniture = {
@@ -411,11 +402,11 @@ function renderItemGrid(type) {
                     playground.setConfig(data.customization);
                     saveData(data);
                     renderItemGrid(type);
-                    alert(i18next.t('message.placed_furniture', { name: itemName, current: placedCount + 1, total: ownedCount, defaultValue: `${itemName}をはこにわに置きました！ (${placedCount + 1}/${ownedCount})` }));
+                    alert(`${item.name}をはこにわに置きました！ (${placedCount + 1}/${ownedCount})`);
                 } else if (ownedCount === 0) {
-                    alert(i18next.t('message.item_not_owned', { defaultValue: 'まだ持っていないよ。ショップでGETしよう！' }));
+                    alert('まだ持っていないよ。ショップでGETしよう！');
                 } else {
-                    alert(i18next.t('message.all_placed', { defaultValue: '持っている分はすべて置きました！もっと置くには個数が必要です。' }));
+                    alert('持っている分はすべて置きました！もっと置くには個数が必要です。');
                 }
             } else if (type === 'material' && ownedCount > 0) {
                 const evolMap = {
@@ -435,15 +426,15 @@ function renderItemGrid(type) {
                     dragon_scale: 'spec_dragon_emperor'
                 };
                 if (evolMap[item.id]) {
-                    if (confirm(i18next.t('message.confirm_evolve_special', { name: itemName, defaultValue: `${itemName}を使用して、現在の姿を伝説へと昇華させますか？` }))) {
+                    if (confirm(`${item.name}を使用して、現在の姿を伝説へと昇華させますか？`)) {
                         useMaterialForEvolution(item.id, evolMap[item.id]);
                         closeAllModals();
                     }
                 } else {
-                    alert(i18next.t('message.no_use_yet', { name: itemName, defaultValue: `${itemName}はまだ使い道がありません。図鑑のコンプリートに役立つかも？` }));
+                    alert(`${item.name}はまだ使い道がありません。図鑑のコンプリートに役立つかも？`);
                 }
             } else if (ownedCount === 0) {
-                alert(i18next.t('message.item_not_owned', { defaultValue: 'まだ持っていないよ。ショップでGETしよう！' }));
+                alert('まだ持っていないよ。ショップでGETしよう！');
             }
         };
 
@@ -465,11 +456,8 @@ function giveReward(isVip = false) {
     data.items[reward.id] = (data.items[reward.id] || 0) + 1;
     saveData(data);
 
-    const typeLabels = { material: i18next.t('ui.type_material', { defaultValue: '\u{1F9EA}伝説素材' }), background: i18next.t('ui.type_background', { defaultValue: '\u{1F5BC}️背景' }), furniture: i18next.t('ui.type_furniture', { defaultValue: '\u{1FA91}家具' }) };
-    const rewardName = i18next.t(`item.name.${reward.id}`, { defaultValue: reward.name });
-    const msg = isVip
-        ? i18next.t('message.vip_reward', { name: rewardName, type: typeLabels[type], defaultValue: `\u{1F451} VIP特典！進化おめでとう！「${rewardName}」(${typeLabels[type]})を手に入れたよ！` })
-        : i18next.t('message.reward', { name: rewardName, type: typeLabels[type], defaultValue: `おめでとう！報酬として「${rewardName}」(${typeLabels[type]})を手に入れたよ！ \u{1F381}` });
+    const typeLabels = { material: '🧪伝説素材', background: '🖼️背景', furniture: '🪑家具' };
+    const msg = isVip ? `👑 VIP特典！進化おめでとう！「${reward.name}」(${typeLabels[type]})を手に入れたよ！` : `おめでとう！報酬として「${reward.name}」(${typeLabels[type]})を手に入れたよ！ 🎁`;
     alert(msg);
     renderItemGrid(document.querySelector('.item-tab.active')?.dataset.type || 'material');
 }
@@ -484,12 +472,10 @@ const STRIPE_URLS = {
 };
 /** 購入処理 */
 async function handlePurchase(planId) {
-    if (confirm(i18next.t('shop.confirm_purchase', { defaultValue: '購入ページ（Stripe）へ移動しますか？' }))) {
-        // Stripe URLへリダイレクト (言語設定を引き継ぐ)
-        let url = STRIPE_URLS[planId];
+    if (confirm('購入ページ（Stripe）へ移動しますか？')) {
+        // Stripe URLへリダイレクト
+        const url = STRIPE_URLS[planId];
         if (url && (url.startsWith('https://buy.stripe.com') || url.startsWith('https://test.buy.stripe.com'))) {
-            const locale = i18next.language === 'en' ? 'en' : 'ja';
-            url += (url.includes('?') ? '&' : '?') + `locale=${locale}`;
             window.location.href = url;
         } else {
             // テストURLまたは未設定の場合はシミュレーション（開発用）
@@ -507,16 +493,16 @@ function completePurchaseSimulation(planId) {
         data.isSupporter = true;
         // SpecialプランにはVIP特典を含まない設定に変更
         showSecretLog();
-        alert(i18next.t('message.special_purchase_success', { defaultValue: '全力応援パックを購入しました！全アイテムを解放しました。図鑑コンプに役立つ”なかのひとログ”をいつでも読み返せるようになりました！' }));
+        alert('全力応援パックを購入しました！全アイテムを解放しました。図鑑コンプに役立つ”なかのひとログ”をいつでも読み返せるようになりました！');
     } else if (planId === 'premium') {
         data.isVip = true;
-        alert(i18next.t('message.premium_purchase_success', { defaultValue: 'とくべつパックを購入しました！今後、モンスターが進化するたびにランダム報酬を自動獲得できます！' }));
+        alert('とくべつパックを購入しました！今後、モンスターが進化するたびにランダム報酬を自動獲得できます！');
     } else if (planId === 'starter') {
         grantRandomRewards(1, 1, 1);
-        alert(i18next.t('message.starter_purchase_success', { defaultValue: 'お試しパックを購入しました！\n伝説素材1+背景1+家具1（ランダム）を付与しました。' }));
+        alert('お試しパックを購入しました！\n伝説素材1+背景1+家具1（ランダム）を付与しました。');
     } else if (planId === 'standard') {
         grantRandomRewards(5, 5, 5);
-        alert(i18next.t('message.standard_purchase_success', { defaultValue: 'まんぞくパックを購入しました！\n伝説素材5+背景5+家具5（ランダム）を付与しました。' }));
+        alert('まんぞくパックを購入しました！\n伝説素材5+背景5+家具5（ランダム）を付与しました。');
     }
 
     // 永続プラン（VIP/Supporter）のみ購入済みリストに追加
@@ -565,65 +551,59 @@ function showSecretLog() {
     const scrollContainer = document.createElement('div');
     scrollContainer.style.cssText = 'width:100%;max-width:550px;background:#fef3c7;padding:40px;border-radius:4px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.5);border-left:15px solid #d97706;border-right:15px solid #d97706;max-height:85vh;overflow-y:auto;transform: rotate(-0.5deg);';
 
-    const t = (key, def) => i18next.t(`secret_log.${key}`, { defaultValue: def });
-
-    const cardStyle = 'background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;';
-    const h3Style = 'color:#d97706;font-size:18px;margin-bottom:8px;';
-    const howStyle = 'font-size:14px;margin-bottom:6px;';
-    const descStyle = 'font-size:13px;color:#78350f;';
-
+    // 幻のモンスター調査記録
     scrollContainer.innerHTML = `
         <div style="font-family:'Hiragino Mincho ProN', 'MS Mincho', serif;">
-            <h2 style="color:#92400e;margin-top:0;text-align:center;border-bottom:2px double #92400e;padding-bottom:10px;font-size:24px;">\u{1F4DC} ${t('title', '幻のモンスター調査記録')}</h2>
-            <p style="font-style:italic;color:#b45309;text-align:center;margin-bottom:20px;">— ${t('subtitle', '全力で応援してくれた貴方だけに贈る、秘密の手引き')} —</p>
-
-            <div style="${cardStyle}">
-                <h3 style="${h3Style}">\u{1F95A} ${t('golden_egg_title', '【幻】きんぴかタマゴ')}</h3>
-                <p style="${howStyle}"><b>${t('how_to', '出し方')}:</b> ${t('golden_egg_how', 'タスクを累計<b>100個</b>クリアする。')}</p>
-                <p style="${descStyle}">${t('golden_egg_desc', '地道にタスクを達成し続ければOK。全世代の通算でカウントされるので、殿堂入りしてもリセットされません。コツコツ続けた者だけが手にする黄金の証です。')}</p>
+            <h2 style="color:#92400e;margin-top:0;text-align:center;border-bottom:2px double #92400e;padding-bottom:10px;font-size:24px;">📜 幻のモンスター調査記録</h2>
+            <p style="font-style:italic;color:#b45309;text-align:center;margin-bottom:20px;">— 全力で応援してくれた貴方だけに贈る、秘密の手引き —</p>
+            
+            <div style="background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;">
+                <h3 style="color:#d97706;font-size:18px;margin-bottom:8px;">🥚 【幻】きんぴかタマゴ</h3>
+                <p style="font-size:14px;margin-bottom:6px;"><b>出し方:</b> タスクを累計<b>100個</b>クリアする。</p>
+                <p style="font-size:13px;color:#78350f;">地道にタスクを達成し続ければOK。全世代の通算でカウントされるので、殿堂入りしてもリセットされません。コツコツ続けた者だけが手にする黄金の証です。</p>
             </div>
 
-            <div style="${cardStyle}">
-                <h3 style="${h3Style}">\u{1F30C} ${t('toku_title', '【幻】なかのひとToku')}</h3>
-                <p style="${howStyle}"><b>${t('how_to', '出し方')}:</b> ${t('toku_how', 'モンスターをLv10まで育てて<b>殿堂入り</b>させ、<b>2代目</b>を迎える。')}</p>
-                <p style="${descStyle}">${t('toku_desc', '最初のモンスターを十分に成長させてから世代交代すると、伝説の開発者が姿を見せます。殿堂入りボタンはLv10で出現するので、まずはそこを目指しましょう。')}</p>
+            <div style="background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;">
+                <h3 style="color:#d97706;font-size:18px;margin-bottom:8px;">🌌 【幻】なかのひとToku</h3>
+                <p style="font-size:14px;margin-bottom:6px;"><b>出し方:</b> モンスターをLv10まで育てて<b>殿堂入り</b>させ、<b>2代目</b>を迎える。</p>
+                <p style="font-size:13px;color:#78350f;">最初のモンスターを十分に成長させてから世代交代すると、伝説の開発者が姿を見せます。殿堂入りボタンはLv10で出現するので、まずはそこを目指しましょう。</p>
             </div>
 
-            <div style="${cardStyle}">
-                <h3 style="${h3Style}">\u{1F4A1} ${t('bulb_title', '【幻】ひらめきデンキュウ')}</h3>
-                <p style="${howStyle}"><b>${t('how_to', '出し方')}:</b> ${t('bulb_how', 'せいかくの<b>「クリエイティブ」が最も高い</b>状態で、累計<b>50タスク</b>以上を達成する。')}</p>
-                <p style="${descStyle}">${t('bulb_desc', '「絵を描く」「デザインを考える」「アイデアを出す」など、創作系のタスクを多めにこなすと自然にクリエイティブが伸びます。発想力の結晶が灯りを点します。')}</p>
+            <div style="background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;">
+                <h3 style="color:#d97706;font-size:18px;margin-bottom:8px;">💡 【幻】ひらめきデンキュウ</h3>
+                <p style="font-size:14px;margin-bottom:6px;"><b>出し方:</b> せいかくの<b>「クリエイティブ」が最も高い</b>状態で、累計<b>50タスク</b>以上を達成する。</p>
+                <p style="font-size:13px;color:#78350f;">「絵を描く」「デザインを考える」「アイデアを出す」など、創作系のタスクを多めにこなすと自然にクリエイティブが伸びます。発想力の結晶が灯りを点します。</p>
             </div>
 
-            <div style="${cardStyle}">
-                <h3 style="${h3Style}">\u{1F431} ${t('cat_title', '【幻】キーボードくろネコ')}</h3>
-                <p style="${howStyle}"><b>${t('how_to', '出し方')}:</b> ${t('cat_how', '<b>午前10時〜12時</b>の間にタスクを完了する。さらに、せいかくの<b>「知能」が最も高い</b>状態であること。')}</p>
-                <p style="${descStyle}">${t('cat_desc', '午前中の集中タイムに現れる黒猫。勉学や分析、プログラミングなどの「知能」を高めるタスクをこなし、午前中の特定時間に集中して取り組むと姿を見せるでしょう。')}</p>
+            <div style="background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;">
+                <h3 style="color:#d97706;font-size:18px;margin-bottom:8px;">🐱 【幻】キーボードくろネコ</h3>
+                <p style="font-size:14px;margin-bottom:6px;"><b>出し方:</b> <b>午前10時〜12時</b>の間にタスクを完了する。さらに、せいかくの<b>「知能」が最も高い</b>状態であること。</p>
+                <p style="font-size:13px;color:#78350f;">午前中の集中タイムに現れる黒猫。勉学や分析、プログラミングなどの「知能」を高めるタスクをこなし、午前中の特定時間に集中して取り組むと姿を見せるでしょう。</p>
             </div>
 
-            <div style="${cardStyle}">
-                <h3 style="${h3Style}">\u{2615}️ ${t('caffeine_title', '【幻】しんやのカフェイン')}</h3>
-                <p style="${howStyle}"><b>${t('how_to', '出し方')}:</b> ${t('caffeine_how', '<b>深夜0時〜4時</b>の間にタスクを完了する。さらに、せいかくの<b>「カオス」が最も高い</b>状態であること。')}</p>
-                <p style="${descStyle}">${t('caffeine_desc', '深夜のカオスな精神状態で作業を続けるストイックな者のお供。「変なことをする」「実験する」など、カオス系のタスクを夜にこなすと芳醇な香りが漂ってきます。')}</p>
+            <div style="background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;">
+                <h3 style="color:#d97706;font-size:18px;margin-bottom:8px;">☕️ 【幻】しんやのカフェイン</h3>
+                <p style="font-size:14px;margin-bottom:6px;"><b>出し方:</b> <b>深夜0時〜4時</b>の間にタスクを完了する。さらに、せいかくの<b>「カオス」が最も高い</b>状態であること。</p>
+                <p style="font-size:13px;color:#78350f;">深夜のカオスな精神状態で作業を続けるストイックな者のお供。「変なことをする」「実験する」など、カオス系のタスクを夜にこなすと芳醇な香りが漂ってきます。</p>
             </div>
 
-            <div style="${cardStyle}">
-                <h3 style="${h3Style}">\u{1F47E} ${t('glitch_title', '【幻】バグったナニカ')}</h3>
-                <p style="${howStyle}"><b>${t('how_to', '出し方')}:</b> ${t('glitch_how', '<b>朝5時台</b>（AM 5:00〜5:59）にアプリを開いている。')}</p>
-                <p style="${descStyle}">${t('glitch_desc', '朝一番に世界がバグる瞬間にのみ出現するレアモンスター。早朝5時にアプリを開いてタスクを完了すると、朝靄の中からノイズ混じりの姿を現します。')}</p>
+            <div style="background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;">
+                <h3 style="color:#d97706;font-size:18px;margin-bottom:8px;">👾 【幻】バグったナニカ</h3>
+                <p style="font-size:14px;margin-bottom:6px;"><b>出し方:</b> <b>朝5時台</b>（AM 5:00〜5:59）にアプリを開いている。</p>
+                <p style="font-size:13px;color:#78350f;">朝一番に世界がバグる瞬間にのみ出現するレアモンスター。早朝5時にアプリを開いてタスクを完了すると、朝靄の中からノイズ混じりの姿を現します。</p>
             </div>
 
-            <div style="${cardStyle}">
-                <h3 style="${h3Style}">\u{1F451} ${t('king_title', '【幻】やることキング')}</h3>
-                <p style="${howStyle}"><b>${t('how_to', '出し方')}:</b> ${t('king_how', 'モンスターを<b>10回以上殿堂入り</b>させて、<b>10代目以降</b>に到達する。')}</p>
-                <p style="${descStyle}">${t('king_desc', '長い旅路の果てに現れる王。10匹のモンスターをそれぞれLv10まで育て上げ、【王】の資質を証明した証です。焦らず日々のタスクに取り組み、世代を重ねましょう。')}</p>
+            <div style="background:rgba(255,255,255,0.3);padding:20px;border-radius:8px;margin-bottom:16px;">
+                <h3 style="color:#d97706;font-size:18px;margin-bottom:8px;">👑 【幻】やることキング</h3>
+                <p style="font-size:14px;margin-bottom:6px;"><b>出し方:</b> モンスターを<b>10回以上殿堂入り</b>させて、<b>10代目以降</b>に到達する。</p>
+                <p style="font-size:13px;color:#78350f;">長い旅路の果てに現れる王。10匹のモンスターをそれぞれLv10まで育て上げ、【王】の資質を証明した証です。焦らず日々のタスクに取り組み、世代を重ねましょう。</p>
             </div>
 
             <div style="background:rgba(217,119,6,0.15);padding:20px;border-radius:8px;margin-top:24px;border:1px dashed #d97706;">
-                <p style="text-align:center;font-size:15px;color:#92400e;font-weight:bold;margin:0;">\u{2728} ${t('epilogue', 'そして、すべての幻と出会い、図鑑を完成させた時…<br>この世界の「究極の存在」が、あなたの前に降臨するかもしれません。')}</p>
+                <p style="text-align:center;font-size:15px;color:#92400e;font-weight:bold;margin:0;">✨ そして、すべての幻と出会い、図鑑を完成させた時…<br>この世界の「究極の存在」が、あなたの前に降臨するかもしれません。</p>
             </div>
-
-            <button id="close-log-btn" style="width:100%;margin-top:30px;padding:15px;background:#92400e;color:#fef3c7;border:none;border-radius:4px;font-weight:bold;cursor:pointer;font-size:16px;box-shadow:0 4px 0 #78350f;">${t('close_btn', '調査記録を閉じる')}</button>
+            
+            <button id="close-log-btn" style="width:100%;margin-top:30px;padding:15px;background:#92400e;color:#fef3c7;border:none;border-radius:4px;font-weight:bold;cursor:pointer;font-size:16px;box-shadow:0 4px 0 #78350f;">調査記録を閉じる</button>
         </div>
     `;
 
@@ -644,8 +624,8 @@ function setupEventListeners() {
         const input = document.getElementById('todo-input');
         const text = input.value.trim();
         if (!text) return;
-        const isRecurring = text.includes('\u{1F501}') || text.startsWith('毎日');
-        const cleanText = text.replace('\u{1F501}', '').replace(/^毎日\s*/, '').trim();
+        const isRecurring = text.includes('🔁') || text.startsWith('毎日');
+        const cleanText = text.replace('🔁', '').replace(/^毎日\s*/, '').trim();
         const dateMap = { yesterday: getYesterdayStr(), today: getTodayStr(), tomorrow: getTomorrowStr() };
         const scheduledDate = dateMap[currentDateFilter] || getTodayStr();
         const todo = createTodo(cleanText || text, scheduledDate, isRecurring);
@@ -656,8 +636,6 @@ function setupEventListeners() {
     });
 
     document.querySelectorAll('.date-tab').forEach(tab => {
-        const dateKey = tab.dataset.date; // yesterday, today, tomorrow
-        tab.textContent = i18next.t(`ui.${dateKey}`);
         tab.addEventListener('click', () => {
             currentDateFilter = tab.dataset.date;
             document.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
@@ -684,37 +662,18 @@ function setupEventListeners() {
     });
     // キャンセルボタンはインライン onclick で制御
 
-    // 言語切り替えボタン
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-            const lng = btn.dataset.lang;
-            await changeLanguage(lng);
-            // アクティブ状態の表示更新
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            // UI全体の再描画（動的な部分）
-            renderStatus();
-            renderTodoList();
-            renderPersonality();
-            renderFriendList();
-            renderDex();
-            renderHistory();
-            renderItemGrid('material', document.getElementById('backpack-grid'));
-        });
-    });
-
     document.getElementById('reset-btn').addEventListener('click', () => {
-        if (confirm(i18next.t('ui.confirm_reset', { defaultValue: '【※警告※】\n全データを完全に消去しますか？\n購入したアイテム、図鑑、ショップの権利もすべて失われ、最初からのスタートになります。\nこの操作は取り消せません。' }))) {
+        if (confirm('【※警告※】\n全データを完全に消去しますか？\n購入したアイテム、図鑑、ショップの権利もすべて失われ、最初からのスタートになります。\nこの操作は取り消せません。')) {
             localStorage.removeItem('todo-monster-data');
             location.reload(); // 完全リセットなのでリロードして初期状態へ
         }
     });
 
     document.getElementById('re-egg-btn').addEventListener('click', () => {
-        if (confirm(i18next.t('ui.confirm_re_egg', { defaultValue: '今のモンスターとお別れして、タマゴから育て直しますか？\n（レベルと性格はリセットされますが、アイテムや図鑑、タスク履歴はそのまま残ります）' }))) {
+        if (confirm('今のモンスターとお別れして、タマゴから育て直しますか？\n（レベルと性格はリセットされますが、アイテムや図鑑、タスク履歴はそのまま残ります）')) {
             // キャラクターと性格のみをリセット
             data.character = {
-                name: 'egg', // IDを使用
+                name: 'ねむいタマゴ',
                 level: 1,
                 exp: 0,
                 branch: null,
@@ -736,7 +695,7 @@ function setupEventListeners() {
             // 箱庭を更新
             playground.setCharacters(data.character, [...data.friends, ...data.hallOfFame, ...(data.unlockedRareMonsters || [])]);
 
-            alert(i18next.t('message.re_egged', { defaultValue: 'タマゴに戻りました。次はどんなモンスターになるかな？' }));
+            alert('タマゴに戻りました。次はどんなモンスターになるかな？');
         }
     });
 
@@ -762,7 +721,7 @@ function setupEventListeners() {
             if (data.isSupporter) {
                 showSecretLog();
             } else {
-                alert(i18next.t('message.secret_log_locked', { defaultValue: '「全力応援パック」を購入すると、図鑑コンプリートの秘伝が書かれた開発者ログをいつでも読み返せるようになります！\u{2728}' }));
+                alert('「全力応援パック」を購入すると、図鑑コンプリートの秘伝が書かれた開発者ログをいつでも読み返せるようになります！✨');
             }
         });
     }
@@ -813,8 +772,7 @@ function setupEventListeners() {
 
     // 殿堂入り
     document.getElementById('graduate-btn').addEventListener('click', () => {
-        const confirmMsg = i18next.t('ui.confirm_graduate', { name: data.character.name, defaultValue: `${data.character.name}を殿堂入りさせて、新しいタマゴから始めますか？` });
-        if (!confirm(confirmMsg)) return;
+        if (!confirm(`${data.character.name}を殿堂入りさせて、新しいタマゴから始めますか？`)) return;
         data = graduateCharacter(data);
         saveData(data);
         renderTodoList(); renderStatus(); renderPersonality();
@@ -835,18 +793,18 @@ function setupEventListeners() {
 function updateApiStatus() {
     const indicator = document.getElementById('api-status');
     if (data.apiKey) {
-        indicator.textContent = i18next.t('ui.gemini_connected');
+        indicator.textContent = '🟢 Gemini接続済み';
         indicator.className = 'api-status connected';
     } else {
-        indicator.textContent = i18next.t('ui.mock_mode');
+        indicator.textContent = '⚪ モック会話モード';
         indicator.className = 'api-status disconnected';
     }
 }
 
 function updateMuteButton() {
     const btn = document.getElementById('mute-btn');
-    btn.textContent = getMuted() ? '\u{1F507}' : '\u{1F50A}';
-    // ツールチップも翻訳対応（もし必要なら。現状はi18n.jsでdata-i18n属性からも更新可能だが、JSでの手動更新も考慮）
+    btn.textContent = getMuted() ? '🔇' : '🔊';
+    btn.title = getMuted() ? '音をオンにする' : '音をオフにする';
 }
 
 // --- フレンド ---
@@ -870,8 +828,8 @@ function generateShortCode() {
 function exportCharacter() {
     const code = generateShortCode();
     navigator.clipboard.writeText(code).then(() => {
-        alert(i18next.t('message.copy_success', { defaultValue: 'My code copied!' }));
-    }).catch(() => prompt('My code:', code));
+        alert('マイコードをコピーしました！');
+    }).catch(() => prompt('マイコードです:', code));
 }
 
 function importFriend() {
@@ -926,7 +884,7 @@ function importFriend() {
         playground.setCharacters(data.character, allBoxMembers);
     } catch (e) {
         console.error(e);
-        alert(i18next.t('message.code_unreadable', { defaultValue: 'コードが読み取れなかった…' }));
+        alert('コードが読み取れなかった…');
     }
 }
 
@@ -944,7 +902,7 @@ function renderFriendList() {
     const container = document.getElementById('friend-list');
     container.innerHTML = '';
     if (data.friends.length === 0) {
-        container.innerHTML = `<div class="friend-empty">${i18next.t('ui.friend_empty_desc', { defaultValue: 'フレンドを追加するとここに表示されるよ' })}</div>`;
+        container.innerHTML = '<div class="friend-empty">フレンドを追加するとここに表示されるよ</div>';
         return;
     }
     for (let i = 0; i < data.friends.length; i++) {
@@ -971,7 +929,7 @@ function renderFriendList() {
           </div>
           ${ownerDom}
       </div>
-      <button class="friend-remove-btn" title="${i18next.t('ui.remove')}">\u{2715}</button>`;
+      <button class="friend-remove-btn" title="解除">✕</button>`;
         div.querySelector('.friend-remove-btn').addEventListener('click', () => removeFriend(i));
         container.appendChild(div);
     }
@@ -992,11 +950,7 @@ function renderTodoList() {
     list.innerHTML = '';
 
     if (incompleteTodos.length === 0 && completedTodos.length === 0) {
-        const msgs = {
-            yesterday: i18next.t('ui.history_empty', { defaultValue: 'きのうのタスクはないよ' }),
-            tomorrow: i18next.t('ui.todo_empty_tomorrow', { defaultValue: 'あしたの予定を書き込もう！' }),
-            today: i18next.t('ui.todo_empty', { defaultValue: 'やることを追加しよう！' })
-        };
+        const msgs = { yesterday: 'きのうのタスクはないよ', tomorrow: 'あしたの予定を書き込もう！', today: 'やることを追加しよう！' };
         list.innerHTML = `<div class="todo-empty">${msgs[currentDateFilter] || msgs.today}</div>`;
         updateTodoCount(0);
         return;
@@ -1007,7 +961,7 @@ function renderTodoList() {
     if (completedTodos.length > 0) {
         const sep = document.createElement('div');
         sep.className = 'todo-separator collapsed';
-        sep.innerHTML = `<span class="sep-toggle">▶</span> ${i18next.t('ui.completed_tasks', { count: completedTodos.length, defaultValue: `完了済み（${completedTodos.length}件）` })}`;
+        sep.innerHTML = `<span class="sep-toggle">▶</span> 完了済み（${completedTodos.length}件）`;
         sep.addEventListener('click', () => {
             const cl = document.getElementById('completed-list');
             cl.classList.toggle('collapsed');
@@ -1026,7 +980,7 @@ function renderTodoList() {
 }
 
 function updateTodoCount(count) {
-    document.getElementById('todo-count').textContent = i18next.t('ui.todo_count', { count: count });
+    document.getElementById('todo-count').textContent = `${count}件のやること`;
 }
 
 function createTodoItem(todo, completed) {
@@ -1035,15 +989,15 @@ function createTodoItem(todo, completed) {
     div.id = `todo-${todo.id}`;
     const emoji = categoryEmoji(todo.category);
     const label = categoryLabel(todo.category);
-    const recurringMark = todo.isRecurring ? '<span class="recurring-mark" title="毎日タスク">\u{1F501}</span>' : '';
+    const recurringMark = todo.isRecurring ? '<span class="recurring-mark" title="毎日タスク">🔁</span>' : '';
     div.innerHTML = `
     <div class="todo-content">
       <span class="todo-category" title="${label}">${emoji}</span>
       <span class="todo-text">${escapeHtml(todo.text)}</span>${recurringMark}
     </div>
     <div class="todo-actions">
-      ${completed ? '' : `<button class="todo-complete-btn" title="${i18next.t('ui.done')}">\u{2713}</button>`}
-      <button class="todo-delete-btn" title="${i18next.t('ui.delete')}">×</button>
+      ${completed ? '' : '<button class="todo-complete-btn" title="完了！">✓</button>'}
+      <button class="todo-delete-btn" title="削除">×</button>
     </div>`;
     if (!completed) div.querySelector('.todo-complete-btn').addEventListener('click', () => completeTodo(todo.id));
     div.querySelector('.todo-delete-btn').addEventListener('click', () => deleteTodo(todo.id));
@@ -1127,33 +1081,18 @@ function deleteTodo(id) {
 
 function renderStatus() {
     const spec = getMonsterSpec(data.character.name, data.character.level, data.character.branch);
-    // モンスター名は翻訳ファイルから取得、なければspecの名前を使用
-    const monsterName = i18next.t(`monster.name.${spec.id}`, { defaultValue: spec.displayName || spec.name });
-    document.getElementById('char-name').textContent = monsterName;
-    const lvStr = i18next.t('ui.level_prefix', { defaultValue: 'Lv.' });
-    document.getElementById('char-level').textContent = `${lvStr}${data.character.level}`;
-
+    document.getElementById('char-name').textContent = spec.displayName || spec.name;
+    document.getElementById('char-level').textContent = `Lv.${data.character.level}`;
+    // document.getElementById('char-stage').textContent = getStageName(data.character); // 削除要望
     const stageEl = document.getElementById('char-stage');
     if (stageEl) stageEl.style.display = 'none';
-    
     const branchEl = document.getElementById('char-branch');
-    if (data.character.branch) { 
-        branchEl.textContent = getBranchDescription(data.character.branch); 
-        branchEl.style.display = 'block'; 
-    } else {
-        branchEl.style.display = 'none';
-    }
-    
+    if (data.character.branch) { branchEl.textContent = getBranchDescription(data.character.branch); branchEl.style.display = 'block'; }
+    else branchEl.style.display = 'none';
     const progress = getExpProgress(data.character);
     document.getElementById('exp-bar-fill').style.width = `${progress * 100}%`;
     const remainingTasks = Math.ceil(getExpToNext(data.character) / EXP_PER_TASK);
-
-    const expText = document.getElementById('exp-text');
-    if (data.character.level >= 10) {
-        expText.textContent = i18next.t('ui.max_level', { defaultValue: 'MAX!' });
-    } else {
-        expText.textContent = i18next.t('monster.exp_to_evolve', { count: remainingTasks, defaultValue: `あと${remainingTasks}タスクで進化` });
-    }
+    document.getElementById('exp-text').textContent = data.character.level >= 10 ? 'MAX!' : `あと${remainingTasks}タスクで進化`;
 
     // 図鑑番号表示（非表示に変更）
     const dexEl = document.getElementById('char-dex');
@@ -1163,7 +1102,7 @@ function renderStatus() {
     const ownerEl = document.getElementById('char-owner');
     if (ownerEl) {
         if (data.ownerName) {
-            ownerEl.textContent = i18next.t('ui.owner_info', { name: data.ownerName, gen: data.generation, defaultValue: `${data.ownerName}のモンスター（${data.generation}代目）` });
+            ownerEl.textContent = `${data.ownerName}のモンスター（${data.generation}代目）`;
             ownerEl.style.display = 'block';
         } else {
             ownerEl.style.display = 'none';
@@ -1214,11 +1153,11 @@ function renderPersonality() {
 
     const bars = document.getElementById('personality-bars');
     const traits = [
-        { key: 'creative', label: i18next.t('ui.cat_creative', { defaultValue: '\u{1F3A8} クリエイティブ' }), color: '#ff6ec7' },
-        { key: 'physical', label: i18next.t('ui.cat_physical', { defaultValue: '\u{1F4AA} フィジカル' }), color: '#ef4444' },
-        { key: 'social', label: i18next.t('ui.cat_social', { defaultValue: '\u{1F5E3}️ ソーシャル' }), color: '#fbbf24' },
-        { key: 'intellectual', label: i18next.t('ui.cat_intellectual', { defaultValue: '\u{1F4DA} インテリジェンス' }), color: '#818cf8' },
-        { key: 'chaotic', label: i18next.t('ui.cat_chaotic', { defaultValue: '\u{1F389} カオス' }), color: '#e879f9' },
+        { key: 'creative', label: '🎨 クリエイティブ', color: '#ff6ec7' },
+        { key: 'physical', label: '💪 フィジカル', color: '#ef4444' },
+        { key: 'social', label: '🗣️ ソーシャル', color: '#fbbf24' },
+        { key: 'intellectual', label: '📚 インテリジェンス', color: '#818cf8' },
+        { key: 'chaotic', label: '🎉 カオス', color: '#e879f9' },
     ];
     bars.innerHTML = '';
     const maxVal = Math.max(1, ...Object.values(data.personality));
@@ -1240,7 +1179,7 @@ export async function triggerChat() {
     const btn = document.getElementById('chat-trigger-btn');
     if (btn.disabled) return;
     btn.disabled = true;
-    btn.textContent = i18next.t('ui.thinking', { defaultValue: '\u{1F504} 考え中...' });
+    btn.textContent = '🔄 考え中...';
 
     // 手動チャットでもあいぼうガイドを優先発動 (30%)
     const rareMonsters = data.unlockedRareMonsters || [];
@@ -1252,12 +1191,7 @@ export async function triggerChat() {
 
         // 1. プレイヤー（自分）がフリを入れる
         // 1. プレイヤー（自分）がフリを入れる
-        const questions = [
-            i18next.t('chat.q_world', { defaultValue: 'この世界どうなってるんだろう？' }),
-            i18next.t('chat.q_how', { defaultValue: 'これ、どうやるの？' }),
-            i18next.t('chat.q_good', { defaultValue: '何かいいことない？' }),
-            i18next.t('chat.q_secret', { defaultValue: '秘密おしえて！' })
-        ];
+        const questions = ['この世界どうなってるんだろう？', 'これ、どうやるの？', '何かいいことない？', '秘密おしえて！'];
         const question = questions[Math.floor(Math.random() * questions.length)];
 
         // 即座に表示
@@ -1284,7 +1218,7 @@ export async function triggerChat() {
                 // ボタン復帰 (必ず実行)
                 setTimeout(() => {
                     btn.disabled = false;
-                    btn.textContent = '\u{1F4AC} はなす';
+                    btn.textContent = '💬 はなす';
                 }, 2000);
             }
         }, 1800);
@@ -1313,19 +1247,19 @@ export async function triggerChat() {
                 // あいぼう専用会話の分岐
                 if (m2Speaker.id === 'partner_aibou') {
                     const hour = new Date().getHours();
-                    if (hour < 6) m2Text = i18next.t('chat.aibou_midnight', { defaultValue: "……zzz。あ、起きてたの？" });
-                    else if (hour < 12) m2Text = i18next.t('chat.aibou_morning', { defaultValue: "おはよう！今日も一歩ずつ進おう。" });
-                    else if (hour < 18) m2Text = i18next.t('chat.aibou_afternoon', { defaultValue: "調子はどう？無理しすぎないでね。" });
-                    else m2Text = i18next.t('chat.aibou_night', { defaultValue: "今日も一日おつかれさま！ゆっくり休んでね。" });
+                    if (hour < 6) m2Text = "……zzz。あ、起きてたの？";
+                    else if (hour < 12) m2Text = "おはよう！今日も一歩ずつ進もう。";
+                    else if (hour < 18) m2Text = "調子はどう？無理しすぎないでね。";
+                    else m2Text = "今日も一日おつかれさま！ゆっくり休んでね。";
 
                     // たまにヒント
                     if (Math.random() < 0.3) {
                         const hints = [
-                            i18next.t('chat.hint_100', { defaultValue: "100個タスクを達成すると、いいことがあるかも？" }),
-                            i18next.t('chat.hint_midnight', { defaultValue: "深夜3時にだけ現れるナニカがいるらしいよ..." }),
-                            i18next.t('chat.hint_king', { defaultValue: "長く続けると王様になれるって噂だよ！" }),
-                            i18next.t('chat.hint_exp', { defaultValue: "完了したタスクの数だけ、ボクたちは強くなれるんだ。" }),
-                            i18next.t('chat.hint_history', { defaultValue: "たまには昔のタスクを振り返ってみるのもいいかもね。" })
+                            "100個タスクを達成すると、いいことがあるかも？",
+                            "深夜3時にだけ現れるナニカがいるらしいよ...",
+                            "長く続けると王様になれるって噂だよ！",
+                            "完了したタスクの数だけ、ボクたちは強くなれるんだ。",
+                            "たまには昔のタスクを振り返ってみるのもいいかもね。"
                         ];
                         m2Text = hints[Math.floor(Math.random() * hints.length)];
                     }
@@ -1381,7 +1315,7 @@ export async function triggerChat() {
         // 少し余韻を持たせてからボタン復帰
         setTimeout(() => {
             btn.disabled = false;
-            btn.textContent = i18next.t('ui.chat');
+            btn.textContent = '💬 はなす';
         }, 2000);
     }
 }
@@ -1396,7 +1330,7 @@ function renderHistoryModal() {
     const tasks = data.todos.filter(t => t.completed).sort((a, b) => b.completedAt - a.completedAt);
 
     if (tasks.length === 0) {
-        body.innerHTML = `<div class="history-empty">${i18next.t('ui.history_empty', { defaultValue: 'まだ完了したタスクはないよ' })}</div>`;
+        body.innerHTML = '<div class="history-empty">まだ完了したタスクはないよ</div>';
         return;
     }
 
@@ -1422,7 +1356,7 @@ function renderHistoryModal() {
             body.appendChild(section);
         }
 
-        const timeStr = d.toLocaleTimeString(i18next.language === 'ja' ? 'ja-JP' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+        const timeStr = d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
         const div = document.createElement('div');
         div.className = 'history-item';
         div.innerHTML = `
@@ -1448,7 +1382,7 @@ function useMaterialForEvolution(itemId, monsterId) {
 
     // キャラクター情報の上書き（伝説級へ）
     data.character.name = monsterId;
-    data.character.level = 10; // 伝説の定義に合わせる（十分高いレベル）
+    data.character.level = 99; // 伝説の証
     data.character.branch = 'rare';
 
     // セーブ
@@ -1464,13 +1398,12 @@ function useMaterialForEvolution(itemId, monsterId) {
 
     // 進化演出の実行
     const newSpec = getMonsterSpec(data.character.name, data.character.level, data.character.branch);
-    // 進化演出のメッセージも多言語対応版があれば差し替える（ここでは一旦元のロジックを維持しつつ名前のみ）
     playEvolutionEffectUI(newSpec.displayName, newSpec);
 
     // 図鑑に登録
     discoverMonster(monsterId);
 
-    alert(i18next.t('message.special_evolved', { name: i18next.t(`monster.name.${monsterId}`), defaultValue: 'おおおっ！？ 凄まじい光と共に、モンスターが伝説の姿へと覚醒しました！！' }));
+    alert('おおおっ！？ 凄まじい光と共に、モンスターが伝説の姿へと覚醒しました！！');
 }
 
 // --- 進化エフェクト ---
@@ -1510,7 +1443,7 @@ function playEvolutionEffectUI(newName, newSpec) {
     }
     if (nameEl) {
         setTimeout(() => {
-            nameEl.textContent = i18next.t('message.evolved_to', { name: newName, defaultValue: `\u{2728} ${newName}に進化した！ \u{2728}` });
+            nameEl.textContent = `✨ ${newName}に進化した！ ✨`;
             nameEl.classList.add('show');
         }, 800);
     }
@@ -1630,13 +1563,7 @@ function checkRareDiscovery() {
     if (discovered) {
         saveData(data);
         setTimeout(() => {
-            const monsterName = i18next.t(`monster.name.${discovered.id}`, { defaultValue: discovered.name });
-            const reason = i18next.t(`monster.discovery_reason.${discovered.id}`, { defaultValue: discovered.reason });
-            alert(i18next.t('message.rare_discovered', {
-                name: monsterName,
-                reason: reason,
-                defaultValue: `\u{1F31F} レアモンスター「${monsterName}」を発見！\n理由: ${reason}\nはこにわに遊びに来たよ！`
-            }));
+            alert(`🌟 レアモンスター「${discovered.name}」を発見！\n理由: ${discovered.reason}\nはこにわに遊びに来たよ！`);
         }, 1000);
 
         // 即座に箱庭更新
@@ -1654,11 +1581,7 @@ function renderDex() {
     const total = MONSTERS.length;
     const found = discovered.length;
 
-    countEl.textContent = i18next.t('ui.dex_count', {
-        current: found,
-        total: total,
-        defaultValue: `${found} / ${total} 発見済み`
-    });
+    countEl.textContent = `${found} / ${total} 発見済み`;
 
     MONSTERS.forEach((m, idx) => {
         const isDiscovered = discovered.includes(m.id);
@@ -1702,8 +1625,7 @@ function renderDex() {
 
         const nameDiv = document.createElement('div');
         nameDiv.className = 'dex-card-name';
-        const mName = i18next.t(`monster.name.${m.id}`, { defaultValue: m.name });
-        nameDiv.textContent = isDiscovered ? mName : '???';
+        nameDiv.textContent = isDiscovered ? m.name : '???';
         card.appendChild(nameDiv);
 
         grid.appendChild(card);
@@ -1720,12 +1642,13 @@ function renderShop() {
         const isConsumable = ['starter', 'standard'].includes(plan);
 
         if (!isConsumable) {
-            const planTitle = i18next.t(`shop.plan_${plan}`, { defaultValue: plan });
-            const planDesc = i18next.t(`shop.plan_${plan}_desc`, { defaultValue: '' });
-            // 動的に書き換えるのはボタンテキストだけではなく、親のカード内のテキストも必要だが、
-            // 現状の index.html 構造に合わせてボタンテキストのみ翻訳
+            let isPurchased = false;
+            if (plan === 'premium' && data.isVip) isPurchased = true;
+            else if (plan === 'special' && data.isSupporter) isPurchased = true;
+            else if (data.purchasedPlans && data.purchasedPlans.includes(plan)) isPurchased = true;
+
             if (isPurchased) {
-                btn.textContent = i18next.t('ui.purchased', { defaultValue: '購入済み' });
+                btn.textContent = '購入済み';
                 btn.disabled = true;
                 btn.style.opacity = '0.5';
             }

@@ -18,7 +18,7 @@ export const ITEMS = {
         desc: '太陽の熱量を閉じ込めた情熱の石。特定の進化を促す。',
         type: 'material',
         rarity: 'rare',
-        icon: '🌞'
+        icon: '☀️'
     },
     rainbow_drop: {
         id: 'rainbow_drop',
@@ -26,7 +26,7 @@ export const ITEMS = {
         desc: '全ての可能性を秘めた七色のしずく。超絶進化の鍵。',
         type: 'material',
         rarity: 'super_rare',
-        icon: '🌈'
+        icon: '💧'
     },
     thunder_gem: {
         id: 'thunder_gem',
@@ -34,7 +34,7 @@ export const ITEMS = {
         desc: 'パチパチとはぜる電撃の宝石。雷神の如き進化へ。',
         type: 'material',
         rarity: 'rare',
-        icon: '🌩️'
+        icon: '⚡'
     },
     glacial_ice: {
         id: 'glacial_ice',
@@ -42,7 +42,7 @@ export const ITEMS = {
         desc: '決して溶けない絶対零度の氷。氷龍の力を呼び覚ます。',
         type: 'material',
         rarity: 'rare',
-        icon: '🧊'
+        icon: '❄️'
     },
     eternal_flame: {
         id: 'eternal_flame',
@@ -66,7 +66,7 @@ export const ITEMS = {
         desc: '全てを吸い込む漆黒の石。深淵の覇者となる。',
         type: 'material',
         rarity: 'super_rare',
-        icon: '🌑'
+        icon: '🕳️'
     },
     nature_seed: {
         id: 'nature_seed',
@@ -74,7 +74,7 @@ export const ITEMS = {
         desc: '生命の鼓動を感じる巨大な種。森の守護者への進化。',
         type: 'material',
         rarity: 'rare',
-        icon: '🌱'
+        icon: '🥜'
     },
     gear_of_destiny: {
         id: 'gear_of_destiny',
@@ -82,7 +82,7 @@ export const ITEMS = {
         desc: '時を刻み続ける黄金の歯車。機械仕掛けの神へ。',
         type: 'material',
         rarity: 'super_rare',
-        icon: '🔮'
+        icon: '⚙️'
     },
     stardust_powder: {
         id: 'stardust_powder',
@@ -90,7 +90,7 @@ export const ITEMS = {
         desc: '星が流れた跡に残る銀色の粉。宇宙の意志と繋がる。',
         type: 'material',
         rarity: 'rare',
-        icon: '🌠'
+        icon: '✨'
     },
     demon_wing: {
         id: 'demon_wing',
@@ -114,7 +114,7 @@ export const ITEMS = {
         desc: '強靭な竜の力が宿る鱗。物理的な進化を促す。',
         type: 'material',
         rarity: 'rare',
-        icon: '🐲'
+        icon: '🛡️'
     },
 
     // --- 背景テーマ (Backgrounds) ---

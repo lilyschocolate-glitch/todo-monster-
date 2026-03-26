@@ -1,11 +1,11 @@
 {
-    "name": "ToDo MONSTER",
-    "short_name": "ToDoMon",
+    "name": "やることモンスター",
+    "short_name": "やるモン",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#e0f2fe",
     "theme_color": "#6366f1",
-    "description": "A To-Do app where monsters evolve as you complete tasks.",
+    "description": "やることを達成するたびにモンスターが進化する育成Webアプリ",
     "icons": [
         {
             "src": "./icon-v4.svg",

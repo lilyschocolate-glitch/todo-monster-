@@ -21,7 +21,7 @@ const EXP_TABLE = [
     99999   // MAX
 ];
 
-/** 系統別の説明テキスト（フォールバック用） */
+/** 系統別の説明テキスト */
 const BRANCH_DESC = {
     creative: '色と形を操る芸術派',
     physical: '筋肉で全てを解決する脳筋派',
@@ -33,14 +33,11 @@ const BRANCH_DESC = {
 /** 現在の段階名を返す */
 export function getStageName(char) {
     const spec = getMonsterSpec(char.name, char.level, char.branch);
-    return spec.desc || (window.i18next ? window.i18next.t('ui.unknown_entity', { defaultValue: '謎の存在' }) : '謎の存在');
+    return spec.desc || '謎の存在';
 }
 
 /** 系統の説明テキストを返す */
 export function getBranchDescription(branch) {
-    if (window.i18next) {
-        return window.i18next.t(`character.branch.${branch}`, { defaultValue: BRANCH_DESC[branch] || '' });
-    }
     return BRANCH_DESC[branch] || '';
 }
 

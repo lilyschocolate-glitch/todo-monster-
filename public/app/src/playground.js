@@ -1,75 +1,36 @@
-import { getMonsterSpec, MONSTERS, drawCharacterOnCtx } from './pixel-engine.js';
+import { getMonsterSpec, MONSTERS } from './pixel-engine.js';
 import { ITEMS, getBackgroundStyles } from './items.js';
 
-// --- 定数 (Top-level declaration for safety) ---
-const SPRITE_PX = 2;  // 1ドットあたりの描画サイズ(論理px)
-const GRID = 16;
-const SPRITE_SIZE = GRID * SPRITE_PX; // 32px
-
 class Playground {
-    constructor() {
-        console.log(`[Playground] Constructor called at ${new Date().getTime()}`);
-        this.canvas = null;
-        this.ctx = null;
-        this.overlay = null;
-        this.characters = [];
-        this.lastTime = performance.now();
-        this.config = {
-            background: 'default',
-            themeObjects: []
-        };
-        this.width = 300; // デフォルト値
-        this.height = 200;
-        this.groundY = 70;
-    }
-
-    init(canvasId, overlayId) {
+    constructor(canvasId, overlayId) {
         this.canvas = document.getElementById(canvasId);
-        if (!this.canvas) {
-            console.error(`[Playground] Canvas #${canvasId} not found`);
-            return;
-        }
         this.ctx = this.canvas.getContext('2d');
         this.overlay = document.getElementById(overlayId);
+        this.characters = [];
+        this.lastTime = 0;
+        this.config = {
+            background: 'default',
+            themeObjects: [] // 固定配置用のキャッシュ
+        };
 
-        this.updateSize();
-        this.startLoop();
-
-        if (window.ResizeObserver) {
-            this.resizeObserver = new ResizeObserver(() => {
-                this.updateSize();
-            });
-            this.resizeObserver.observe(this.canvas);
-        } else {
-            window.addEventListener('resize', () => this.updateSize());
-        }
-    }
-
-    updateSize() {
+        // Canvasサイズ調整 (Retina対応)
         const dpr = window.devicePixelRatio || 1;
         const rect = this.canvas.getBoundingClientRect();
-
-        // rect.widthが0の場合は何もしない（まだ描画されていない）
-        if (rect.width === 0) return;
-
         this.canvas.width = rect.width * dpr;
         this.canvas.height = rect.height * dpr;
-        this.ctx.setTransform(1, 0, 0, 1, 0, 0); // スケールを一旦リセット
         this.ctx.scale(dpr, dpr);
-
         this.width = rect.width;
         this.height = rect.height;
 
-        // 地面の高さを再計算
+        // 草エリアは下半分
         this.groundY = this.height * 0.35;
-        console.log(`[Playground] updateSize: ${this.width}x${this.height}, groundY: ${this.groundY}`);
+
+        this.startLoop();
     }
 
     setConfig(config) {
         const oldBg = this.config.background;
         this.config = { ...this.config, ...config };
-
-        this.updateSize(); // サイズ確認
 
         // 背景が変わったらテーマオブジェクトを再生成
         if (this.config.background !== oldBg) {
@@ -82,7 +43,6 @@ class Playground {
     }
 
     setCharacters(playerData, friends) {
-        this.updateSize(); // キャラ配置前にサイズを確定
         this.characters = [];
         this.addCharacter('player', playerData);
         if (friends) {
@@ -93,16 +53,13 @@ class Playground {
     }
 
     addCharacter(id, data) {
-        // IDまたは名前、レベル、分岐からスペック取得
+        // レアキャラ等の場合、data.nameは表示名（日本語）になっている可能性があるため、
+        // data.idがあればそれを優先してSpec取得に使う
         const spec = getMonsterSpec(data.id || data.name, data.level, data.branch);
-        // 画面サイズがまだ確定していない場合は100x100仮置き
-        const w = this.width || 100;
-        const h = this.height || 100;
-        const gy = this.groundY || 35;
-
+        // 草エリア内にランダム配置（SPRITE_SIZE分の余白確保）
         const margin = 40;
-        const x = margin + Math.random() * (w - margin * 2);
-        const y = gy + 10 + Math.random() * (h - gy - margin - 10);
+        const x = margin + Math.random() * (this.width - margin * 2);
+        const y = this.groundY + 10 + Math.random() * (this.height - this.groundY - margin - 10);
 
         this.characters.push({
             id,
@@ -187,131 +144,103 @@ class Playground {
     }
 
     draw() {
-        try {
-            if (!this.width || !this.height) return;
+        // 背景テーマの取得
+        const styles = getBackgroundStyles(this.config.background);
 
-            // キャラクターがいる場合、空の状態のメッセージを隠す
-            const descEl = document.querySelector('.playground-desc');
-            if (descEl) {
-                descEl.style.display = this.characters.length > 0 ? 'none' : 'block';
-            }
+        // --- 背景描画 (空・遠景) ---
+        this.drawThematicBackground(styles);
 
-            if (this.characters.length > 0) {
-                // 初回描画成功時などのデバッグ用（量が多いので最初だけ）
-                if (!window._pg_logged) {
-                    console.log(`[Playground] Drawing ${this.characters.length} characters. First one:`, this.characters[0]);
-                    window._pg_logged = true;
+        // --- 地面描画 ---
+        this.ctx.fillStyle = styles.groundColor;
+        this.ctx.fillRect(0, this.groundY, this.width, this.height - this.groundY);
+        this.drawThematicGround(styles);
+
+        // 背景エフェクト (パーティクル等)
+        const deco = styles.decorations;
+        if (deco === 'stars') this.drawStars();
+        if (deco === 'aurora') this.drawAurora();
+        if (deco === 'fires') this.drawFire();
+        if (deco === 'petals') this.drawPetals();
+        if (deco === 'sweets') this.drawSweets();
+        if (deco === 'bubbles') this.drawRipples();
+        if (deco === 'glimmers') this.drawGlimmers();
+
+        // 影（ゆらゆら連動）
+        this.characters.forEach(char => {
+            // 浮遊量から影の大きさを計算
+            const floatY = Math.sin(char.animFrame * char.floatSpeed + char.floatPhase) * 3;
+            const shadowScale = 1 - Math.abs(floatY) * 0.05;
+            this.ctx.fillStyle = `rgba(0,0,0,${0.08 + shadowScale * 0.02})`;
+            this.ctx.beginPath();
+            this.ctx.ellipse(
+                char.x + SPRITE_SIZE / 2,
+                char.y + SPRITE_SIZE + 2,
+                8 * shadowScale,
+                2.5 * shadowScale,
+                0, 0, Math.PI * 2
+            );
+            this.ctx.fill();
+        });
+
+        // 家具描画
+        if (this.config.furniture) {
+            this.config.furniture.forEach(f => {
+                const item = ITEMS[f.id];
+                if (item) {
+                    this.ctx.save();
+                    // 影の描画
+                    this.ctx.shadowColor = 'rgba(0,0,0,0.2)';
+                    this.ctx.shadowBlur = 4;
+                    this.ctx.shadowOffsetY = 2;
+
+                    // 縁取り
+                    this.ctx.font = '28px serif';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+                    this.ctx.lineWidth = 3;
+                    this.ctx.strokeText(item.icon, f.x, f.y);
+
+                    // 本体
+                    this.ctx.fillText(item.icon, f.x, f.y);
+                    this.ctx.restore();
                 }
-            }
-
-            // 背景テーマの取得
-            const styles = getBackgroundStyles(this.config.background);
-            if (!styles) {
-                console.error("[Playground] Failed to get background styles for:", this.config.background);
-                return;
-            }
-
-            // --- 背景描画 (空・遠景) ---
-            this.drawThematicBackground(styles);
-
-            // --- 地面描画 ---
-            this.ctx.fillStyle = styles.groundColor;
-            this.ctx.fillRect(0, this.groundY, this.width, this.height - this.groundY);
-            this.drawThematicGround(styles);
-
-            // 背景エフェクト (パーティクル等)
-            const deco = styles.decorations;
-            if (deco === 'stars') this.drawStars();
-            if (deco === 'aurora') this.drawAurora();
-            if (deco === 'fires') this.drawFire();
-            if (deco === 'petals') this.drawPetals();
-            if (deco === 'sweets') this.drawSweets();
-            if (deco === 'bubbles') this.drawRipples();
-            if (deco === 'glimmers') this.drawGlimmers();
-            if (deco === 'neon_v2') this.drawNeon(); // 追加
-
-            // 影（ゆらゆら連動）
-            this.characters.forEach(char => {
-                // 浮遊量から影の大きさを計算
-                const floatY = Math.sin(char.animFrame * char.floatSpeed + char.floatPhase) * 3;
-                const shadowScale = 1 - Math.abs(floatY) * 0.05;
-                this.ctx.fillStyle = `rgba(0,0,0,${0.08 + shadowScale * 0.02})`;
-                this.ctx.beginPath();
-                this.ctx.ellipse(
-                    char.x + SPRITE_SIZE / 2,
-                    char.y + SPRITE_SIZE + 2,
-                    8 * shadowScale,
-                    2.5 * shadowScale,
-                    0, 0, Math.PI * 2
-                );
-                this.ctx.fill();
             });
-
-            // 家具描画
-            if (this.config.furniture) {
-                this.config.furniture.forEach(f => {
-                    const item = ITEMS[f.id];
-                    if (item) {
-                        this.ctx.save();
-                        // 影の描画
-                        this.ctx.shadowColor = 'rgba(0,0,0,0.2)';
-                        this.ctx.shadowBlur = 4;
-                        this.ctx.shadowOffsetY = 2;
-
-                        // 縁取り
-                        this.ctx.font = '28px "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
-                        this.ctx.textAlign = 'center';
-                        this.ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-                        this.ctx.lineWidth = 3;
-                        this.ctx.strokeText(item.icon, f.x, f.y);
-
-                        // 本体
-                        this.ctx.fillText(item.icon, f.x, f.y);
-                        this.ctx.restore();
-                    }
-                });
-            }
-
-            // キャラ描画
-            this.characters.forEach(char => {
-                // ゆるふわ浮遊（振幅を少し大きく、周期を長く）
-                const floatY = Math.sin(char.animFrame * char.floatSpeed + char.floatPhase) * 6;
-                // 左右の微揺れ
-                const swayX = Math.sin(char.animFrame * char.swaySpeed + char.swayPhase) * 2;
-
-                this.ctx.save();
-                this.ctx.translate(char.x + swayX, char.y + floatY);
-
-                // 金色オーラ演出 (寿プラン特典)
-                // char.data がプレイヤーのグローバルデータへの参照か、その一部であることを期待
-                // (ui.js で data.isSupporter = true になる)
-                if (char.id === 'player' && window.todoMonsterData?.isSupporter) {
-                    this.drawGoldenAura(this.ctx, char.animFrame);
-                }
-
-                drawCharacterOnCtx(this.ctx, char.spec, char.data.level, char.animFrame, char.dir);
-                this.ctx.restore();
-
-                // 名前ラベル描画（キャラの下に小さく）
-                this.ctx.save();
-                this.ctx.font = '8px "M PLUS Rounded 1c", sans-serif';
-                this.ctx.fillStyle = 'rgba(51, 65, 85, 0.7)';
-                this.ctx.textAlign = 'center';
-                const displayName = char.spec ? (i18next.t(`monster.name.${char.spec.name}`, { defaultValue: char.spec.displayName || char.spec.desc || '?' })) : '???';
-                // 名前が長いときは5文字に切る（表示領域への配慮）
-                const shortName = displayName.length > 5 ? displayName.slice(0, 4) + '…' : displayName;
-                this.ctx.fillText(shortName, char.x + SPRITE_SIZE / 2, char.y + SPRITE_SIZE + 12);
-                this.ctx.restore();
-
-                // 吹き出し位置更新
-                this.updateBubblePos(char, floatY);
-            });
-        } catch (err) {
-            if (!window._pg_error_logged) {
-                console.error("[Playground] Error in draw loop:", err);
-                window._pg_error_logged = true;
-            }
         }
+
+        // キャラ描画
+        this.characters.forEach(char => {
+            // ゆるふわ浮遊（振幅を少し大きく、周期を長く）
+            const floatY = Math.sin(char.animFrame * char.floatSpeed + char.floatPhase) * 6;
+            // 左右の微揺れ
+            const swayX = Math.sin(char.animFrame * char.swaySpeed + char.swayPhase) * 2;
+
+            this.ctx.save();
+            this.ctx.translate(char.x + swayX, char.y + floatY);
+
+            // 金色オーラ演出 (寿プラン特典)
+            // char.data がプレイヤーのグローバルデータへの参照か、その一部であることを期待
+            // (ui.js で data.isSupporter = true になる)
+            if (char.id === 'player' && window.todoMonsterData?.isSupporter) {
+                this.drawGoldenAura(this.ctx, char.animFrame);
+            }
+
+            drawCharacterOnCtx(this.ctx, char.spec, char.data.level, char.animFrame, char.dir);
+            this.ctx.restore();
+
+            // 名前ラベル描画（キャラの下に小さく）
+            this.ctx.save();
+            this.ctx.font = '8px "M PLUS Rounded 1c", sans-serif';
+            this.ctx.fillStyle = 'rgba(51, 65, 85, 0.7)';
+            this.ctx.textAlign = 'center';
+            const displayName = char.spec.displayName || char.spec.desc || '?';
+            // 名前が長いときは5文字に切る（表示領域への配慮）
+            const shortName = displayName.length > 5 ? displayName.slice(0, 4) + '…' : displayName;
+            this.ctx.fillText(shortName, char.x + SPRITE_SIZE / 2, char.y + SPRITE_SIZE + 12);
+            this.ctx.restore();
+
+            // 吹き出し位置更新
+            this.updateBubblePos(char, floatY);
+        });
     }
 
     drawGoldenAura(ctx, animFrame) {
@@ -343,11 +272,8 @@ class Playground {
 
     startLoop() {
         const loop = (time) => {
-            let dt = time - this.lastTime;
+            const dt = time - this.lastTime;
             this.lastTime = time;
-
-            // 初回やスリープ復帰時の巨大なdtを抑制
-            if (dt > 100) dt = 16;
 
             this.update(dt || 16);
             this.draw();
@@ -368,10 +294,8 @@ class Playground {
         }
         if (!char) return;
 
-        const rawName = (char.spec && char.spec.displayName) || char.data.name || '???';
-        const speakerName = (char.spec && window.i18next)
-            ? window.i18next.t(`monster.name.${char.spec.name}`, { defaultValue: rawName })
-            : rawName;
+        // 発言者名を取得
+        const speakerName = (char.spec && char.spec.displayName) || char.data.name || '???';
 
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble';
@@ -475,8 +399,8 @@ class Playground {
     }
 
     drawSweets() {
-        const icons = ['\u{1F36D}', '\u{1F36C}', '\u{1F369}', '\u{1F36A}'];
-        this.ctx.font = '14px "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+        const icons = ['🍭', '🍬', '🍩', '🍪'];
+        this.ctx.font = '14px serif';
         for (let i = 0; i < 10; i++) {
             const x = (Math.sin(this.lastTime * 0.0007 + i) * 0.4 + 0.5) * this.width;
             const y = (Math.cos(this.lastTime * 0.0005 + i * 2) * 0.4 + 0.5) * this.groundY;
@@ -1154,7 +1078,34 @@ class Playground {
     }
 }
 
-// MONSTERSデータから直接描画するヘルパー（drawMonster不使用）は pixel-engine.js からインポートしています
+// MONSTERSデータから直接描画するヘルパー（drawMonster不使用）
 
-export const playground = new Playground();
-window.playground = playground;
+const SPRITE_PX = 2;  // 1ドットあたりの描画サイズ(論理px)
+const GRID = 16;
+const SPRITE_SIZE = GRID * SPRITE_PX; // 32px
+
+function drawCharacterOnCtx(targetCtx, spec, level, time, dir) {
+    const monster = MONSTERS.find(m => m.id === spec.name) || MONSTERS[0];
+    const { data, palette } = monster;
+
+    targetCtx.save();
+
+    if (dir === -1) {
+        // 水平反転
+        targetCtx.scale(-1, 1);
+        targetCtx.translate(-SPRITE_SIZE, 0);
+    }
+
+    for (let r = 0; r < GRID; r++) {
+        for (let c = 0; c < GRID; c++) {
+            const val = data[r]?.[c];
+            if (!val) continue;
+            targetCtx.fillStyle = palette[val] || '#000';
+            targetCtx.fillRect(c * SPRITE_PX, r * SPRITE_PX, SPRITE_PX, SPRITE_PX);
+        }
+    }
+
+    targetCtx.restore();
+}
+
+export const playground = new Playground('playground-canvas', 'chat-overlay');

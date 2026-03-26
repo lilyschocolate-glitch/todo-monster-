@@ -47,7 +47,7 @@ export function getPersonalityTotal(personality) {
 /** 性格のサマリーテキストを生成（キャラの口調で） */
 export function getPersonalitySummary(personality) {
     const total = getPersonalityTotal(personality);
-    if (total === 0) return i18next.t('ui.personality_empty', { defaultValue: 'まだ何もしてないから、よくわかんない…' });
+    if (total === 0) return 'まだ何もしてないから、よくわかんない…';
 
     // 上位2つの特性を取得
     const sorted = Object.entries(personality)
@@ -55,32 +55,24 @@ export function getPersonalitySummary(personality) {
         .filter(([, v]) => v > 0);
 
     const traitDescriptions = {
-        creative: i18next.t('ui.trait_creative', { defaultValue: 'ものづくりが好き' }),
-        physical: i18next.t('ui.trait_physical', { defaultValue: '体を動かすのが好き' }),
-        social: i18next.t('ui.trait_social', { defaultValue: 'みんなと一緒がうれしい' }),
-        intellectual: i18next.t('ui.trait_intellectual', { defaultValue: '考えごとが楽しい' }),
-        chaotic: i18next.t('ui.trait_chaotic', { defaultValue: '何でもアリ' }),
+        creative: 'ものづくりが好き',
+        physical: '体を動かすのが好き',
+        social: 'みんなと一緒がうれしい',
+        intellectual: '考えごとが楽しい',
+        chaotic: '何でもアリ',
     };
 
-    const first = sorted[0];
-    const second = sorted.length > 1 ? sorted[1] : null;
-
-    if (sorted.length === 1 || (first[1] - second[1] > 10)) {
-        return i18next.t(`ui.trait_${first[0]}_ext`, { defaultValue: traitDescriptions[first[0]] });
+    if (sorted.length === 1) {
+        return traitDescriptions[sorted[0][0]];
     }
 
+    const [first, second] = sorted;
     const desc1 = traitDescriptions[first[0]];
     const desc2 = traitDescriptions[second[0]];
 
     // 差が小さいとバランス型
     if (first[1] - second[1] <= 2) {
-        return i18next.t('ui.personality_balance', {
-            desc1, desc2,
-            defaultValue: `${desc1}で、${desc2}タイプ`
-        });
+        return `${desc1}で、${desc2}タイプ`;
     }
-    return i18next.t('ui.personality_primary', {
-        desc1, desc2,
-        defaultValue: `${desc1}。ちょっとだけ${desc2}`
-    });
+    return `${desc1}。ちょっとだけ${desc2}`;
 }

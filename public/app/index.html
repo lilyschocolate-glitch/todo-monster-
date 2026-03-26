@@ -3,10 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title data-i18n="app.name">やることモンスター</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>やることモンスター</title>
   <meta name="description" content="やることを達成するたびにモンスターが進化する育成Webアプリ">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=13">
   <link rel="icon" href="icon-v4.svg?v=4" type="image/svg+xml">
   <link rel="manifest" href="manifest.json?v=4">
   <link rel="apple-touch-icon" href="icon-v4.png?v=4">
@@ -21,22 +21,9 @@
     }
   </script>
 
-  <!-- AdSense (Native環境では読み込まない) -->
-  <script>
-    if (!window.hasOwnProperty('Capacitor')) {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415951226156980";
-      script.crossOrigin = "anonymous";
-      document.head.appendChild(script);
-    }
-  </script>
-
-  <!-- i18next -->
-  <script src="https://unpkg.com/i18next@22.4.9/dist/umd/i18next.min.js"></script>
-  <script
-    src="https://unpkg.com/i18next-browser-languagedetector@7.0.1/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
-  <script src="https://unpkg.com/i18next-http-backend@2.0.1/i18nextHttpBackend.min.js"></script>
+  <!-- Google AdSense (審査用兼自動広告) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415951226156980"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -50,16 +37,16 @@
             <span class="dq-title-word">ToDo MONSTER</span>
             <canvas class="logo-monster" id="title-monster-right" width="64" height="64"></canvas>
           </div>
-          <div class="dq-title-sub" data-i18n="app.name">やることモンスター</div>
+          <div class="dq-title-sub">やることモンスター</div>
         </div>
       </div>
       <div class="controls">
-        <button id="backpack-btn" data-i18n="[title]ui.backpack"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><path d="M8 22v-5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5"></path></svg></button>
-        <button id="dex-btn" data-i18n="[title]ui.dex"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></button>
-        <button id="history-btn" data-i18n="[title]ui.history"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-9-9 9 9 0 0 1 9 9z"></path></svg></button>
-        <button id="mute-btn" data-i18n="[title]ui.mute"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></button>
-        <button id="settings-btn" data-i18n="[title]ui.settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
-        <button id="reset-btn" data-i18n="[title]ui.reset" style="color:#ef4444;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+        <button id="backpack-btn" title="バックパック">🎒</button>
+        <button id="dex-btn" title="図鑑">📖</button>
+        <button id="history-btn" title="完了タスク履歴">📋</button>
+        <button id="mute-btn" title="音の切り替え">🔊</button>
+        <button id="settings-btn" title="設定">⚙️</button>
+        <button id="reset-btn" title="リセット" style="color:#ef4444;">🗑️</button>
       </div>
     </header>
 
@@ -69,11 +56,11 @@
         <canvas id="char-canvas" width="128" height="128"></canvas>
       </div>
       <div class="char-info">
-        <button id="re-egg-btn" class="re-egg-btn" data-i18n="[title]ui.re_egg"></button>
+        <button id="re-egg-btn" class="re-egg-btn" title="タマゴに戻ってやり直す">🥚</button>
         <span id="char-dex" class="char-dex">No.001</span>
         <h2 id="char-name">ナゾタマ</h2>
         <span id="char-level" class="char-level">Lv.1</span>
-        <div id="char-stage" class="char-stage" data-i18n="monster.stage_egg">タマゴ</div>
+        <div id="char-stage" class="char-stage">タマゴ</div>
         <div id="char-branch" class="char-branch" style="display:none;"></div>
         <div id="char-owner" class="char-owner"></div>
       </div>
@@ -82,20 +69,19 @@
         <div id="exp-bar-fill" class="exp-bar-fill"></div>
       </div>
       <div id="exp-text" class="exp-text">あと5タスクで進化</div>
-      <button id="graduate-btn" class="graduate-btn" style="display:none;" data-i18n="ui.graduate">🎓 殿堂入りする</button>
+      <button id="graduate-btn" class="graduate-btn" style="display:none;">🎓 殿堂入りする</button>
       <div id="mock-status" class="mock-status"></div>
     </div>
 
     <!-- タスク入力フォーム -->
     <form class="todo-form" id="todo-form">
       <div class="date-tabs">
-        <button type="button" class="date-tab" data-date="yesterday" data-i18n="ui.yesterday">きのう</button>
-        <button type="button" class="date-tab active" data-date="today" data-i18n="ui.today">きょう</button>
-        <button type="button" class="date-tab" data-date="tomorrow" data-i18n="ui.tomorrow">あした</button>
+        <button type="button" class="date-tab" data-date="yesterday">きのう</button>
+        <button type="button" class="date-tab active" data-date="today">きょう</button>
+        <button type="button" class="date-tab" data-date="tomorrow">あした</button>
       </div>
       <div class="input-container">
-        <input type="text" id="todo-input" data-i18n="[placeholder]ui.placeholder_task" placeholder="やることは？"
-          autocomplete="off">
+        <input type="text" id="todo-input" placeholder="やることは？" autocomplete="off">
         <button type="submit" class="todo-submit-btn">＋</button>
       </div>
 
@@ -110,23 +96,23 @@
     <!-- はこにわ (Playground) -->
     <div class="playground-section" id="playground-section">
       <div class="playground-header">
-        <span data-i18n="ui.playground_title">🌿 はこにわ</span>
+        <span>🌿 はこにわ</span>
       </div>
-      <p class="playground-desc" data-i18n="ui.playground_desc">ともだちを追加しておしゃべりできるよ</p>
+      <p class="playground-desc">ともだちを追加しておしゃべりできるよ</p>
       <div class="playground-container">
         <canvas id="playground-canvas"></canvas>
         <div id="chat-overlay"></div>
       </div>
       <div class="chat-controls">
-        <button id="chat-trigger-btn" data-i18n="ui.chat">💬 はなす</button>
-        <button id="shop-btn" class="shop-trigger-btn" data-i18n="ui.shop">💎 ショップ</button>
+        <button id="chat-trigger-btn">💬 はなす</button>
+        <button id="shop-btn" class="shop-trigger-btn">💎 ショップ</button>
       </div>
     </div>
 
     <!-- 性格パラメータ -->
     <div class="personality-section" id="personality-section">
       <div class="playground-header">
-        <span data-i18n="ui.personality">🔮 せいかく</span>
+        <span>🔮 せいかく</span>
       </div>
       <div id="personality-summary" class="personality-summary"></div>
       <div id="personality-bars" class="p-bars">
@@ -137,25 +123,22 @@
     <!-- フレンド -->
     <div class="friend-section">
       <div class="playground-header">
-        <span data-i18n="ui.friend">👥 ともだち</span>
+        <span>👥 ともだち</span>
       </div>
       <div class="friend-body">
         <div class="friend-actions">
-          <button id="params-share-btn" class="friend-action-btn" data-i18n="ui.friend_share_x">🚀 Xでシェア</button>
-          <button id="add-friend-btn" class="friend-action-btn" data-i18n="ui.friend_add_btn">📩 ともだち追加</button>
-          <button id="export-btn" class="friend-action-btn" data-i18n="ui.friend_my_code">📲 マイコード</button>
+          <button id="params-share-btn" class="friend-action-btn" title="Xでシェア">🚀 Xでシェア</button>
+          <button id="add-friend-btn" class="friend-action-btn" title="ともだち追加">📥 ともだち追加</button>
+          <button id="export-btn" class="friend-action-btn" title="マイコード表示">📤 マイコード</button>
         </div>
         <div id="friend-list" class="friend-list">
-          <div class="friend-empty" data-i18n="ui.friend_empty_desc">フレンドを追加するとここに表示されるよ</div>
+          <div class="friend-empty">フレンドを追加するとここに表示されるよ</div>
         </div>
       </div>
     </div>
 
     <!-- NPC用（非表示、アニメーションループ用） -->
     <canvas id="npc-canvas" width="64" height="64" style="display:none;"></canvas>
-
-    <!-- 開発用デバッグボタン (localhost限定で表示) -->
-    <button id="debug-trigger-btn" class="debug-trigger-btn" title="デバッグメニュー">\u{1F6E0}️</button>
   </div>
 
   <!-- オーバーレイ -->
@@ -163,57 +146,50 @@
 
   <!-- 名前入力モーダル（初回起動時） -->
   <div id="name-modal" class="modal">
-    <h2 data-i18n="ui.welcome_title">🐣 はじめまして！</h2>
-    <p class="modal-desc" data-i18n="ui.welcome_desc">あなたの名前を教えてね</p>
-    <input type="text" id="owner-name-input" class="modal-input" data-i18n="[placeholder]ui.placeholder_name">
+    <h2>🐣 はじめまして！</h2>
+    <p class="modal-desc">あなたの名前を教えてね</p>
+    <input type="text" id="owner-name-input" class="modal-input" placeholder="なまえ">
     <div class="modal-actions">
-      <button id="name-save-btn" class="primary-modal-btn" data-i18n="ui.save">決定</button>
+      <button id="name-save-btn" class="primary-modal-btn">決定</button>
     </div>
   </div>
 
   <!-- 履歴モーダル -->
   <div id="history-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.history">📋 完了したタスク</h2>
+    <h2>📋 完了したタスク</h2>
     <div id="history-body" class="modal-body"></div>
-    <button id="history-close-btn" class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.close">とじる</button>
+    <button id="history-close-btn" class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- 設定モーダル -->
   <div id="settings-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.settings">⚙️ 設定</h2>
-    <p class="version-text"><span data-i18n="ui.version">バージョン</span>: 3.0.0</p>
+    <h2>⚙️ 設定</h2>
+    <p class="version-text">バージョン: 3.0.0</p>
     <div class="settings-section">
-      <h3 data-i18n="ui.settings_language">言語 / Language</h3>
-      <div class="language-selector">
-        <button class="lang-btn" data-lang="ja">日本語</button>
-        <button class="lang-btn" data-lang="en">English</button>
-      </div>
+      <div id="api-status" class="api-status disconnected">⚪ モック会話モード</div>
+      <button id="api-key-btn" class="settings-btn">🔑 APIキーを設定</button>
     </div>
-    <div class="settings-section">
-      <div id="api-status" class="api-status disconnected" data-i18n="ui.mock_mode">⚪️ モック会話モード</div>
-      <button id="api-key-btn" class="settings-btn" data-i18n="ui.api_key_set">🔑 APIキーを設定</button>
-    </div>
-    <button class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.close">とじる</button>
+    <button class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- APIキー設定モーダル -->
   <div id="api-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.api_key_title">🔑 Gemini APIキー</h2>
+    <h2>🔑 Gemini APIキー</h2>
     <div class="settings-section">
-      <p class="modal-desc" style="margin-bottom:8px" data-i18n="ui.api_key_desc">
+      <p class="modal-desc" style="margin-bottom:8px">
         APIキーを設定すると、モンスターが独自の性格に合わせておしゃべりするようになるよ！
       </p>
-      <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link" data-i18n="ui.api_key_link">
+      <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link">
         🔗 Google AI Studioでキーを取得 (無料)
       </a>
     </div>
     <input type="text" id="api-key-input" class="modal-input" placeholder="AIza...">
     <div class="modal-actions">
-      <button id="api-cancel-btn" class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.cancel">キャンセル</button>
-      <button id="api-save-btn" class="primary-modal-btn" data-i18n="ui.save">保存</button>
+      <button id="api-cancel-btn" class="close-modal-btn" onclick="closeAllModals()">キャンセル</button>
+      <button id="api-save-btn" class="primary-modal-btn">保存</button>
     </div>
   </div>
 
@@ -221,13 +197,13 @@
   <div id="friend-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <div class="modal-content">
-      <h3 data-i18n="ui.add_friend">ともだちを追加</h3>
-      <p data-i18n="ui.friend_code_desc">教えてもらったコードを入力してね</p>
-      <textarea id="friend-code-input" data-i18n="[placeholder]ui.friend_code_placeholder"></textarea>
+      <h3>ともだちを追加</h3>
+      <p>教えてもらったコードを入力してね</p>
+      <textarea id="friend-code-input" placeholder="ここに貼り付け"></textarea>
       <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
-        <button id="friend-import-btn" class="primary-modal-btn" style="width: 100%" data-i18n="ui.add">追加する</button>
-        <button id="friend-cancel-btn" class="close-modal-btn" style="width: 100%" onclick="closeAllModals()"
-          data-i18n="ui.back">やめる</button>
+        <button id="friend-import-btn" class="primary-modal-btn" style="width: 100%;">追加する</button>
+        <button id="friend-cancel-btn" class="close-modal-btn" style="width: 100%"
+          onclick="closeAllModals()">やめる</button>
       </div>
     </div>
   </div>
@@ -236,66 +212,63 @@
   <div id="share-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
     <div class="modal-content share-content">
-      <h3 data-i18n="ui.share_x">Xでシェア</h3>
+      <h3>Xでシェア</h3>
       <div class="share-preview">
         <img id="share-image-preview" alt="シェア画像">
         <div class="share-img-actions">
-          <button id="copy-share-img-btn" class="secondary-btn" data-i18n="ui.copy_image">画像をコピー</button>
+          <button id="copy-share-img-btn" class="secondary-btn">画像をコピー</button>
         </div>
-        <p class="share-instruction" data-i18n="ui.share_instruction">👆コピーしてXに貼り付け(Ctrl+V)してね</p>
+        <p class="share-instruction">👆コピーしてXに貼り付け(Ctrl+V)してね</p>
       </div>
       <div class="share-text-area">
-        <p data-i18n="ui.share_text_label">投稿本文（コード含む）</p>
+        <p>投稿本文（コード含む）</p>
         <textarea id="share-text-input" readonly></textarea>
-        <button id="copy-share-text-btn" class="secondary-btn" style="margin-top: 8px;"
-          data-i18n="ui.copy_text">本文をコピー</button>
+        <button id="copy-share-text-btn" class="secondary-btn" style="margin-top: 8px;">本文をコピー</button>
       </div>
       <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
-        <a id="share-twitter-link" href="#" target="_blank" class="primary-modal-btn twitter-btn" style="width: 100%;"
-          data-i18n="ui.post_on_x">Xで投稿する</a>
-        <button id="share-close-btn" class="close-modal-btn" style="width: 100%" onclick="closeAllModals()"
-          data-i18n="ui.close">とじる</button>
+        <a id="share-twitter-link" href="#" target="_blank" class="primary-modal-btn twitter-btn"
+          style="width: 100%;">Xで投稿する</a>
+        <button id="share-close-btn" class="close-modal-btn" style="width: 100%" onclick="closeAllModals()">とじる</button>
       </div>
     </div>
   </div>
   <!-- 殿堂入りモーダル -->
   <div id="hall-of-fame-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.hall_of_fame">🏆 殿堂入り</h2>
+    <h2>🏆 殿堂入り</h2>
     <div id="hall-of-fame-body" class="modal-body"></div>
-    <button id="hall-close-btn" class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.close">とじる</button>
+    <button id="hall-close-btn" class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- 図鑑モーダル -->
   <div id="dex-modal" class="modal modal-wide">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.dex">📖 モンスター図鑑</h2>
+    <h2>📖 モンスター図鑑</h2>
     <div id="dex-count" class="dex-count"></div>
     <div id="dex-grid" class="dex-grid"></div>
-    <button id="dex-close-btn" class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.close">とじる</button>
+    <button id="dex-close-btn" class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- バックパックモーダル -->
   <div id="backpack-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.backpack">🎒 バックパック</h2>
+    <h2>🎒 バックパック</h2>
     <div class="item-tabs">
-      <button class="item-tab active" data-type="material" data-i18n="ui.tab_material">伝説素材</button>
-      <button class="item-tab" data-type="background" data-i18n="ui.tab_background">背景</button>
-      <button class="item-tab" data-type="furniture" data-i18n="ui.tab_furniture">家具</button>
+      <button class="item-tab active" data-type="material">伝説素材</button>
+      <button class="item-tab" data-type="background">背景</button>
+      <button class="item-tab" data-type="furniture">家具</button>
     </div>
     <div class="item-grid-container">
       <div id="item-grid" class="item-grid"></div>
-      <button id="clear-furniture-btn" class="clear-btn" style="display:none;" data-i18n="ui.clear_furniture">🧺
-        家具をすべて片付ける</button>
+      <button id="clear-furniture-btn" class="clear-btn" style="display:none;">🧺 家具をすべて片付ける</button>
     </div>
-    <button class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.close">とじる</button>
+    <button class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- ショップ・広告モーダル -->
   <div id="shop-modal" class="modal">
     <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.shop">\u{1F48E} ショップ</h2>
+    <h2>💎 ショップ</h2>
     <div class="shop-content">
       <!-- 広告セクションは完全に廃止 -->
       <div class="purchase-section">
@@ -303,34 +276,34 @@
           <!-- Starter -->
           <div class="shop-item starter">
             <div class="shop-item-info">
-              <span class="shop-item-name" data-i18n="shop.plan_starter">🎁 お試しパック</span>
-              <p class="shop-item-detail" data-i18n="shop.plan_starter_desc">伝説素材1+背景1+家具1（ランダム）</p>
+              <span class="shop-item-name">🎁 お試しパック</span>
+              <p class="shop-item-detail">伝説素材1+背景1+家具1（ランダム）</p>
             </div>
             <button class="buy-btn" data-plan="starter" onclick="handlePurchase('starter')">¥320</button>
           </div>
           <!-- 竹 (新 Standard) -->
           <div class="shop-item standard">
-            <div class="shop-item-tag" data-i18n="ui.popular">人気！</div>
+            <div class="shop-item-tag">人気！</div>
             <div class="shop-item-info">
-              <span class="shop-item-name" data-i18n="shop.plan_standard">\u{1F3C6} まんぞくパック</span>
-              <p class="shop-item-detail" data-i18n="shop.plan_standard_desc">伝説素材5+背景5+家具5（ランダム）</p>
+              <span class="shop-item-name">🏆 まんぞくパック</span>
+              <p class="shop-item-detail">伝説素材5+背景5+家具5（ランダム）</p>
             </div>
             <button class="buy-btn" data-plan="standard" onclick="handlePurchase('standard')">¥980</button>
           </div>
           <!-- 松 (新 Premium) -->
           <div class="shop-item premium">
             <div class="shop-item-info">
-              <span class="shop-item-name" data-i18n="shop.plan_premium">👑 とくべつパック</span>
-              <p class="shop-item-detail" data-i18n="shop.plan_premium_desc">【VIP特典】通常進化するたびにランダムアイテム獲得！</p>
+              <span class="shop-item-name">👑 とくべつパック</span>
+              <p class="shop-item-detail">【VIP特典】通常進化するたびにランダムアイテム獲得！</p>
             </div>
             <button class="buy-btn" data-plan="premium" onclick="handlePurchase('premium')">¥2,980</button>
           </div>
           <!-- 寿 (新 Special) -->
           <div class="shop-item special">
-            <div class="shop-item-tag supporter-tag" data-i18n="ui.supporter_tag">開発者応援</div>
+            <div class="shop-item-tag supporter-tag">開発者応援</div>
             <div class="shop-item-info">
-              <span class="shop-item-name" data-i18n="shop.plan_special">🎊 全力応援パック</span>
-              <p class="shop-item-detail" data-i18n="shop.plan_special_desc">全アイテム獲得！ + 図鑑コンプリートに役立つ”なかのひと秘密ログ”</p>
+              <span class="shop-item-name">🎊 全力応援パック</span>
+              <p class="shop-item-detail">全アイテム獲得！ + 図鑑コンプリートに役立つ”なかのひと秘密ログ”</p>
             </div>
             <button class="buy-btn" data-plan="special" onclick="handlePurchase('special')">¥12,800</button>
           </div>
@@ -340,14 +313,14 @@
           <!-- サポーター専用セクション -->
           <div id="supporter-only-section"
             style="margin-top:20px; padding:15px; background:rgba(251,191,36,0.1); border:1px dashed #fbbf24; border-radius:12px; text-align:center; grid-column: 1 / -1;">
-            <p style="font-size:12px; color:#fbbf24; margin-bottom:8px;" data-i18n="ui.supporter_bonus">✨ 全力応援サポーター特典 ✨</p>
-            <button id="view-secret-log-btn" class="glass-btn" style="padding:8px 20px; font-size:14px;"
-              data-i18n="ui.view_secret_log">\u{1F4DC} なかのひとログを読み返す</button>
+            <p style="font-size:12px; color:#fbbf24; margin-bottom:8px;">✨ 全力応援サポーター特典 ✨</p>
+            <button id="view-secret-log-btn" class="glass-btn" style="padding:8px 20px; font-size:14px;">📜
+              なかのひとログを読み返す</button>
           </div>
         </div>
       </div>
     </div>
-    <button class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.close">とじる</button>
+    <button class="close-modal-btn" onclick="closeAllModals()">とじる</button>
   </div>
 
   <!-- 広告視聴オーバーレイは廃止 -->
@@ -361,26 +334,7 @@
   <!-- Google AdSense (ユーザー様で data-ad-client を書き換えてください) -->
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 
-  <!-- デバッグモーダル -->
-  <div id="debug-modal" class="modal">
-    <button class="close-modal-x" onclick="closeAllModals()">&times;</button>
-    <h2 data-i18n="ui.debug_title">🛠️ 開発者メニュー</h2>
-    <p class="modal-desc" data-i18n="ui.debug_desc">localhost限定機能です</p>
-    <div class="modal-actions" style="flex-direction: column; gap: 10px; display: flex;">
-      <button id="debug-populate-data" class="primary-modal-btn" data-i18n="ui.debug_populate">🧪 テストデータを注入</button>
-      <button id="debug-lv-up" class="secondary-btn"
-        style="padding: 12px; border: 2px solid #6366f1; border-radius: 8px; background: white; cursor: pointer;" data-i18n="ui.debug_lv_up">🆙
-        クイックLvアップ</button>
-      <button id="debug-unlock-items" class="secondary-btn"
-        style="padding: 12px; border: 2px solid #6366f1; border-radius: 8px; background: white; cursor: pointer;" data-i18n="ui.debug_unlock">🔓
-        全アイテム解放</button>
-      <button id="debug-clear-storage" class="close-modal-btn"
-        style="background:#ef4444; color:white; padding: 12px; border: none; border-radius: 8px; cursor: pointer;" data-i18n="ui.debug_clear">⚠️
-        ストレージ全消去</button>
-    </div>
-    <button class="close-modal-btn" onclick="closeAllModals()" data-i18n="ui.close">とじる</button>
-  </div>
-  <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./src/main.js?v=28"></script>
 </body>
 
 </html>

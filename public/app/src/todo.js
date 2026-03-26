@@ -3,7 +3,6 @@
  */
 
 import { getTodayStr } from './daily-reset.js';
-import { ICONS } from './icons.js';
 
 /** カテゴリ判定用キーワード辞書（各30語以上） */
 const CATEGORY_KEYWORDS = {
@@ -91,25 +90,25 @@ export function createTodo(text, scheduledDate = null, isRecurring = false) {
 /** カテゴリの絵文字を返す */
 export function categoryEmoji(cat) {
     const map = {
-        creative: ICONS.cat_creative,
-        physical: ICONS.cat_physical,
-        social: ICONS.cat_social,
-        intellectual: ICONS.cat_intellectual,
-        chaotic: ICONS.cat_chaotic,
-        general: ICONS.cat_general,
+        creative: '🎨',
+        physical: '💪',
+        social: '🗣️',
+        intellectual: '📚',
+        chaotic: '🎉',
+        general: '⭐',
     };
-    return map[cat] || '\u{2753}';
+    return map[cat] || '❓';
 }
 
-/** カテゴリのラベル名を返す */
+/** カテゴリの日本語名 */
 export function categoryLabel(cat) {
     const map = {
-        creative: i18next.t('ui.cat_creative', { defaultValue: 'クリエイティブ' }),
-        physical: i18next.t('ui.cat_physical', { defaultValue: 'フィジカル' }),
-        social: i18next.t('ui.cat_social', { defaultValue: 'ソーシャル' }),
-        intellectual: i18next.t('ui.cat_intellectual', { defaultValue: 'インテレクチュアル' }),
-        chaotic: i18next.t('ui.cat_chaotic', { defaultValue: 'カオス' }),
-        general: i18next.t('ui.cat_general', { defaultValue: 'いろいろ' }),
+        creative: 'クリエイティブ',
+        physical: 'フィジカル',
+        social: 'ソーシャル',
+        intellectual: 'インテレクチュアル',
+        chaotic: 'カオス',
+        general: 'いろいろ',
     };
-    return map[cat] || i18next.t('ui.cat_unknown', { defaultValue: '不明' });
+    return map[cat] || '不明';
 }
