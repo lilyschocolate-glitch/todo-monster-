@@ -1,5 +1,5 @@
-import jaResources from '../locales/ja.json';
-import enResources from '../locales/en.json';
+import jaResources from '../locales/ja.js';
+import enResources from '../locales/en.js';
 
 export async function initI18n() {
     return new Promise((resolve, reject) => {

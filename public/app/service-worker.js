@@ -15,7 +15,9 @@ const ASSETS_TO_CACHE = [
     './src/sounds.js',
     './src/daily-reset.js',
     './src/playground.js',
-    './src/items.js'
+    './src/items.js',
+    './locales/ja.js',
+    './locales/en.js'
 ];
 
 self.addEventListener('install', event => {
