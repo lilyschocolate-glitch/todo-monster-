@@ -1056,15 +1056,15 @@ footer {
     flex-wrap: wrap;
   }
   #hero-monster svg {
-    width: 300px;
-    height: 300px;
+    width: 280px;
+    height: 280px;
   }
   .demo-wrapper {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 1.5rem;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
   }
   .demo-controls {
     display: contents; /* Allows reordering children globally in demo-wrapper */
@@ -1105,10 +1105,10 @@ footer {
   .logo { font-size: 1.25rem; }
   .logo-icon { font-size: 1.5rem; }
 
-  section { padding: 4rem 0; }
-  .hero { padding-top: 7rem; padding-bottom: 4rem; }
-  .gradient-text { font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2; }
-  .hero-subtitle { font-size: 1.1rem; margin-bottom: 2rem; padding: 0 1rem; }
+  section { padding: 3rem 0; }
+  .hero { padding-top: 6.5rem; padding-bottom: 2.5rem; }
+  .gradient-text { font-size: 1.8rem; margin-bottom: 0.75rem; line-height: 1.25; }
+  .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; padding: 0 1.25rem; }
 
   .hero-actions {
     flex-direction: column;
@@ -1122,12 +1122,13 @@ footer {
     text-align: center;
   }
 
-  #hero-monster svg { width: 240px; height: 240px; }
+  #hero-monster svg { width: 220px; height: 220px; }
   .section-title { 
-    font-size: 2.2rem; 
+    font-size: 1.8rem; 
     margin-bottom: 2.5rem; 
     line-height: 1.3; 
     letter-spacing: -0.02em;
+    padding: 0 1rem;
   }
 
   .evolution-infographic {
@@ -1152,6 +1153,10 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .gradient-text { font-size: 1.8rem; }
-  .hero-subtitle { font-size: 1rem; }
+  .gradient-text { font-size: 1.6rem; }
+  .hero-subtitle { font-size: 0.95rem; line-height: 1.5; }
+  #hero-monster svg { width: 180px; height: 180px; }
+  .section-title { font-size: 1.6rem; }
+  .demo-info h3 { font-size: 1.8rem; }
+  .demo-stage svg { width: 220px; height: 220px; }
 }
