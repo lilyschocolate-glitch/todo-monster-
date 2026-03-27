@@ -1195,6 +1195,10 @@ footer {
   .mobile-br {
     display: block;
   }
+
+  .pc-br {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
