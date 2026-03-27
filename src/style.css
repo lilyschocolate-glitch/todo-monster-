@@ -1129,7 +1129,7 @@ footer {
   .gradient-text { 
     font-size: 2.5rem; 
     margin-bottom: 2.8rem;
-    line-height: 1.1; /* Slightly relaxed to avoid clipping */
+    line-height: 0.98; /* Tightest balance without clipping */
     padding: 0.1em 0; /* Expansion for background-clip */
   }
   .hero-subtitle { font-size: 1rem; margin-bottom: 3rem; padding: 0 1.25rem; }
