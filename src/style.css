@@ -1122,6 +1122,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    transform: translateX(-0.6rem); /* Shift block left to balance visual weight */
   }
   .hero-title span:last-child {
     margin-left: 1.2rem; /* Visually offset to the right */
