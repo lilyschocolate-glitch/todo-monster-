@@ -1124,7 +1124,7 @@ footer {
     align-items: center;
   }
   .hero-title span:first-child {
-    margin-right: 1.2rem; /* Visually offset to the left */
+    margin-right: 0; /* Centered visually to fix left-leaning issue */
   }
   .gradient-text { 
     font-size: 2.5rem; 
