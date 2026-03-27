@@ -1129,7 +1129,7 @@ footer {
   .gradient-text { 
     font-size: 2.2rem; /* Increased size back to a strong impact level */
     margin-bottom: 1.5rem; /* Increased margin */
-    line-height: 1.2; /* Reduced to bring lines closer */
+    line-height: 1.05; /* Even tighter for a single cohesive block feel */
   }
   .hero-subtitle { font-size: 1rem; margin-bottom: 3rem; padding: 0 1.25rem; }
 
