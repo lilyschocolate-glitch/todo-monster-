@@ -1116,7 +1116,7 @@ footer {
   .hero-wrapper {
     flex-direction: column-reverse;
     text-align: center;
-    gap: 3rem; /* Adjusted gap */
+    gap: 2.5rem; /* Slightly reduced gap */
   }
   .hero-title {
     display: flex;
@@ -1127,17 +1127,17 @@ footer {
     margin-right: 1.2rem; /* Visually offset to the left */
   }
   .gradient-text { 
-    font-size: 2.2rem; /* Increased size back to a strong impact level */
-    margin-bottom: 1.5rem; /* Increased margin */
-    line-height: 1.5; /* Increased line-height for airiness */
+    font-size: 2.2rem; 
+    margin-bottom: 1.2rem; /* Slightly reduced margin */
+    line-height: 1.4; /* Slightly reduced line-height */
   }
-  .hero-subtitle { font-size: 1rem; margin-bottom: 3rem; padding: 0 1.25rem; }
+  .hero-subtitle { font-size: 1rem; margin-bottom: 2.5rem; padding: 0 1.25rem; }
 
   .hero-actions {
     flex-direction: column;
     width: 100%;
     align-items: center;
-    gap: 1.5rem; /* Increased gap between buttons */
+    gap: 1.2rem; /* Slightly reduced gap between buttons */
   }
   .hero-actions .btn-primary, .hero-actions .btn-outline {
     width: 100%;
@@ -1148,14 +1148,14 @@ footer {
   .store-links {
     transform: scale(0.9);
     transform-origin: center;
-    margin-top: 1.5rem !important; /* Increased margin to store badges */
+    margin-top: 1rem !important; /* Slightly reduced margin to store badges */
   }
 
   #hero-monster svg { width: 220px; height: 220px; }
   .section-title { 
     font-size: 1.8rem; 
     margin-bottom: 2.5rem; 
-    line-height: 1.6; /* Increased line-height */
+    line-height: 1.5; /* Slightly reduced line-height */
     letter-spacing: -0.02em;
     padding: 0 1rem;
   }
@@ -1176,7 +1176,7 @@ footer {
   }
   .install-title { 
     font-size: 1.6rem; 
-    line-height: 1.6; 
+    line-height: 1.5; 
     text-align: left;
     width: fit-content;
   }
