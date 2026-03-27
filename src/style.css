@@ -1116,16 +1116,20 @@ footer {
   .hero-wrapper {
     flex-direction: column-reverse;
     text-align: center;
-    gap: 2rem; /* Bring text closer to monster */
+    gap: 3rem; /* Adjusted gap */
   }
-  .gradient-text { font-size: 1.8rem; margin-bottom: 0.75rem; line-height: 1.25; }
-  .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; padding: 0 1.25rem; }
+  .gradient-text { 
+    font-size: 2.2rem; /* Increased size back to a strong impact level */
+    margin-bottom: 1.5rem; /* Increased margin */
+    line-height: 1.5; /* Increased line-height for airiness */
+  }
+  .hero-subtitle { font-size: 1rem; margin-bottom: 3rem; padding: 0 1.25rem; }
 
   .hero-actions {
     flex-direction: column;
     width: 100%;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem; /* Increased gap between buttons */
   }
   .hero-actions .btn-primary, .hero-actions .btn-outline {
     width: 100%;
@@ -1136,14 +1140,14 @@ footer {
   .store-links {
     transform: scale(0.9);
     transform-origin: center;
-    margin-top: 0.5rem !important;
+    margin-top: 1.5rem !important; /* Increased margin to store badges */
   }
 
   #hero-monster svg { width: 220px; height: 220px; }
   .section-title { 
     font-size: 1.8rem; 
     margin-bottom: 2.5rem; 
-    line-height: 1.3; 
+    line-height: 1.6; /* Increased line-height */
     letter-spacing: -0.02em;
     padding: 0 1rem;
   }
@@ -1164,7 +1168,7 @@ footer {
   }
   .install-title { 
     font-size: 1.6rem; 
-    line-height: 1.3; 
+    line-height: 1.6; 
     text-align: left;
     width: fit-content;
   }
