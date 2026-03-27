@@ -1118,6 +1118,14 @@ footer {
     text-align: center;
     gap: 3rem; /* Adjusted gap */
   }
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-title span:first-child {
+    margin-right: 1.2rem; /* Visually offset to the left */
+  }
   .gradient-text { 
     font-size: 2.2rem; /* Increased size back to a strong impact level */
     margin-bottom: 1.5rem; /* Increased margin */
