@@ -992,7 +992,7 @@ function renderTodoList() {
             const prompt = document.createElement('div');
             prompt.className = 'carry-over-prompt';
             prompt.innerHTML = `
-                <div class="carry-over-msg">🎀 昨日のやり残しが ${yesterdayCount} 件あるよ。<br>今日に引き継ぐ？</div>
+                <div class="carry-over-msg">昨日のやり残しが ${yesterdayCount} 件あるよ。<br>今日に引き継ぐ？</div>
                 <div class="carry-over-actions">
                     <button class="carry-btn-yes">はい</button>
                     <button class="carry-btn-no">いいえ</button>

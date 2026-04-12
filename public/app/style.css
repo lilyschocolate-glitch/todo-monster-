@@ -2225,15 +2225,15 @@ header {
     box-sizing: border-box !important;
   }
 }
-/* ===== タスク引き継ぎプロンプト (Carry-Over Prompt) - サクラテーマ ===== */
+/* ===== タスク引き継ぎプロンプト (Carry-Over Prompt) - ニュートラルテーマ ===== */
 .carry-over-prompt {
   width: 100%;
   padding: 12px;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, #fff1f2 0%, #fff5f7 100%);
-  border: 2px dashed #fda4af;
+  background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+  border: 2px dashed #7dd3fc;
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 6px -1px rgba(253, 164, 175, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(125, 211, 252, 0.1);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -2242,16 +2242,16 @@ header {
 }
 
 .carry-over-prompt.success-mode {
-  background: #fdf2f8 !important;
+  background: #f0fdf4 !important;
   border-color: transparent !important;
 }
 
 .carry-over-prompt.success-mode .carry-over-msg {
-  color: #db2777;
+  color: #16a34a;
 }
 
 .carry-over-msg {
-  color: #9d174d;
+  color: #0369a1;
   font-family: 'DotGothic16', monospace;
   font-size: 0.85rem;
   font-weight: 700;
@@ -2277,14 +2277,14 @@ header {
 }
 
 .carry-btn-yes {
-  background: #fb7185;
+  background: #0ea5e9;
   color: white;
-  box-shadow: 0 3px 0 #be123c;
+  box-shadow: 0 3px 0 #0369a1;
 }
 
 .carry-btn-no {
   background: #f1f5f9;
-  color: #94a3b8;
+  color: #64748b;
   box-shadow: 0 3px 0 #cbd5e1;
 }
 
