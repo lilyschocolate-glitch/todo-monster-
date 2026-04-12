@@ -941,9 +941,6 @@ function getFilterDate() {
     return { yesterday: getYesterdayStr(), today: getTodayStr(), tomorrow: getTomorrowStr() }[currentDateFilter] || getTodayStr();
 }
 
-/** 今日のセッション中に引き継ぎ案内を処理済みにするかどうか */
-let carryOverProcessedToday = false;
-
 /** 昨日の未完了タスクを今日に引き継ぐ */
 function carryOverYesterdayTasks() {
     const today = getTodayStr();
@@ -956,16 +953,14 @@ function carryOverYesterdayTasks() {
         t.scheduledDate = today;
     });
 
+    data.lastCarryOverDecisionDate = today; // 今日の決定を記録して永続化
     saveData(data);
-    carryOverProcessedToday = true;
     
     // フィードバック表示
     const prompt = document.querySelector('.carry-over-prompt');
     if (prompt) {
-        prompt.innerHTML = `<div class="carry-over-msg">${count}件引き継ぎました！</div>`;
-        prompt.style.background = 'var(--success-color)';
-        prompt.style.color = 'white';
-        prompt.style.borderColor = 'transparent';
+        prompt.innerHTML = `<div class="carry-over-msg">✨ ${count}件引き継ぎました！</div>`;
+        prompt.classList.add('success-mode');
     }
 
     setTimeout(() => {
@@ -975,7 +970,8 @@ function carryOverYesterdayTasks() {
 
 /** 引き継ぎをキャンセル（今日はもう聞かない） */
 function dismissCarryOver() {
-    carryOverProcessedToday = true;
+    data.lastCarryOverDecisionDate = getTodayStr(); // 今日の決定を記録して永続化
+    saveData(data);
     renderTodoList();
 }
 
@@ -987,15 +983,16 @@ function renderTodoList() {
     const completedTodos = dateTodos.filter(t => t.completed);
     list.innerHTML = '';
 
-    // 「今日」のタブかつ昨日のやり残しがある場合、引き継ぎプロンプトを表示
-    if (currentDateFilter === 'today' && !carryOverProcessedToday) {
+    const today = getTodayStr();
+    // 「今日」のタブかつ未決定かつ昨日のやり残しがある場合、引き継ぎプロンプトを表示
+    if (currentDateFilter === 'today' && data.lastCarryOverDecisionDate !== today) {
         const yesterday = getYesterdayStr();
         const yesterdayCount = data.todos.filter(t => !t.completed && t.scheduledDate === yesterday).length;
         if (yesterdayCount > 0) {
             const prompt = document.createElement('div');
             prompt.className = 'carry-over-prompt';
             prompt.innerHTML = `
-                <div class="carry-over-msg">昨日のやり残しが ${yesterdayCount} 件あるよ。<br>今日に引き継ぐ？</div>
+                <div class="carry-over-msg">🎀 昨日のやり残しが ${yesterdayCount} 件あるよ。<br>今日に引き継ぐ？</div>
                 <div class="carry-over-actions">
                     <button class="carry-btn-yes">はい</button>
                     <button class="carry-btn-no">いいえ</button>
