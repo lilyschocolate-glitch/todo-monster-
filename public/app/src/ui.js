@@ -941,6 +941,33 @@ function getFilterDate() {
     return { yesterday: getYesterdayStr(), today: getTodayStr(), tomorrow: getTomorrowStr() }[currentDateFilter] || getTodayStr();
 }
 
+/** 過去の未完了タスクを今日に引き継ぐ */
+function carryOverPastTasks() {
+    const today = getTodayStr();
+    const pastIncomplete = data.todos.filter(t => !t.completed && t.scheduledDate < today);
+    const count = pastIncomplete.length;
+    if (count === 0) return;
+
+    pastIncomplete.forEach(t => {
+        t.scheduledDate = today;
+    });
+
+    saveData(data);
+    
+    // フィードバック表示
+    const btn = document.querySelector('.carry-over-btn');
+    if (btn) {
+        btn.textContent = `${count}件引き継ぎました！`;
+        btn.style.background = 'var(--success-color)';
+        btn.style.color = 'white';
+        btn.disabled = true;
+    }
+
+    setTimeout(() => {
+        renderTodoList();
+    }, 1000);
+}
+
 function renderTodoList() {
     const list = document.getElementById('todo-list');
     const filterDate = getFilterDate();
@@ -949,9 +976,22 @@ function renderTodoList() {
     const completedTodos = dateTodos.filter(t => t.completed);
     list.innerHTML = '';
 
+    // 「今日」のタブかつ過去にやり残しがある場合、引き継ぎボタンを表示
+    if (currentDateFilter === 'today') {
+        const today = getTodayStr();
+        const pastCount = data.todos.filter(t => !t.completed && t.scheduledDate < today).length;
+        if (pastCount > 0) {
+            const carryBtn = document.createElement('button');
+            carryBtn.className = 'carry-over-btn';
+            carryBtn.innerHTML = `過去のやり残しが ${pastCount} 件あります。今日に引き継ぐ？`;
+            carryBtn.onclick = carryOverPastTasks;
+            list.appendChild(carryBtn);
+        }
+    }
+
     if (incompleteTodos.length === 0 && completedTodos.length === 0) {
         const msgs = { yesterday: 'きのうのタスクはないよ', tomorrow: 'あしたの予定を書き込もう！', today: 'やることを追加しよう！' };
-        list.innerHTML = `<div class="todo-empty">${msgs[currentDateFilter] || msgs.today}</div>`;
+        list.innerHTML += `<div class="todo-empty">${msgs[currentDateFilter] || msgs.today}</div>`;
         updateTodoCount(0);
         return;
     }

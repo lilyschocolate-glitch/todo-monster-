@@ -1,0 +1,137 @@
+
+import sys
+import re
+
+def patch_file(filename, patches):
+    with open(filename, 'r') as f:
+        content = f.read()
+    
+    modified = False
+    for old, new in patches:
+        if old in content:
+            content = content.replace(old, new)
+            print(f"Patched {filename}: exact match found.")
+            modified = True
+        else:
+            # Try relaxed match (collapse whitespace)
+            print(f"Exact match failed for a patch in {filename}. Trying relaxed...")
+            lines = content.splitlines()
+            old_lines = old.strip().splitlines()
+            found = False
+            for i in range(len(lines) - len(old_lines) + 1):
+                match = True
+                for j in range(len(old_lines)):
+                    if old_lines[j].strip() != lines[i+j].strip():
+                        match = False
+                        break
+                if match:
+                    # Preserve original indentation
+                    indent = lines[i][:len(lines[i]) - len(lines[i].lstrip())]
+                    new_lines_raw = new.strip().splitlines()
+                    new_lines = [(indent + line.lstrip() if line.strip() else '') for line in new_lines_raw]
+                    lines[i:i+len(old_lines)] = new_lines
+                    content = '\n'.join(lines) + '\n'
+                    print(f"Patched {filename}: relaxed match found at line {i+1}")
+                    found = True
+                    modified = True
+                    break
+            if not found:
+                print(f"FAILED to patch {filename} for block beginning with:\n{old[:50].strip()}...")
+
+    if modified:
+        with open(filename, 'w') as f:
+            f.write(content)
+    return modified
+
+# --- index.html patches ---
+index_patches = [
+    # 1. Settings modal close fix
+    (
+        '<button class="close-modal-btn"\n      onclick="document.getElementById(\'settings-modal\').classList.remove(\'show\')">とじる</button>',
+        '<button class="close-modal-btn" onclick="closeAllModals()">とじる</button>'
+    ),
+    # 2. Friend modal: Swap buttons & Remove "!"
+    (
+        """      <div class="modal-actions">
+        <button id="friend-cancel-btn" class="close-modal-btn">やめる</button>
+        <button id="friend-import-btn" class="primary-modal-btn">追加する！</button>
+      </div>""",
+        """      <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
+        <button id="friend-import-btn" class="primary-modal-btn" style="width: 100%;">追加する</button>
+        <button id="friend-cancel-btn" class="close-modal-btn" style="width: 100%;">やめる</button>
+      </div>"""
+    ),
+    # 3. Share modal: Swap buttons (X for top)
+    (
+        """      <div class="modal-actions">
+        <button id="share-close-btn" class="close-modal-btn">とじる</button>
+        <a id="share-twitter-link" href="#" target="_blank" class="primary-modal-btn twitter-btn">Xで投稿する</a>
+      </div>""",
+        """      <div class="modal-actions" style="flex-direction: column; gap: 8px; width: 100%;">
+        <a id="share-twitter-link" href="#" target="_blank" class="primary-modal-btn twitter-btn" style="width: 100%;">Xで投稿する</a>
+        <button id="share-close-btn" class="close-modal-btn" style="width: 100%;">とじる</button>
+      </div>"""
+    ),
+    # 4. Bump version to v13
+    ('style.css?v=12', 'style.css?v=13')
+]
+
+# --- ui.js patches ---
+ui_js_patches = [
+    (
+        'function closeAllModals() {',
+        'export function closeAllModals() {\n    window.closeAllModals = closeAllModals;'
+    )
+]
+
+# Run patches
+patch_file('index.html', index_patches)
+patch_file('src/ui.js', ui_js_patches)
+
+# --- style.css refinements ---
+with open('style.css', 'a') as f:
+    f.write("""
+/* 
+   Round 5 UI Refinements 
+   - Restore blur for overlay
+   - Center-align friend-code-input placeholder
+   - Fix button text overflow
+   - Swap button order via flex-direction (already handled in HTML but ensuring container width)
+   - Proper shop item alignment
+*/
+.overlay {
+  backdrop-filter: blur(8px) !important;
+}
+
+#friend-code-input::placeholder {
+  text-align: center;
+}
+
+.secondary-btn, .close-modal-btn, .primary-modal-btn {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px 16px !important; /* Padding for better click area and no overflow */
+}
+
+/* Share textarea adjustment */
+.share-text-area textarea {
+  height: 180px !important;
+  font-size: 0.95rem !important;
+  padding: 12px !important;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  /* Shop items perfect fit */
+  .shop-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+""")
+
+print("Updates finished successfully.")

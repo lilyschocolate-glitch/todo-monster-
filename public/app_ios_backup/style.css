@@ -1,0 +1,2329 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap');
+
+:root {
+  /* プレミアム・ファンタジーパレット */
+  --bg-color-1: #e0f2fe;
+  /* Sky */
+  --bg-color-2: #fae8ff;
+  /* Soft Purple */
+  --bg-color-3: #fef3c7;
+  /* Warm Amber */
+  --surface-color: rgba(255, 255, 255, 0.9);
+  --primary-color: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #e0e7ff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --success-color: #22c55e;
+  --danger-color: #ef4444;
+  --accent-color: #a855f7;
+  /* 明るいパープルをアクセントに採用 */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 4px;
+}
+
+/* ===== 背景テーマのバリエーション ===== */
+/* 後からJavaScript等で body のクラスを切り替えることで適用可能 */
+body.theme-grass {
+  --bg-color: #f1f8e9;
+}
+
+/* 柔らかい草色（デフォルト） */
+body.theme-sky {
+  --bg-color: #e0f2fe;
+}
+
+/* 晴れた空色 */
+body.theme-sunset {
+  --bg-color: #ffedd5;
+}
+
+/* 夕暮れオレンジ */
+body.theme-sakura {
+  --bg-color: #fdf2f8;
+}
+
+/* 淡い桜色 */
+body.theme-night {
+  --bg-color: #1e293b;
+  --text-main: #f8fafc;
+  --surface-color: #334155;
+}
+
+/* 夜空とダークモード */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  color: var(--text-main);
+  background: var(--bg-color-1);
+  background-attachment: fixed;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+#app {
+  width: 100%;
+  max-width: 100%;
+  /* 基本は100% */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 60px;
+}
+
+/* ===== ヘッダー ===== */
+header {
+  display: flex;
+  flex-direction: column;
+  /* 2段構成に統一 */
+  align-items: center;
+  /* 中央寄せ */
+  padding: 2px 0 20px 0;
+  /* スマホと同様に上部を2pxに */
+  width: 100%;
+  gap: 20px;
+  /* 12pxから20pxへ拡大してボタンを少し下げる */
+}
+
+.app-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.dq-logo-container {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  padding: 0;
+  /* 斜め感を復活 */
+  transform: perspective(400px) rotateX(4deg) rotateY(-2deg);
+}
+
+.dq-logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 中央寄せ */
+  line-height: 1;
+  z-index: 2;
+  position: relative;
+}
+
+.dq-title-row-main {
+  display: flex;
+  align-items: center;
+  /* 垂直中央揃え */
+  gap: 12px;
+  /* PCのみ微調整 */
+  /* モンスターとテキストの距離を少し広げてイメージに合わせる */
+  margin-bottom: 2px;
+  /* 負のマージンをやめて、適度な近さに戻す */
+}
+
+/* PC向けの上限 */
+@media (min-width: 520px) {
+  #app {
+    max-width: 480px;
+  }
+}
+
+.dq-title-word {
+  font-family: 'Impact', 'Arial Black', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-size: 2.8rem;
+  /* 少し大きくしつつ1行を維持 */
+  background: linear-gradient(180deg, #4ade80 0%, #0891b2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.2px #000;
+  filter: drop-shadow(4px 4px 0px #000);
+  transform: scaleY(1.1);
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  white-space: normal;
+  /* 折り返しを許可 */
+  word-break: break-word;
+  max-width: 100vw;
+  /* 画面幅を超えない */
+  text-align: center;
+  display: block;
+}
+
+.dq-title-sub {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-size: 0.95rem;
+  color: #fff;
+  background: #000;
+  padding: 3px 14px;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  z-index: 3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-top: 0px;
+  /* 余白を戻して密接させる */
+}
+
+.logo-monster {
+  width: 56px;
+  height: 56px;
+  z-index: 4;
+  filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.4));
+  image-rendering: auto;
+  animation: bounce-monster-simple 3s ease-in-out infinite;
+  margin-top: 12px;
+  /* -8pxから12pxへ下げ、ロゴの中央付近に寄り添わせる */
+}
+
+#title-monster-right {
+  animation-delay: 1.5s;
+}
+
+@keyframes bounce-monster-simple {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.1);
+  }
+}
+
+.controls {
+  display: flex;
+  /* flexに変更 */
+  justify-content: center;
+  /* 中央寄せ */
+  gap: 12px;
+  /* 隙間を広げる */
+  flex-shrink: 1;
+  /* 縮小を許可 */
+  width: 100%;
+  flex-wrap: wrap;
+  /* スマホでボタンが入り切らない場合に折り返す */
+  max-width: 100%;
+  /* はみ出し防止 */
+  box-sizing: border-box;
+}
+
+.controls button {
+  background: var(--surface-color);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  width: 44px; /* 42pxから微増 */
+  height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(4px);
+  padding: 0; /* 余計なパディングを排除 */
+}
+
+/* アイコン自体のズレを強制補正 */
+.controls button svg {
+  display: block;
+  image-rendering: auto;
+}
+
+.controls button:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.controls button:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ===== キャラクターセクション ===== */
+.char-section {
+  background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #fef3c7 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px 20px;
+  /* 上部パディング増加 */
+  position: relative;
+  overflow: hidden;
+  /* はみ出しボタンなどを封じ込める */
+  width: 100%;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 32px;
+  text-align: center;
+  /* 追加 */
+}
+
+/* 背景パーティクル装飾 */
+.char-section::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#char-display {
+  position: relative;
+  height: 160px;
+  /* 高さを増やして余裕を持たせる */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#char-canvas {
+  image-rendering: auto;
+  width: 128px;
+  height: 128px;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.12));
+  animation: float 3s ease-in-out infinite;
+  /* 縦線バグ防止: サブピクセルレンダリングを回避 */
+  transform-origin: center;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.char-info {
+  margin-top: 4px;
+  text-align: center;
+  /* 追加 */
+}
+
+.char-dex {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.char-info h2 {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-size: 1.4rem;
+  margin: 2px 0;
+  color: var(--text-main);
+}
+
+.char-level {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.char-stage {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.char-branch {
+  font-size: 0.75rem;
+  color: var(--accent-color);
+  margin-top: 2px;
+}
+
+.exp-bar-container {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  height: 10px;
+  width: 100%;
+  margin: 12px 0 6px;
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(4px);
+}
+
+.char-info {
+  position: relative;
+  text-align: center;
+  /* 追加 */
+}
+
+.re-egg-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  /* 右端基準にしてはみ出しを防ぐ */
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+  z-index: 5;
+}
+
+.re-egg-btn:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+  background: #fff1f2;
+  border-color: #fecaca;
+}
+
+.exp-bar-fill {
+  background: var(--primary-color);
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 0%;
+  position: relative;
+}
+
+/* 経験値バーの光沢 */
+.exp-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: 999px;
+}
+
+.exp-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.char-owner {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.graduate-btn {
+  margin-top: 12px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #78350f;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.graduate-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 2px 16px rgba(245, 158, 11, 0.5);
+  }
+}
+
+.mock-status {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+/* ===== タスクフォーム ===== */
+.todo-form {
+  margin-top: -16px;
+  padding: 0 4px;
+  position: relative;
+  z-index: 10;
+}
+
+.todo-list-container {
+  margin-top: 10px;
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  /* 幅をフルに使う */
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.date-tab {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: none;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-weight: 700;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.date-tab:hover {
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 1);
+}
+
+.date-tab.active {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  transform: scale(1.05);
+}
+
+.date-tab:active {
+  transform: scale(0.97);
+}
+
+.input-container {
+  display: flex;
+  gap: 8px;
+}
+
+#todo-input {
+  flex: 1;
+  background: var(--surface-color);
+  border: 2px solid transparent;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  outline: none;
+  box-shadow: var(--shadow-md);
+  transition: all 0.25s;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+#todo-input:focus {
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.todo-submit-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 0 var(--primary-dark);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0;
+}
+
+.todo-submit-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.todo-submit-btn:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: var(--shadow-sm);
+}
+
+
+
+.status-summary {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-weight: 700;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 24px;
+  font-size: 0.9rem;
+}
+
+.carry-over-btn {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--primary-light), #fdf2f8);
+  border: 1.5px dashed var(--primary-color);
+  border-radius: var(--radius-sm);
+  color: var(--primary-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+.carry-over-btn:hover {
+  background: linear-gradient(135deg, #dee2ff, #fbcfe8);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-style: solid;
+}
+
+.carry-over-btn.success {
+  background: var(--success-color);
+  color: white;
+  border-color: transparent;
+  border-style: solid;
+}
+
+.todo-item {
+  background: var(--surface-color);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
+  width: 100%;
+  /* 幅を固定せず流動的に */
+  max-width: 100%;
+}
+
+.todo-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.todo-item.completed {
+  opacity: 0.5;
+  background: #f8fafc;
+  border-left: 3px solid var(--border-color);
+}
+
+.todo-item.completing {
+  animation: todo-shrink 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes todo-shrink {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    max-height: 100px;
+    margin-bottom: 8px;
+    padding: 12px 14px;
+  }
+  30% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+  }
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.todo-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-category {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.todo-text {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recurring-mark {
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.todo-complete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.todo-complete-btn:hover {
+  border-color: var(--success-color);
+  color: var(--success-color);
+  transform: scale(1.15);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.todo-complete-btn:active {
+  transform: scale(0.9);
+}
+
+.todo-delete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-item:hover .todo-delete-btn {
+  opacity: 0.6;
+}
+
+.todo-delete-btn:hover {
+  opacity: 1 !important;
+  color: var(--danger-color);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.todo-separator {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+  border-radius: var(--radius-sm);
+  background: rgba(99, 102, 241, 0.04);
+  margin-top: 4px;
+}
+
+.todo-separator .sep-toggle {
+  display: inline-block;
+  font-size: 0.65rem;
+  margin-right: 4px;
+  transition: transform 0.2s;
+}
+
+.todo-separator:hover {
+  color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.completed-list {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.completed-list.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+}
+
+/* ===== はこにわ (Playground) ===== */
+.playground-section {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  background: var(--surface-color);
+}
+
+.playground-header {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  background: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.playground-desc {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 6px 0 2px;
+  background: var(--surface-color);
+}
+
+.playground-container {
+  position: relative;
+  /* 空と芝生のグラデーション */
+  background:
+    linear-gradient(180deg,
+      #87ceeb 0%,
+      #b0e0e6 30%,
+      #98fb98 30%,
+      #7ccd7c 70%,
+      #6bba6b 100%);
+  height: 280px;
+}
+
+#playground-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: auto;
+}
+
+#chat-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.chat-bubble {
+  background: white;
+  border-radius: 12px 12px 12px 4px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  box-shadow: var(--shadow-md);
+  position: absolute;
+  max-width: 150px;
+  word-break: break-all;
+  opacity: 0;
+  transform: translateY(4px) scale(0.9);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bubble-name {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 2px;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.chat-bubble.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.chat-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 10px;
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+.chat-controls {
+  text-align: center;
+  padding: 8px;
+  background: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+}
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.share-content {
+  max-width: 480px;
+}
+
+.share-preview {
+  text-align: center;
+  background: #f3f4f6;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+#share-image-preview {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.share-instruction {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+.share-text-area textarea {
+  width: 100%;
+  height: 140px;
+  margin-top: 4px;
+  resize: none;
+  font-size: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  background: #f9fafb;
+}
+
+.twitter-btn {
+  background: #000;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#chat-trigger-btn {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 0.8rem;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+#chat-trigger-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+#chat-trigger-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+#chat-trigger-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== 性格パラメータ ===== */
+.personality-section {
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  /* border: 1px solid var(--border-color); playgroundに合わせるため削除 */
+}
+
+.p-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.p-summary {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.p-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px 16px 16px;
+}
+
+.trait-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.trait-label {
+  width: 150px;
+  /* 日本語ラベルが収まる幅 */
+  flex-shrink: 0;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.trait-meter {
+  flex: 1;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.trait-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trait-value {
+  width: 30px;
+  text-align: right;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* ===== フレンドセクション ===== */
+.friend-section {
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.friend-body {
+  padding: 12px 18px 16px;
+}
+
+.friend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.friend-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.friend-action-btn {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  transition: all 0.2s;
+}
+
+.friend-action-btn:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.friend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.friend-empty {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 12px;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: #ffffff;
+  border-radius: var(--radius-xs);
+  font-size: 0.85rem;
+}
+
+.friend-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.friend-info-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.friend-main-row {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.friend-owner {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.friend-owner::before {
+  content: "👤";
+  font-size: 0.6rem;
+  opacity: 0.7;
+}
+
+.friend-level {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.friend-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.friend-remove-btn:hover {
+  color: var(--danger-color);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ===== パーティクルアニメーション ===== */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  animation: particle-pop 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.particle-circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.particle-star {
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+@keyframes particle-pop {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(0) rotate(var(--rot, 180deg));
+    opacity: 0;
+  }
+}
+
+.completing {
+  animation: task-complete 0.5s ease-in-out forwards;
+  pointer-events: none;
+}
+
+@keyframes task-complete {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  40% {
+    transform: scale(1.03);
+    opacity: 1;
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  100% {
+    transform: scale(0.95) translateX(40px);
+    opacity: 0;
+  }
+}
+
+/* ===== モーダル共通 ===== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.4);
+  /* ぼかし（blur）を削除して閉じるときの不自然さを解消 */
+  z-index: 900;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%) scale(0.96);
+  background: var(--surface-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: 28px;
+  text-align: center;
+  max-width: 90%;
+  width: 380px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal h2 {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  color: var(--text-main);
+}
+
+.modal-body {
+  text-align: left;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.modal-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-xs);
+  font-size: 0.9rem;
+  outline: none;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  transition: border-color 0.2s;
+}
+
+.modal-input:focus {
+  border-color: var(--primary-color);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.close-modal-btn {
+  background: var(--bg-color);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  padding: 12px 24px;
+  min-width: 100px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  margin-top: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.close-modal-btn:hover {
+  background: var(--border-color);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+/* 右上の×ボタン */
+.close-modal-x {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 100;
+  padding: 0;
+  box-shadow: var(--shadow-sm);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.close-modal-x:hover {
+  background: var(--border-color);
+  color: var(--text-main);
+  transform: rotate(90deg);
+}
+
+.primary-modal-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+.primary-modal-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.version-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+/* 設定モーダルの内部 */
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.settings-btn {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: var(--radius-xs);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  transition: all 0.2s;
+}
+
+.settings-btn:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.api-status {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.api-status.connected {
+  color: var(--success-color);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.api-status.disconnected {
+  color: var(--text-muted);
+  background: var(--bg-color);
+}
+
+.api-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 1px dashed var(--primary-color);
+  transition: opacity 0.2s;
+}
+
+.api-link:hover {
+  opacity: 0.7;
+}
+
+/* ===== 履歴モーダル ===== */
+.history-group {
+  margin-bottom: 16px;
+}
+
+.history-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.history-date-str {
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
+  font-size: 0.7rem;
+}
+
+.history-badges {
+  margin-left: auto;
+  display: flex;
+  gap: 3px;
+}
+
+.history-badge {
+  font-size: 0.7rem;
+  background: var(--bg-color);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.history-task {
+  padding: 8px 12px;
+  background: var(--bg-color);
+  border-radius: var(--radius-xs);
+  font-size: 0.85rem;
+  color: var(--text-main);
+  margin-bottom: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.history-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 20px;
+  font-size: 0.85rem;
+}
+
+/* ===== 進化エフェクト ===== */
+.evolution-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.92);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+  backdrop-filter: blur(12px);
+}
+
+.evolution-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#evolution-canvas {
+  width: 250px;
+  height: 250px;
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+  image-rendering: auto;
+}
+
+.evolution-name {
+  margin-top: 24px;
+  font-size: 2rem;
+  color: #fff;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.evolution-name.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 図鑑 ===== */
+.modal-wide {
+  max-width: 520px;
+}
+
+.dex-count {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.dex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.dex-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  transition: all 0.2s;
+  cursor: default;
+}
+
+.dex-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.dex-card.undiscovered {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.dex-card.rare-card {
+  border-color: #fbbf24;
+  background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.25);
+}
+
+.dex-card canvas {
+  width: 48px;
+  height: 48px;
+  image-rendering: auto;
+}
+
+.dex-card-num {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.dex-card-name {
+  font-size: 0.6rem;
+  color: var(--text-main);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  margin-top: 2px;
+  font-family: 'DotGothic16', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+    /* 8pxから16pxへ戻して左右マージンを確保 */
+    overflow-x: hidden;
+  }
+
+  #app {
+    gap: 12px;
+    overflow-x: hidden;
+    /* 強制的に横スクロールを禁止 */
+    width: 100%;
+    max-width: 100%;
+    /* もとの100vwから修正 */
+  }
+
+  .evolution-name {
+    font-size: 1.5rem !important;
+    white-space: nowrap !important;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 2px 0 12px 0;
+    /* 左右の個別の10pxパディングを削除してbodyに任せる */
+    gap: 12px;
+  }
+
+  .dq-title-word {
+    font-size: 2.0rem;
+    /* モバイルはみ出し防止 */
+    /* 1.8remから拡大 */
+    filter: drop-shadow(2px 2px 0px #000);
+    letter-spacing: 0.03em;
+  }
+
+  .dq-logo-container {
+    padding: 0;
+    transform: perspective(400px) rotateX(4deg) rotateY(-2deg) scale(0.9);
+    transform-origin: center center;
+  }
+
+  .dq-title-row-main {
+    gap: 2px;
+    /* モバイル幅確保 */
+    margin-bottom: -10px;
+    /* スマホはギュッとしたままにする */
+  }
+
+  .dq-title-word {
+    font-size: 8vw;
+    /* 画面幅に合わせて流動的に縮小 */
+    max-width: 100%;
+  }
+
+  .logo-monster {
+    width: 32px;
+    height: 32px;
+    margin-top: 32px;
+    /* スマホは日本語の位置まで下げたままにする */
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    /* PCと統一 */
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .controls button {
+    width: 40px;
+    /* サイズを固定し、広がりを防ぐ */
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+  }
+
+  .char-section {
+    padding: 20px 16px 16px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    /* モバイルでも中央揃えを維持 */
+  }
+
+  .modal {
+    padding: 16px !important;
+    width: 95% !important;
+    max-width: none !important;
+  }
+
+  .playground-container {
+    height: 220px;
+  }
+
+  .chat-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 8px !important;
+  }
+
+  .chat-controls button {
+    margin: 0 !important;
+    flex: 1;
+    min-width: 120px;
+    max-width: 200px;
+  }
+
+  /* ショップ画面のモバイル最適化 */
+  .shop-grid {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    gap: 12px;
+  }
+
+  .shop-item {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    padding: 16px !important;
+    width: auto !important;
+    /* width: 100%をautoに戻してpadding内に収める */
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 8px;
+    margin: 0 4px;
+    /* 左右にわずかな隙間を空けて枠と重ならないように */
+  }
+
+  .shop-item-info {
+    align-items: center !important;
+    width: 100%;
+  }
+
+  .shop-item-name {
+    font-size: 0.95rem !important;
+    white-space: normal !important;
+    word-break: break-all !important;
+    width: 100%;
+  }
+
+  .shop-item-detail {
+    font-size: 0.70rem !important;
+    padding: 0 4px;
+    white-space: normal !important;
+    word-break: break-all !important;
+    line-height: 1.3 !important;
+    width: 100%;
+  }
+
+  .drop-rates {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #supporter-only-section {
+    margin-bottom: 30px !important;
+    /* とじるボタンとの重なりを防止 */
+    width: 100%;
+  }
+}
+
+/* Personality Mini Character */
+.personality-summary {
+  display: flex !important;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 12px 16px;
+}
+
+.personality-mini-char {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0;
+}
+
+.personality-text {
+  flex: 1;
+}
+
+/* No.表記を非表示にする (ユーザー要望) */
+#char-dex,
+.status-dex {
+  display: none !important;
+}
+
+/* --- Round 4 追加スタイル --- */
+
+/* Personalityミニキャラ（四角く表示、はこにわサイズ感） */
+.personality-mini-char {
+  border-radius: 4px;
+  /* 角を少しだけ丸める程度 */
+  box-shadow: none;
+  image-rendering: pixelated;
+  width: 64px;
+  height: 64px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  /* 薄い枠線で存在感を出す */
+  background: #fff;
+}
+
+/* 日付タブ（一括りのカプセルデザイン） */
+.date-tabs {
+  display: flex;
+  justify-content: center;
+  background: #e0e7ff;
+  /* 薄いインディゴで目立たせる */
+  padding: 4px;
+  border-radius: 9999px;
+  gap: 0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  width: 100%;
+  /* max-widthを解除して統一感を出す */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.date-tab {
+  flex: 1;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  border-radius: 9999px;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-size: 0.9rem;
+}
+
+.date-tab:hover {
+  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.date-tab.active {
+  background: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-weight: 700;
+  transform: none;
+  /* ボタンの押し込みエフェクトを解除 */
+}
+
+/* ===== バックパック & ショップ ===== */
+.shop-trigger-btn {
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 8px;
+}
+
+.shop-trigger-btn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-color);
+}
+
+.item-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.item-tab {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: white;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.item-tab.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* 強制的に等幅かつ縮小可能にする */
+  gap: 8px;
+  /* 少し詰めて余裕を持たせる */
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* 横スクロールを物理的に禁止 */
+  margin-bottom: 20px;
+  padding: 0;
+  /* パディングを削除して幅を稼ぐ */
+}
+
+.item-cell {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 0;
+  /* コンテンツによる幅の拡張を防止 */
+  width: 100%;
+  padding: 8px;
+  /* 内部に余白を確保 */
+  box-sizing: border-box;
+}
+
+.item-cell:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-color);
+}
+
+.item-cell.active {
+  box-shadow: 0 0 0 2px var(--primary-color);
+  background: var(--primary-light);
+}
+
+.item-icon {
+  font-size: 1.5rem;
+}
+
+.item-count {
+  position: absolute;
+  top: 4px;
+  /* bottom: 2pxからtop: 4pxへ移動 */
+  right: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  padding: 0 4px;
+  border-radius: 999px;
+}
+
+.shop-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+
+.purchase-section h3 {
+  margin-bottom: 16px;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.shop-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-align: center;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.shop-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.shop-item-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 8px 2px 6px;
+  border-bottom-right-radius: 8px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.supporter-tag {
+  background: linear-gradient(135deg, #f472b6, #fbbf24);
+}
+
+.shop-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.shop-item-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.shop-item-detail {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* プラン別カラー */
+.shop-item.starter {
+  border-left: 4px solid #94a3b8;
+}
+
+.shop-item.micro {
+  border-left: 4px solid #4ade80;
+}
+
+.shop-item.standard {
+  border-left: 4px solid var(--primary-color);
+  background: #f0f9ff;
+}
+
+.shop-item.premium {
+  border-left: 4px solid #a855f7;
+  background: #faf5ff;
+}
+
+.shop-item.special {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(135deg, #f472b6, #fbbf24, #38bdf8) border-box;
+  box-shadow: 0 4px 15px rgba(244, 114, 182, 0.2);
+}
+
+.buy-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.buy-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+.special .buy-btn {
+  background: linear-gradient(135deg, #f472b6, #fbbf24);
+}
+
+/* アイテム一覧・バックパックの調整 */
+.item-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clear-btn {
+  background: var(--surface-color);
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'M PLUS Rounded 1c', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+  /* とじるボタンとの間隔を広げる */
+}
+
+.clear-btn:hover {
+  background: var(--danger-color);
+  color: white;
+}
+
+.item-cell {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.item-cell:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.item-cell.active {
+  border: 2px solid var(--primary-color);
+  background: var(--primary-light);
+}
+
+.item-cell.locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.item-icon {
+  font-size: 1.8rem;
+}
+
+.item-name {
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: center;
+  font-size: 0.65rem;
+  /* 名前が長いため、サイズを小さく調整 */
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* はみ出しを「...」で省略 */
+  margin-top: 4px;
+}
+
+.item-count {
+  font-size: 0.75rem;
+  background: var(--primary-color);
+  color: white;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+
+/* Final Polishing Fixes */
+.share-preview,
+.share-text-area,
+.modal-content>* {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 
+   Round 5 UI Refinements 
+   - Restore blur for overlay
+   - Center-align friend-code-input placeholder
+   - Fix button text overflow
+   - Swap button order via flex-direction (already handled in HTML but ensuring container width)
+   - Proper shop item alignment
+*/
+.overlay {
+  backdrop-filter: blur(8px) !important;
+}
+
+#friend-code-input::placeholder {
+  text-align: center;
+}
+
+.secondary-btn,
+.close-modal-btn,
+.primary-modal-btn {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px 16px !important;
+  /* Padding for better click area and no overflow */
+}
+
+/* Share textarea adjustment */
+.share-text-area textarea {
+  height: 180px !important;
+  font-size: 0.95rem !important;
+  padding: 12px !important;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+
+  /* Shop items perfect fit */
+  .shop-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+/* ===== タスク引き継ぎボタン (Carry-Over) ===== */
+.carry-over-btn {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #fef3c7 0%, #ffedd5 100%);
+  border: 2px dashed #f59e0b;
+  border-radius: var(--radius-md);
+  color: #b45309;
+  font-weight: 700;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: gentle-pulse 2s infinite;
+}
+
+.carry-over-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  box-shadow: var(--shadow-md);
+  border-style: solid;
+}
+
+.carry-over-btn:active {
+  transform: scale(0.98);
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { border-color: #f59e0b; box-shadow: 0 0 0 rgba(245, 158, 11, 0); }
+  50% { border-color: #fbbf24; box-shadow: 0 0 8px rgba(245, 158, 11, 0.2); }
+}
