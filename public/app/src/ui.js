@@ -1006,7 +1006,10 @@ function renderTodoList() {
 
     if (incompleteTodos.length === 0 && completedTodos.length === 0) {
         const msgs = { yesterday: 'きのうのタスクはないよ', tomorrow: 'あしたの予定を書き込もう！', today: 'やることを追加しよう！' };
-        list.innerHTML += `<div class="todo-empty">${msgs[currentDateFilter] || msgs.today}</div>`;
+        const emptyMsg = document.createElement('div');
+        emptyMsg.className = 'todo-empty';
+        emptyMsg.textContent = msgs[currentDateFilter] || msgs.today;
+        list.appendChild(emptyMsg);
         updateTodoCount(0);
         return;
     }
