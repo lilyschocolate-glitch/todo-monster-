@@ -40,6 +40,7 @@ export function initUI() {
     renderFriendList();
     renderStatus();
     checkPaymentSuccess();
+    checkGiftCode();
     renderPersonality();
 
     // アニメーション開始
@@ -71,33 +72,7 @@ window.handlePurchase = handlePurchase;
 window.openModal = openModal;
 
 /** 決済完了をURLパラメータからチェック */
-function checkPaymentStatus() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get('status');
-    const plan = urlParams.get('plan');
 
-    if (status === 'success' && plan) {
-        // 既に反映済みかチェック（リロード対策）
-        const lastProcessedPlan = sessionStorage.getItem('last_processed_plan');
-        const lastProcessedTime = sessionStorage.getItem('last_processed_time');
-
-        // 5秒以内の同じプランの処理はスキップ（簡易的な二重処理防止）
-        if (lastProcessedPlan === plan && (Date.now() - parseInt(lastProcessedTime)) < 5000) {
-            return;
-        }
-
-        // アイテム付与実行
-        completePurchaseSimulation(plan);
-
-        // 処理済みとして記録
-        sessionStorage.setItem('last_processed_plan', plan);
-        sessionStorage.setItem('last_processed_time', Date.now().toString());
-
-        // URLをきれいに掃除（パラメータを消す）
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, document.title, newUrl);
-    }
-}
 
 async function handleAutoChat() {
     // ページが見えていない時や既に会話中の時は何もしない
@@ -1745,13 +1720,64 @@ function escapeHtml(text) {
 function checkPaymentSuccess() {
     const params = new URLSearchParams(window.location.search);
     console.log("Checking payment status:", window.location.search);
-    if (params.get('payment') === 'success') {
-        const planId = params.get('plan');
-        if (planId) {
-            completePurchaseSimulation(planId);
-            // パラメータを削除してクリーンアップ
-            const newUrl = window.location.pathname;
-            window.history.replaceState({}, document.title, newUrl);
+    
+    const isSuccess = params.get('payment') === 'success' || params.get('status') === 'success';
+    const planId = params.get('plan');
+
+    if (isSuccess && planId) {
+        // 既に反映済みかチェック（リロード時の二重付与防止）
+        const lastProcessedPlan = sessionStorage.getItem('last_processed_plan');
+        const lastProcessedTime = sessionStorage.getItem('last_processed_time');
+
+        // 5秒以内の同じプランの処理はスキップ
+        if (lastProcessedPlan === planId && (Date.now() - parseInt(lastProcessedTime || '0')) < 5000) {
+            return;
         }
+
+        completePurchaseSimulation(planId);
+        
+        // 処理済みとして記録
+        sessionStorage.setItem('last_processed_plan', planId);
+        sessionStorage.setItem('last_processed_time', Date.now().toString());
+
+        // パラメータを削除してクリーンアップ
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    }
+}
+
+/** ギフトコード（補填・おまけ用URL）のチェック */
+function checkGiftCode() {
+    const params = new URLSearchParams(window.location.search);
+    const giftCode = params.get('gift');
+    
+    if (giftCode) {
+        // すでに受け取り済みかチェック
+        const receivedGifts = JSON.parse(localStorage.getItem('todo-monster-gifts') || '[]');
+        if (receivedGifts.includes(giftCode)) {
+            alert('このギフトコードは既に受け取り済みです。');
+        } else {
+            // ギフトコードからプラン名を判定（recovery_X系はそのままXのプランと同等の付与をする）
+            const planMap = {
+                'recovery_starter': 'starter',
+                'recovery_standard': 'standard',
+                'recovery_premium': 'premium',
+                'recovery_special': 'special'
+            };
+            
+            const planId = planMap[giftCode];
+            if (planId) {
+                completePurchaseSimulation(planId);
+                receivedGifts.push(giftCode);
+                localStorage.setItem('todo-monster-gifts', JSON.stringify(receivedGifts));
+                alert('ギフトの受け取りが完了しました！');
+            } else {
+                alert('無効なギフトコードです。');
+            }
+        }
+        
+        // URLパラメータを掃除
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
     }
 }
